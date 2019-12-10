@@ -223,6 +223,15 @@ class Binshopsrest extends Module
                     'fc' => 'module',
                     'module' => 'binshopsrest'
                 ]
+            ],
+            'module-binshopsrest-bootstrap' => [
+                'rule' => 'rest/bootstrap',
+                'keywords' => [],
+                'controller' => 'bootstrap',
+                'params' => [
+                    'fc' => 'module',
+                    'module' => 'binshopsrest'
+                ]
             ]
         ];
     }
