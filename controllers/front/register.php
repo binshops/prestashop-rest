@@ -9,6 +9,7 @@ class BinshopsrestRegisterModuleFrontController extends AbstractRestController
             'success' => true,
             'message' => 'GET not supported on this path'
         ]));
+        die;
     }
 
     protected function processPostRequest(){
@@ -81,6 +82,7 @@ class BinshopsrestRegisterModuleFrontController extends AbstractRestController
             'code' => $messageCode,
             'psdata' => $psdata
         ]));
+        die;
     }
 
     protected function processPutRequest()
@@ -89,6 +91,7 @@ class BinshopsrestRegisterModuleFrontController extends AbstractRestController
             'success' => true,
             'message' => 'put not supported on this path'
         ]));
+        die;
     }
 
     protected function processDeleteRequest()
@@ -97,5 +100,6 @@ class BinshopsrestRegisterModuleFrontController extends AbstractRestController
             'success' => true,
             'message' => 'delete not supported on this path'
         ]));
+        die;
     }
 }
