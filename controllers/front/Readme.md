@@ -1,0 +1,1 @@
+All of the REST controllers are prestashop Front Controllers.

@@ -202,4 +202,19 @@ class Binshopsrest extends Module
         $this->context->controller->addJS($this->_path.'/views/js/front.js');
         $this->context->controller->addCSS($this->_path.'/views/css/front.css');
     }
+
+    public function hookModuleRoutes()
+    {
+        return [
+            'module-binshopsrest-login' => [
+                'rule' => 'rest/login',
+                'keywords' => [],
+                'controller' => 'login',
+                'params' => [
+                    'fc' => 'module',
+                    'module' => 'binshopsrest'
+                ]
+            ]
+        ];
+    }
 }
