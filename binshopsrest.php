@@ -18,7 +18,7 @@ class Binshopsrest extends Module
         $this->name = 'binshopsrest';
         $this->tab = 'others';
         $this->version = '1.0.0';
-        $this->author = 'hessam';
+        $this->author = 'Binshops';
         $this->need_instance = 0;
 
         /**
@@ -29,7 +29,7 @@ class Binshopsrest extends Module
         parent::__construct();
 
         $this->displayName = $this->l('Binshops REST');
-        $this->description = $this->l('REST API module developed by Binshops group');
+        $this->description = $this->l('This module exposes REST API endpoints for your Prestashop website');
 
         $this->confirmUninstall = $this->l('');
 
