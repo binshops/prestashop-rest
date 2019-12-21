@@ -232,6 +232,15 @@ class Binshopsrest extends Module
                     'fc' => 'module',
                     'module' => 'binshopsrest'
                 ]
+            ],
+            'module-binshopsrest-orders' => [
+                'rule' => 'rest/orders',
+                'keywords' => [],
+                'controller' => 'orders',
+                'params' => [
+                    'fc' => 'module',
+                    'module' => 'binshopsrest'
+                ]
             ]
         ];
     }
