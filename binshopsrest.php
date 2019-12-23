@@ -76,7 +76,7 @@ class Binshopsrest extends Module
 
         $output = $this->context->smarty->fetch($this->local_path.'views/templates/admin/configure.tpl');
 
-        return $output.$this->renderForm();
+        return $output;
     }
 
     /**

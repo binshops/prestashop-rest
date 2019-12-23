@@ -11,6 +11,7 @@ abstract class AbstractAuthRestController extends ModuleFrontController
 
     public function init()
     {
+        header('Content-Type: ' . "application/json");
         if (!$this->context->customer->isLogged() && $this->php_self != 'authentication' && $this->php_self != 'password'){
             $this->ajaxRender(json_encode([
                 'code' => 410,
@@ -20,7 +21,6 @@ abstract class AbstractAuthRestController extends ModuleFrontController
             die;
         }
 
-        header('Content-Type: ' . "application/json");
         parent::init();
         switch ($_SERVER['REQUEST_METHOD']) {
             case 'GET':
