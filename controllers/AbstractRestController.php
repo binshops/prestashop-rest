@@ -2,6 +2,10 @@
 
 abstract class AbstractRestController extends ModuleFrontController
 {
+    private $img1 = 'large';
+    private $img2 = 'medium';
+    private $img3 = '_default';
+
     public function init()
     {
         header('Content-Type: ' . "application/json");
@@ -29,4 +33,25 @@ abstract class AbstractRestController extends ModuleFrontController
     abstract protected function processPostRequest();
     abstract protected function processPutRequest();
     abstract protected function processDeleteRequest();
+
+    public function formatPrice($price, $curr = '')
+    {
+        return Tools::displayPrice(
+            $price,
+            $this->context->currency,
+            false,
+            $this->context
+        );
+    }
+
+    public function getImageType($type = 'large')
+    {
+        if ($type == 'large') {
+            return $this->img1 . $this->img3;
+        } elseif ($type == 'medium') {
+            return $this->img2 . $this->img3;
+        } else {
+            return $this->img1 . $this->img3;
+        }
+    }
 }

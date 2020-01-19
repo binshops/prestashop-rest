@@ -4,7 +4,7 @@
  * Any REST request which needs authentication must extend this class
 */
 
-abstract class AbstractAuthRestController extends ModuleFrontController
+abstract class AbstractAuthRestController extends AbstractRestController
 {
     public $auth = true;
     public $ssl = true;
@@ -40,9 +40,4 @@ abstract class AbstractAuthRestController extends ModuleFrontController
                 // throw some error or whatever
         }
     }
-
-    abstract protected function processGetRequest();
-    abstract protected function processPostRequest();
-    abstract protected function processPutRequest();
-    abstract protected function processDeleteRequest();
 }
