@@ -13,10 +13,18 @@
 	<p>
 		&raquo; {l s='Here is a list of endpoints' mod='binshopsrest'} :
 		<ul>
-			<li>{l s='login' mod='binshopsrest'}</li>
-			<li>{l s='register' mod='binshopsrest'}</li>
-			<li>{l s='bootstrap' mod='binshopsrest'}</li>
-			<li>{l s='orders' mod='binshopsrest'}</li>
+			<li>login</li>
+			<li>register</li>
+			<li>bootstrap</li>
+			<li>orders</li>
+			<li>productdetail</li>
+			<li>addToCart</li>
 		</ul>
+	</p>
+	<p>
+		You can access full documentation for REST endpoints on Postman publisher through this
+		<a href="https://documenter.getpostman.com/view/1491681/SWT5jMRb" target="_blank">
+			Link
+		</a>.
 	</p>
 </div>

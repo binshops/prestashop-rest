@@ -250,6 +250,15 @@ class Binshopsrest extends Module
                     'fc' => 'module',
                     'module' => 'binshopsrest'
                 ]
+            ],
+            'module-binshopsrest-addToCart' => [
+                'rule' => 'rest/addToCart',
+                'keywords' => [],
+                'controller' => 'addToCart',
+                'params' => [
+                    'fc' => 'module',
+                    'module' => 'binshopsrest'
+                ]
             ]
         ];
     }
