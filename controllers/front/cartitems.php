@@ -1,18 +1,17 @@
 <?php
-require_once __DIR__ . '/../AbstractAuthRestController.php';
+require_once __DIR__ . '/../AbstractRestController.php';
 
 /**
  * This REST gets current user order list
 */
 
-class BinshopsrestOrdersModuleFrontController extends AbstractAuthRestController
+class BinshopsrestCartitemsModuleFrontController extends AbstractRestController
 {
 
     protected function processGetRequest()
     {
         $messageCode = 200;
-        $presenter = new \PrestaShop\PrestaShop\Adapter\Presenter\Cart\CartPresenter();
-        $presented_cart = $presenter->present($this->context->cart, $shouldSeparateGifts = true);
+        $presented_cart = $this->context->cart->getProducts(true);
 
         $this->ajaxRender(json_encode([
             'success' => true,

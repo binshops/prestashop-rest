@@ -233,10 +233,10 @@ class Binshopsrest extends Module
                     'module' => 'binshopsrest'
                 ]
             ],
-            'module-binshopsrest-orders' => [
-                'rule' => 'rest/orders',
+            'module-binshopsrest-cartitems' => [
+                'rule' => 'rest/cartItems',
                 'keywords' => [],
-                'controller' => 'orders',
+                'controller' => 'cartItems',
                 'params' => [
                     'fc' => 'module',
                     'module' => 'binshopsrest'
