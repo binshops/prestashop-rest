@@ -259,6 +259,15 @@ class Binshopsrest extends Module
                     'fc' => 'module',
                     'module' => 'binshopsrest'
                 ]
+            ],
+            'module-binshopsrest-removefromcart' => [
+                'rule' => 'rest/removeFromCart',
+                'keywords' => [],
+                'controller' => 'removeFromCart',
+                'params' => [
+                    'fc' => 'module',
+                    'module' => 'binshopsrest'
+                ]
             ]
         ];
     }
