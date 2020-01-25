@@ -233,6 +233,15 @@ class Binshopsrest extends Module
                     'module' => 'binshopsrest'
                 ]
             ],
+            'module-binshopsrest-accountinfo' => [
+                'rule' => 'rest/accountInfo',
+                'keywords' => [],
+                'controller' => 'accountinfo',
+                'params' => [
+                    'fc' => 'module',
+                    'module' => 'binshopsrest'
+                ]
+            ],
             'module-binshopsrest-bootstrap' => [
                 'rule' => 'rest/bootstrap',
                 'keywords' => [],
