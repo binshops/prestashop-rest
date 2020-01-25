@@ -224,6 +224,15 @@ class Binshopsrest extends Module
                     'module' => 'binshopsrest'
                 ]
             ],
+            'module-binshopsrest-logout' => [
+                'rule' => 'rest/logout',
+                'keywords' => [],
+                'controller' => 'logout',
+                'params' => [
+                    'fc' => 'module',
+                    'module' => 'binshopsrest'
+                ]
+            ],
             'module-binshopsrest-bootstrap' => [
                 'rule' => 'rest/bootstrap',
                 'keywords' => [],
