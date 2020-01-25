@@ -8,7 +8,6 @@ define('PRICE_REDUCTION_TYPE_PERCENT' , 'percentage');
  */
 class BinshopsrestProductdetailModuleFrontController extends AbstractRestController
 {
-//    const PRICE_REDUCTION_TYPE_PERCENT = 'percentage';
     private $product = null;
 
     protected function processGetRequest()
