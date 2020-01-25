@@ -9,6 +9,8 @@ use PrestaShop\PrestaShop\Core\Product\Search\SortOrder;
 
 /**
  * This REST endpoint gets details of a product
+ *
+ * This module can be used to get category products, pagination and product search
  */
 class BinshopsrestCategoryproductsModuleFrontController extends AbstractRESTProductListing
 {
@@ -32,6 +34,7 @@ class BinshopsrestCategoryproductsModuleFrontController extends AbstractRESTProd
         $variables = $this->getProductSearchVariables();
         $psdata = [
             'label' => $variables['label'],
+            //todo: keep only required fields for products
             'products' => $variables['products'],
             'sort_orders' => $variables['sort_orders'],
             'sort_selected' => $variables['sort_selected'],
@@ -194,9 +197,7 @@ class BinshopsrestCategoryproductsModuleFrontController extends AbstractRESTProd
         }
 
         // prepare the products
-        $products = $this->prepareMultipleProductsForTemplate(
-            $result->getProducts()
-        );
+        $products =  $result->getProducts();
 
         // render the facets
         //todo: commented by HESSAM
