@@ -295,6 +295,15 @@ class Binshopsrest extends Module
                     'fc' => 'module',
                     'module' => 'binshopsrest'
                 ]
+            ],
+            'module-binshopsrest-productsearch' => [
+                'rule' => 'rest/productSearch',
+                'keywords' => [],
+                'controller' => 'productsearch',
+                'params' => [
+                    'fc' => 'module',
+                    'module' => 'binshopsrest'
+                ]
             ]
         ];
     }

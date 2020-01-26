@@ -3,33 +3,35 @@
 require_once __DIR__ . '/../AbstractRESTProductListing.php';
 define('PRICE_REDUCTION_TYPE_PERCENT' , 'percentage');
 
-use PrestaShop\PrestaShop\Adapter\Category\CategoryProductSearchProvider;
+use PrestaShop\PrestaShop\Adapter\Search\SearchProductSearchProvider;
 use PrestaShop\PrestaShop\Core\Product\Search\ProductSearchQuery;
 use PrestaShop\PrestaShop\Core\Product\Search\SortOrder;
 
 /**
  * This REST endpoint gets details of a product
  *
- * This module can be used to get category products, pagination and faceted search
+ * This module can be used to search through products
  */
-class BinshopsrestCategoryproductsModuleFrontController extends AbstractRESTProductListing
+class BinshopsrestProductsearchModuleFrontController extends AbstractRESTProductListing
 {
-    protected function processGetRequest()
-    {
-        $id_category = (int) Tools::getValue('id_category');
-        $this->category = new Category(
-            $id_category,
-            $this->context->language->id
-        );
+    protected $search_string;
+    protected $search_tag;
 
-        if (!$id_category){
-            $this->ajaxRender(json_encode([
-                'code'=> 301,
-                'success' => false,
-                'message' => 'id category not specified'
-            ]));
-            die;
+    protected function processGetRequest(){
+        $this->search_string = Tools::getValue('s');
+        if (!$this->search_string) {
+            $this->search_string = Tools::getValue('search_query');
+            if (!$this->search_string){
+                $this->ajaxRender(json_encode([
+                    'code'=> 301,
+                    'success' => false,
+                    'message' => 'search string is not specified'
+                ]));
+                die;
+            }
         }
+
+        $this->search_tag = Tools::getValue('tag');
 
         $variables = $this->getProductSearchVariables();
         $psdata = [
@@ -80,18 +82,7 @@ class BinshopsrestCategoryproductsModuleFrontController extends AbstractRESTProd
 
     public function getListingLabel()
     {
-        if (!Validate::isLoadedObject($this->category)) {
-            $this->category = new Category(
-                (int) Tools::getValue('id_category'),
-                $this->context->language->id
-            );
-        }
-
-        return $this->trans(
-            'Category: %category_name%',
-            array('%category_name%' => $this->category->name),
-            'Shop.Theme.Catalog'
-        );
+        return $this->getTranslator()->trans('Search results', array(), 'Shop.Theme.Catalog');
     }
 
     /**
@@ -105,8 +96,9 @@ class BinshopsrestCategoryproductsModuleFrontController extends AbstractRESTProd
     {
         $query = new ProductSearchQuery();
         $query
-            ->setIdCategory($this->category->id)
-            ->setSortOrder(new SortOrder('product', Tools::getProductsOrder('by'), Tools::getProductsOrder('way')));
+            ->setSortOrder(new SortOrder('product', 'position', 'desc'))
+            ->setSearchString($this->search_string)
+            ->setSearchTag($this->search_tag);
 
         return $query;
     }
@@ -119,9 +111,8 @@ class BinshopsrestCategoryproductsModuleFrontController extends AbstractRESTProd
      */
     protected function getDefaultProductSearchProvider()
     {
-        return new CategoryProductSearchProvider(
-            $this->getTranslator(),
-            $this->category
+        return new SearchProductSearchProvider(
+            $this->getTranslator()
         );
     }
 }
