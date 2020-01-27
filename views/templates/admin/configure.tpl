@@ -15,10 +15,14 @@
 		<ul>
 			<li>login</li>
 			<li>register</li>
+			<li>logout</li>
 			<li>bootstrap</li>
-			<li>orders</li>
-			<li>productdetail</li>
+			<li>cartItems</li>
+			<li>productDetail</li>
 			<li>addToCart</li>
+			<li>removeFromCart</li>
+			<li>productSearch</li>
+			<li>categoryProducts</li>
 		</ul>
 	</p>
 	<p>
