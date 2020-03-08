@@ -304,6 +304,15 @@ class Binshopsrest extends Module
                     'fc' => 'module',
                     'module' => 'binshopsrest'
                 ]
+            ],
+            'module-binshopsrest-checkout' => [
+                'rule' => 'rest/checkout',
+                'keywords' => [],
+                'controller' => 'checkout',
+                'params' => [
+                    'fc' => 'module',
+                    'module' => 'binshopsrest'
+                ]
             ]
         ];
     }

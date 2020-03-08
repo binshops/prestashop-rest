@@ -1,5 +1,7 @@
 <?php
 
+use PrestaShop\PrestaShop\Adapter\Image\ImageRetriever;
+
 abstract class AbstractRESTProductListing extends ProductListingFrontController
 {
     protected $category;
@@ -31,6 +33,15 @@ abstract class AbstractRESTProductListing extends ProductListingFrontController
     abstract protected function processPostRequest();
     abstract protected function processPutRequest();
     abstract protected function processDeleteRequest();
+
+    protected function getImage($object, $id_image)
+    {
+        $retriever = new ImageRetriever(
+            $this->context->link
+        );
+
+        return $retriever->getImage($object, $id_image);
+    }
 
     protected function getProductSearchVariables()
     {

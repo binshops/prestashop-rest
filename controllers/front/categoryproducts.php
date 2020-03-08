@@ -33,6 +33,12 @@ class BinshopsrestCategoryproductsModuleFrontController extends AbstractRESTProd
 
         $variables = $this->getProductSearchVariables();
         $psdata = [
+            'description' => $this->category->description,
+            'active' => $this->category->active,
+            'images' => $this->getImage(
+                $this->category,
+                $this->category->id_image
+            ),
             'label' => $variables['label'],
             //todo: keep only required fields for products
             'products' => $variables['products'],
