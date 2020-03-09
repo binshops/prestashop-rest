@@ -34,10 +34,19 @@ class BinshopsrestProductsearchModuleFrontController extends AbstractRESTProduct
         $this->search_tag = Tools::getValue('tag');
 
         $variables = $this->getProductSearchVariables();
+        $productList = $variables['products'];
+        $retriever = new \PrestaShop\PrestaShop\Adapter\Image\ImageRetriever(
+            $this->context->link
+        );
+
+        foreach ($productList as $key => $product){
+            $productList[$key]['images'] = $retriever->getProductImages($product, $this->context->language);
+        }
+
         $psdata = [
             'label' => $variables['label'],
             //todo: keep only required fields for products
-            'products' => $variables['products'],
+            'products' => $productList,
             'sort_orders' => $variables['sort_orders'],
             'sort_selected' => $variables['sort_selected'],
             'pagination' => $variables['pagination']
