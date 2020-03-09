@@ -32,6 +32,15 @@ class BinshopsrestCategoryproductsModuleFrontController extends AbstractRESTProd
         }
 
         $variables = $this->getProductSearchVariables();
+        $productList = $variables['products'];
+        $retriever = new \PrestaShop\PrestaShop\Adapter\Image\ImageRetriever(
+            $this->context->link
+        );
+
+        foreach ($productList as $key => $product){
+            $productList[$key]['images'] = $retriever->getProductImages($product, $this->context->language);
+        }
+
         $psdata = [
             'description' => $this->category->description,
             'active' => $this->category->active,
@@ -41,7 +50,7 @@ class BinshopsrestCategoryproductsModuleFrontController extends AbstractRESTProd
             ),
             'label' => $variables['label'],
             //todo: keep only required fields for products
-            'products' => $variables['products'],
+            'products' => $productList,
             'sort_orders' => $variables['sort_orders'],
             'sort_selected' => $variables['sort_selected'],
             'pagination' => $variables['pagination']
@@ -130,4 +139,61 @@ class BinshopsrestCategoryproductsModuleFrontController extends AbstractRESTProd
             $this->category
         );
     }
+
+    public function getProductImages(array $product, Language $language)
+    {
+        $productAttributeId = $product['id_product_attribute'];
+        $productInstance = new Product(
+            $product['id_product'],
+            false,
+            $language->id
+        );
+
+        $images = $productInstance->getImages($language->id);
+
+        if (empty($images)) {
+            return [];
+        }
+
+        $combinationImages = $productInstance->getCombinationImages($language->id);
+        if (!$combinationImages) {
+            $combinationImages = [];
+        }
+        $imageToCombinations = [];
+
+        foreach ($combinationImages as $imgs) {
+            foreach ($imgs as $img) {
+                $imageToCombinations[$img['id_image']][] = $img['id_product_attribute'];
+            }
+        }
+
+        $images = array_map(function (array $image) use (
+            $productInstance,
+            $imageToCombinations
+        ) {
+            $image = array_merge($this->getImage(
+                $productInstance,
+                $image['id_image']
+            ), $image);
+
+            if (isset($imageToCombinations[$image['id_image']])) {
+                $image['associatedVariants'] = $imageToCombinations[$image['id_image']];
+            } else {
+                $image['associatedVariants'] = [];
+            }
+
+            return $image;
+        }, $images);
+
+        $filteredImages = array();
+
+        foreach ($images as $image) {
+            if (in_array($productAttributeId, $image['associatedVariants'])) {
+                $filteredImages[] = $image;
+            }
+        }
+
+        return (0 === count($filteredImages)) ? $images : $filteredImages;
+    }
+
 }
