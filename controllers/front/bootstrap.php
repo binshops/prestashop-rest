@@ -9,7 +9,7 @@ class BinshopsrestBootstrapModuleFrontController extends AbstractRestController
 {
     protected function processGetRequest()
     {
-        $psdata = "";$messageCode = 200; $success = true;
+        $messageCode = 200;
         $mainMenu = Module::getInstanceByName('ps_mainmenu');
         $featuredProducts = Module::getInstanceByName('ps_featuredproducts');
         $banner = Module::getInstanceByName('ps_banner');
@@ -19,9 +19,23 @@ class BinshopsrestBootstrapModuleFrontController extends AbstractRestController
         $featuredProductsList = $featuredProducts->getWidgetVariables(null, []);
         $bannerItem = $banner->getWidgetVariables(null, []);
         $slidesList = $imagesSlider->getWidgetVariables(null, []);
+        $menuItems = $menuItems['children'];
+        $retriever = new \PrestaShop\PrestaShop\Adapter\Image\ImageRetriever(
+            $this->context->link
+        );
+        foreach ($menuItems as $key => $item){
+            $category = new Category(
+                substr($item['page_identifier'], -1),
+                $this->context->language->id
+            );
+            $menuItems[$key]['images'] = $retriever->getImage(
+                    $category,
+                    $category->id_image
+                );
+        }
 
         $psdata = array();
-        $psdata['menuItems'] = $menuItems['children'];
+        $psdata['menuItems'] = $menuItems;
         $psdata['featuredProductsList'] = $featuredProductsList['products'];
         $psdata['banner'] = $bannerItem;
         $psdata['slides'] = $slidesList['homeslider']['slides'];

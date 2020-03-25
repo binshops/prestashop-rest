@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <module>
-	<name>binshopsrest</name>
-	<displayName><![CDATA[Binshops REST]]></displayName>
-	<version><![CDATA[1.0.0]]></version>
-	<description><![CDATA[REST API module developed by Binshops group]]></description>
-	<author><![CDATA[hessam]]></author>
-	<tab><![CDATA[others]]></tab>
-	<is_configurable>1</is_configurable>
-	<need_instance>1</need_instance>
+    <name>binshopsrest</name>
+    <displayName><![CDATA[Binshops REST]]></displayName>
+    <version><![CDATA[1.0.0]]></version>
+    <description><![CDATA[This module exposes REST API endpoints for your Prestashop website]]></description>
+    <author><![CDATA[Binshops]]></author>
+    <tab><![CDATA[others]]></tab>
+	<confirmUninstall><![CDATA[]]></confirmUninstall>
+    <is_configurable>1</is_configurable>
+    <need_instance>0</need_instance>
+	<limited_countries></limited_countries>
 </module>
