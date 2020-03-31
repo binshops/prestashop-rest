@@ -2,15 +2,21 @@
 
 require_once __DIR__ . '/../AbstractRESTController.php';
 define('PRICE_REDUCTION_TYPE_PERCENT' , 'percentage');
+use PrestaShop\PrestaShop\Core\Product\ProductExtraContentFinder;
+use PrestaShop\PrestaShop\Adapter\Presenter\Object\ObjectPresenter;
+use PrestaShop\PrestaShop\Adapter\Product\PriceFormatter;
 
+error_reporting(E_ALL);
+ini_set('display_errors', 'On');
 /**
  * This REST endpoint gets details of a product
  */
 class BinshopsrestProductdetailModuleFrontController extends AbstractRESTController
 {
+    /** @var Product */
     private $product = null;
 
-    protected function processGetRequest()
+    protected function processPostRequest()
     {
         if (!(int) Tools::getValue('product_id', 0)) {
             $this->ajaxRender(json_encode([
@@ -34,6 +40,18 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
             ]));
             die;
         } else {
+            //this is when you change an attribute, every time a request is sent to get the price and its discount
+            if ((boolean) Tools::getValue('refresh', 0)) {
+                $product = $this->getTemplateVarProduct();
+
+                $this->ajaxRender(json_encode([
+                    'psdata' => $product,
+                    'code' => 200,
+                    'success' => true
+                ]));
+                die;
+            }
+
             $this->ajaxRender(json_encode([
                 'success' => true,
                 'code' => 200,
@@ -43,7 +61,7 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
         }
     }
 
-    protected function processPostRequest()
+    protected function processGetRequest()
     {
         $this->ajaxRender(json_encode([
             'success' => true,
@@ -528,5 +546,296 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
             }
         }
         return array('is_pack' => $is_pack, 'pack_items' => $pack_products);
+    }
+
+
+    public function getTemplateVarProduct()
+    {
+        $factory = new ProductPresenterFactory($this->context, new TaxConfiguration());
+        $productSettings = $factory->getPresentationSettings();
+        // Hook displayProductExtraContent
+        $extraContentFinder = new ProductExtraContentFinder();
+        $objectPresenter = new ObjectPresenter();
+
+        $product = $objectPresenter->present($this->product);
+        $product['id_product'] = (int) $this->product->id;
+        $product['out_of_stock'] = (int) $this->product->out_of_stock;
+        $product['new'] = (int) $this->product->new;
+        $product['id_product_attribute'] = $this->getIdProductAttributeByGroupOrRequestOrDefault();
+//        $product['minimal_quantity'] = $this->getProductMinimalQuantity($product);
+//        $product['quantity_wanted'] = $this->getRequiredQuantity($product);
+        $product['extraContent'] = $extraContentFinder->addParams(array('product' => $this->product))->present();
+        $product['ecotax'] = Tools::convertPrice((float) $product['ecotax'], $this->context->currency, true, $this->context);
+
+        $product_full = Product::getProductProperties($this->context->language->id, $product, $this->context);
+
+        $product_full = $this->addProductCustomizationData($product_full);
+
+        $product_full['show_quantities'] = (bool) (
+            Configuration::get('PS_DISPLAY_QTIES')
+            && Configuration::get('PS_STOCK_MANAGEMENT')
+            && $this->product->quantity > 0
+            && $this->product->available_for_order
+            && !Configuration::isCatalogMode()
+        );
+
+        $id_product_attribute = $this->getIdProductAttributeByGroupOrRequestOrDefault();
+        $product_price = $this->product->getPrice(Product::$_taxCalculationMethod == PS_TAX_INC, $id_product_attribute);
+
+        $id_customer = (isset($this->context->customer) ? (int) $this->context->customer->id : 0);
+        $id_group = (int) Group::getCurrent()->id;
+        $id_country = $id_customer ? (int) Customer::getCurrentCountry($id_customer) : (int) Tools::getCountry();
+        $id_currency = (int) $this->context->cookie->id_currency;
+        $id_product = (int) $this->product->id;
+        $id_product_attribute = $this->getIdProductAttributeByGroupOrRequestOrDefault();
+        $id_shop = $this->context->shop->id;
+
+
+        $quantity_discounts = SpecificPrice::getQuantityDiscounts($id_product, $id_shop, $id_currency, $id_country, $id_group, $id_product_attribute, false, (int) $this->context->customer->id);
+
+
+        $tax = (float) $this->product->getTaxesRate(new Address((int) $this->context->cart->{Configuration::get('PS_TAX_ADDRESS_TYPE')}));
+
+
+        $this->quantity_discounts = $this->formatQuantityDiscounts($quantity_discounts, $product_price, (float) $tax, $this->product->ecotax);
+
+
+        $product_full['quantity_label'] = ($this->product->quantity > 1) ? $this->trans('Items', array(), 'Shop.Theme.Catalog') : $this->trans('Item', array(), 'Shop.Theme.Catalog');
+        $product_full['quantity_discounts'] = $this->quantity_discounts;
+
+        if ($product_full['unit_price_ratio'] > 0) {
+            $unitPrice = ($productSettings->include_taxes) ? $product_full['price'] : $product_full['price_tax_exc'];
+            $product_full['unit_price'] = $unitPrice / $product_full['unit_price_ratio'];
+        }
+
+        $group_reduction = GroupReduction::getValueForProduct($this->product->id, (int) Group::getCurrent()->id);
+        if ($group_reduction === false) {
+            $group_reduction = Group::getReduction((int) $this->context->cookie->id_customer) / 100;
+        }
+        $product_full['customer_group_discount'] = $group_reduction;
+        $presenter = $factory->getPresenter();
+
+        return $presenter->present(
+            $productSettings,
+            $product_full,
+            $this->context->language
+        );
+    }
+
+    private function getIdProductAttributeByGroupOrRequestOrDefault()
+    {
+        $idProductAttribute = $this->getIdProductAttributeByGroup();
+        if (null === $idProductAttribute) {
+            $idProductAttribute = (int) Tools::getValue('id_product_attribute');
+        }
+
+        if (0 === $idProductAttribute) {
+            $idProductAttribute = (int) Product::getDefaultAttribute($this->product->id);
+        }
+
+        return $this->tryToGetAvailableIdProductAttribute($idProductAttribute);
+    }
+
+    private function getIdProductAttributeByGroup()
+    {
+        $groups = Tools::getValue('group');
+        if (empty($groups)) {
+            return null;
+        }
+
+        return (int) Product::getIdProductAttributeByIdAttributes(
+            $this->product->id,
+            $groups,
+            true
+        );
+    }
+
+    protected function addProductCustomizationData(array $product_full)
+    {
+        if ($product_full['customizable']) {
+            $customizationData = array(
+                'fields' => array(),
+            );
+
+            $customized_data = array();
+
+            $already_customized = $this->context->cart->getProductCustomization(
+                $product_full['id_product'],
+                null,
+                true
+            );
+
+            $id_customization = 0;
+            foreach ($already_customized as $customization) {
+                $id_customization = $customization['id_customization'];
+                $customized_data[$customization['index']] = $customization;
+            }
+
+            $customization_fields = $this->product->getCustomizationFields($this->context->language->id);
+            if (is_array($customization_fields)) {
+                foreach ($customization_fields as $customization_field) {
+                    // 'id_customization_field' maps to what is called 'index'
+                    // in what Product::getProductCustomization() returns
+                    $key = $customization_field['id_customization_field'];
+
+                    $field['label'] = $customization_field['name'];
+                    $field['id_customization_field'] = $customization_field['id_customization_field'];
+                    $field['required'] = $customization_field['required'];
+
+                    switch ($customization_field['type']) {
+                        case Product::CUSTOMIZE_FILE:
+                            $field['type'] = 'image';
+                            $field['image'] = null;
+                            $field['input_name'] = 'file' . $customization_field['id_customization_field'];
+
+                            break;
+                        case Product::CUSTOMIZE_TEXTFIELD:
+                            $field['type'] = 'text';
+                            $field['text'] = '';
+                            $field['input_name'] = 'textField' . $customization_field['id_customization_field'];
+
+                            break;
+                        default:
+                            $field['type'] = null;
+                    }
+
+                    if (array_key_exists($key, $customized_data)) {
+                        $data = $customized_data[$key];
+                        $field['is_customized'] = true;
+                        switch ($customization_field['type']) {
+                            case Product::CUSTOMIZE_FILE:
+                                $imageRetriever = new ImageRetriever($this->context->link);
+                                $field['image'] = $imageRetriever->getCustomizationImage(
+                                    $data['value']
+                                );
+                                $field['remove_image_url'] = $this->context->link->getProductDeletePictureLink(
+                                    $product_full,
+                                    $customization_field['id_customization_field']
+                                );
+
+                                break;
+                            case Product::CUSTOMIZE_TEXTFIELD:
+                                $field['text'] = $data['value'];
+
+                                break;
+                        }
+                    } else {
+                        $field['is_customized'] = false;
+                    }
+
+                    $customizationData['fields'][] = $field;
+                }
+            }
+            $product_full['customizations'] = $customizationData;
+            $product_full['id_customization'] = $id_customization;
+            $product_full['is_customizable'] = true;
+        } else {
+            $product_full['customizations'] = array(
+                'fields' => array(),
+            );
+            $product_full['id_customization'] = 0;
+            $product_full['is_customizable'] = false;
+        }
+
+        return $product_full;
+    }
+
+    private function tryToGetAvailableIdProductAttribute($checkedIdProductAttribute)
+    {
+        if (!Configuration::get('PS_DISP_UNAVAILABLE_ATTR')) {
+            $availableProductAttributes = array_filter(
+                $this->product->getAttributeCombinations(),
+                function ($elem) {
+                    return $elem['quantity'] > 0;
+                }
+            );
+
+            $availableProductAttribute = array_filter(
+                $availableProductAttributes,
+                function ($elem) use ($checkedIdProductAttribute) {
+                    return $elem['id_product_attribute'] == $checkedIdProductAttribute;
+                }
+            );
+
+            if (empty($availableProductAttribute) && count($availableProductAttributes)) {
+                return (int) array_shift($availableProductAttributes)['id_product_attribute'];
+            }
+        }
+
+        return $checkedIdProductAttribute;
+    }
+
+    protected function formatQuantityDiscounts($specific_prices, $price, $tax_rate, $ecotax_amount)
+    {
+        $priceFormatter = new PriceFormatter();
+
+        foreach ($specific_prices as $key => &$row) {
+            $row['quantity'] = &$row['from_quantity'];
+            if ($row['price'] >= 0) {
+                // The price may be directly set
+
+                /** @var float $currentPriceDefaultCurrency current price with taxes in default currency */
+                $currentPriceDefaultCurrency = (!$row['reduction_tax'] ? $row['price'] : $row['price'] * (1 + $tax_rate / 100)) + (float) $ecotax_amount;
+                // Since this price is set in default currency,
+                // we need to convert it into current currency
+                $row['id_currency'];
+                $currentPriceCurrentCurrency = Tools::convertPrice($currentPriceDefaultCurrency, $this->context->currency, true, $this->context);
+
+                if ($row['reduction_type'] == 'amount') {
+                    $currentPriceCurrentCurrency -= ($row['reduction_tax'] ? $row['reduction'] : $row['reduction'] / (1 + $tax_rate / 100));
+                    $row['reduction_with_tax'] = $row['reduction_tax'] ? $row['reduction'] : $row['reduction'] / (1 + $tax_rate / 100);
+                } else {
+                    $currentPriceCurrentCurrency *= 1 - $row['reduction'];
+                }
+                $row['real_value'] = $price > 0 ? $price - $currentPriceCurrentCurrency : $currentPriceCurrentCurrency;
+                $discountPrice = $price - $row['real_value'];
+
+                if (Configuration::get('PS_DISPLAY_DISCOUNT_PRICE')) {
+                    if ($row['reduction_tax'] == 0 && !$row['price']) {
+                        $row['discount'] = $priceFormatter->format($price - ($price * $row['reduction_with_tax']));
+                    } else {
+                        $row['discount'] = $priceFormatter->format($price - $row['real_value']);
+                    }
+                } else {
+                    $row['discount'] = $priceFormatter->format($row['real_value']);
+                }
+            } else {
+                if ($row['reduction_type'] == 'amount') {
+                    if (Product::$_taxCalculationMethod == PS_TAX_INC) {
+                        $row['real_value'] = $row['reduction_tax'] == 1 ? $row['reduction'] : $row['reduction'] * (1 + $tax_rate / 100);
+                    } else {
+                        $row['real_value'] = $row['reduction_tax'] == 0 ? $row['reduction'] : $row['reduction'] / (1 + $tax_rate / 100);
+                    }
+                    $row['reduction_with_tax'] = $row['reduction_tax'] ? $row['reduction'] : $row['reduction'] + ($row['reduction'] * $tax_rate) / 100;
+                    $discountPrice = $price - $row['real_value'];
+                    if (Configuration::get('PS_DISPLAY_DISCOUNT_PRICE')) {
+                        if ($row['reduction_tax'] == 0 && !$row['price']) {
+                            $row['discount'] = $priceFormatter->format($price - ($price * $row['reduction_with_tax']));
+                        } else {
+                            $row['discount'] = $priceFormatter->format($price - $row['real_value']);
+                        }
+                    } else {
+                        $row['discount'] = $priceFormatter->format($row['real_value']);
+                    }
+                } else {
+                    $row['real_value'] = $row['reduction'] * 100;
+                    $discountPrice = $price - $price * $row['reduction'];
+                    if (Configuration::get('PS_DISPLAY_DISCOUNT_PRICE')) {
+                        if ($row['reduction_tax'] == 0) {
+                            $row['discount'] = $priceFormatter->format($price - ($price * $row['reduction_with_tax']));
+                        } else {
+                            $row['discount'] = $priceFormatter->format($price - ($price * $row['reduction']));
+                        }
+                    } else {
+                        $row['discount'] = $row['real_value'] . '%';
+                    }
+                }
+            }
+
+            $row['save'] = $priceFormatter->format((($price * $row['quantity']) - ($discountPrice * $row['quantity'])));
+            $row['nextQuantity'] = (isset($specific_prices[$key + 1]) ? (int) $specific_prices[$key + 1]['from_quantity'] : -1);
+        }
+
+        return $specific_prices;
     }
 }
