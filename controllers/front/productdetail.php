@@ -6,8 +6,6 @@ use PrestaShop\PrestaShop\Core\Product\ProductExtraContentFinder;
 use PrestaShop\PrestaShop\Adapter\Presenter\Object\ObjectPresenter;
 use PrestaShop\PrestaShop\Adapter\Product\PriceFormatter;
 
-error_reporting(E_ALL);
-ini_set('display_errors', 'On');
 /**
  * This REST endpoint gets details of a product
  */
