@@ -3,9 +3,9 @@
  * Description: This class bootstraps the main page of the application
  * */
 
-require_once __DIR__ . '/../AbstractRestController.php';
+require_once __DIR__ . '/../AbstractRESTController.php';
 
-class BinshopsrestBootstrapModuleFrontController extends AbstractRestController
+class BinshopsrestBootstrapModuleFrontController extends AbstractRESTController
 {
     protected function processGetRequest()
     {

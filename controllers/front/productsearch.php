@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../AbstractRESTProductListing.php';
+require_once __DIR__ . '/../AbstractProductListingRESTController.php';
 define('PRICE_REDUCTION_TYPE_PERCENT' , 'percentage');
 
 use PrestaShop\PrestaShop\Adapter\Search\SearchProductSearchProvider;
@@ -12,7 +12,7 @@ use PrestaShop\PrestaShop\Core\Product\Search\SortOrder;
  *
  * This module can be used to search through products
  */
-class BinshopsrestProductsearchModuleFrontController extends AbstractRESTProductListing
+class BinshopsrestProductsearchModuleFrontController extends AbstractProductListingRESTController
 {
     protected $search_string;
     protected $search_tag;

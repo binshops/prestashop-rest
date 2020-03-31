@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../AbstractRESTProductListing.php';
+require_once __DIR__ . '/../AbstractProductListingRESTController.php';
 define('PRICE_REDUCTION_TYPE_PERCENT' , 'percentage');
 
 use PrestaShop\PrestaShop\Adapter\Category\CategoryProductSearchProvider;
@@ -12,7 +12,7 @@ use PrestaShop\PrestaShop\Core\Product\Search\SortOrder;
  *
  * This module can be used to get category products, pagination and faceted search
  */
-class BinshopsrestCategoryproductsModuleFrontController extends AbstractRESTProductListing
+class BinshopsrestCategoryproductsModuleFrontController extends AbstractProductListingRESTController
 {
     protected function processGetRequest()
     {

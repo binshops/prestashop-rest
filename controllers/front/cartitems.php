@@ -1,11 +1,11 @@
 <?php
-require_once __DIR__ . '/../AbstractRestController.php';
+require_once __DIR__ . '/../AbstractRESTController.php';
 
 /**
  * This REST gets current user order list
 */
 
-class BinshopsrestCartitemsModuleFrontController extends AbstractRestController
+class BinshopsrestCartitemsModuleFrontController extends AbstractRESTController
 {
 
     protected function processGetRequest()

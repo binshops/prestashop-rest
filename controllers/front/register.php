@@ -1,7 +1,7 @@
 <?php
-require_once __DIR__ . '/../AbstractRestController.php';
+require_once __DIR__ . '/../AbstractRESTController.php';
 
-class BinshopsrestRegisterModuleFrontController extends AbstractRestController
+class BinshopsrestRegisterModuleFrontController extends AbstractRESTController
 {
     protected function processGetRequest()
     {

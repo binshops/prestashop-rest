@@ -1,12 +1,12 @@
 <?php
 
-require_once __DIR__ . '/../AbstractRestController.php';
+require_once __DIR__ . '/../AbstractRESTController.php';
 define('PRICE_REDUCTION_TYPE_PERCENT' , 'percentage');
 
 /**
  * This REST endpoint gets details of a product
  */
-class BinshopsrestProductdetailModuleFrontController extends AbstractRestController
+class BinshopsrestProductdetailModuleFrontController extends AbstractRESTController
 {
     private $product = null;
 

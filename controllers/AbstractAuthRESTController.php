@@ -1,11 +1,11 @@
 <?php
-require_once __DIR__ . '/AbstractRestController.php';
+require_once __DIR__ . '/AbstractRESTController.php';
 
 /**
  * Any REST request which needs authentication must extend this class
 */
 
-abstract class AbstractAuthRestController extends AbstractRestController
+abstract class AbstractAuthRESTController extends AbstractRESTController
 {
     public $auth = true;
     public $ssl = true;

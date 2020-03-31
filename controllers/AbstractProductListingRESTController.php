@@ -2,7 +2,7 @@
 
 use PrestaShop\PrestaShop\Adapter\Image\ImageRetriever;
 
-abstract class AbstractRESTProductListing extends ProductListingFrontController
+abstract class AbstractProductListingRESTController extends ProductListingFrontController
 {
     protected $category;
 

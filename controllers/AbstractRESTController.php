@@ -1,6 +1,6 @@
 <?php
 
-abstract class AbstractRestController extends ModuleFrontController
+abstract class AbstractRESTController extends ModuleFrontController
 {
     private $img1 = 'large';
     private $img2 = 'medium';

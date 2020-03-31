@@ -1,10 +1,10 @@
 <?php
-require_once __DIR__ . '/../AbstractRestController.php';
+require_once __DIR__ . '/../AbstractRESTController.php';
 
 /**
  * This REST endpoint adds a product to cart
  */
-class BinshopsrestRemovefromcartModuleFrontController extends AbstractRestController
+class BinshopsrestRemovefromcartModuleFrontController extends AbstractRESTController
 {
     protected $id_product;
     protected $id_product_attribute;

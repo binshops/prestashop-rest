@@ -2,9 +2,9 @@
 
 use PrestaShop\PrestaShop\Adapter\Product\PriceFormatter;
 
-require_once __DIR__ . '/../AbstractRestController.php';
+require_once __DIR__ . '/../AbstractRESTController.php';
 //todo: needs to be completed
-class BinshopsrestCheckoutModuleFrontController extends AbstractRestController
+class BinshopsrestCheckoutModuleFrontController extends AbstractRESTController
 {
     /**
      * @var CartChecksum

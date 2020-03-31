@@ -1,7 +1,7 @@
 <?php
-require_once __DIR__ . '/../AbstractAuthRestController.php';
+require_once __DIR__ . '/../AbstractAuthRESTController.php';
 
-class BinshopsrestAccountinfoModuleFrontController extends AbstractAuthRestController
+class BinshopsrestAccountinfoModuleFrontController extends AbstractAuthRESTController
 {
     protected function processGetRequest()
     {
