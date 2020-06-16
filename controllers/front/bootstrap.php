@@ -37,6 +37,7 @@ class BinshopsrestBootstrapModuleFrontController extends AbstractRESTController
         $psdata = array();
         $psdata['menuItems'] = $menuItems;
         $psdata['featuredProductsList'] = $featuredProductsList['products'];
+        $psdata['numberOfFeaturedProd'] = 10;
         $psdata['banner'] = $this->getBanner();
         $psdata['slides'] = $slidesList['homeslider']['slides'];
 

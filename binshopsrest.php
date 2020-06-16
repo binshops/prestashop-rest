@@ -313,6 +313,15 @@ class Binshopsrest extends Module
                     'fc' => 'module',
                     'module' => 'binshopsrest'
                 ]
+            ],
+            'module-binshopsrest-featuredproducts' => [
+                'rule' => 'rest/featured-products',
+                'keywords' => [],
+                'controller' => 'featuredproducts',
+                'params' => [
+                    'fc' => 'module',
+                    'module' => 'binshopsrest'
+                ]
             ]
         ];
     }
