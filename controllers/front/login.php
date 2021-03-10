@@ -39,59 +39,24 @@ class BinshopsrestLoginModuleFrontController extends AbstractRESTController
             $psdata = "Invalid Password";
             $messageCode = 304;
         }else{
+            Hook::exec('actionAuthenticationBefore');
             $customer = new Customer();
-            Hook::exec('actionBeforeAuthentication');
+            $authentication = $customer->getByEmail(
+                $email,
+                $password
+            );
 
-            $authentication = $customer->getByEmail(trim($email), trim($password));
             if (isset($authentication->active) && !$authentication->active) {
                 $psdata = 'Your account isn\'t available at this time.';
                 $messageCode = 305;
-            }elseif (!$authentication || !$customer->id) {
+            } elseif (!$authentication || !$customer->id || $customer->is_guest) {
                 $psdata = "Authentication failed";
                 $messageCode = 306;
-            }else {
-                $this->context->cookie->id_customer = (int) ($customer->id);
-                $this->context->cookie->customer_lastname = $customer->lastname;
-                $this->context->cookie->customer_firstname = $customer->firstname;
-                $this->context->cookie->logged = 1;
-                $customer->logged = 1;
-                $this->context->cookie->is_guest = $customer->isGuest();
-                $this->context->cookie->passwd = $customer->passwd;
-                $this->context->cookie->email = $customer->email;
+            } else {
+                $this->context->updateCustomer($customer);
 
-                // Add customer to the context
-                $this->context->customer = $customer;
-                if (Configuration::get('PS_CART_FOLLOWING') &&
-                    (empty($this->context->cookie->id_cart) ||
-                        Cart::getNbProducts($this->context->cookie->id_cart) == 0) &&
-                    $id_cart = (int) Cart::lastNoneOrderedCart($this->context->customer->id)) {
-                    $this->context->cart = new Cart($id_cart);
-                } else {
-                    $id_carrier = (int) $this->context->cart->id_carrier;
-                    if (!$this->context->cart->id_address_delivery) {
-                        $this->context->cart->id_carrier = 0;
-                        $this->context->cart->setDeliveryOption(null);
-                        $d_id = (int) Address::getFirstCustomerAddressId((int) ($customer->id));
-                        $this->context->cart->id_address_delivery = $d_id;
-                        $i_id = (int) Address::getFirstCustomerAddressId((int) ($customer->id));
-                        $this->context->cart->id_address_invoice = $i_id;
-                    }
-                }
-                $this->context->cart->id_customer = (int) $customer->id;
-                $this->context->cart->secure_key = $customer->secure_key;
+                Hook::exec('actionAuthentication', ['customer' => $this->context->customer]);
 
-                if (isset($id_carrier) && $id_carrier && Configuration::get('PS_ORDER_PROCESS_TYPE')) {
-                    $delivery_option = array($this->context->cart->id_address_delivery => $id_carrier . ',');
-                    $this->context->cart->setDeliveryOption($delivery_option);
-                }
-
-                $this->context->cart->id_currency = $this->context->currency->id;
-                $this->context->cart->save();
-                $this->context->cookie->id_cart = (int) $this->context->cart->id;
-                $this->context->cookie->write();
-                $this->context->cart->autosetProductAddress();
-
-                Hook::exec('actionAuthentication', array('customer' => $this->context->customer));
                 $messageCode = 200;
                 $psdata = array(
                     'status' => 'success',

@@ -17,7 +17,7 @@ class Binshopsrest extends Module
     {
         $this->name = 'binshopsrest';
         $this->tab = 'others';
-        $this->version = '1.0.0';
+        $this->version = '1.0.1';
         $this->author = 'Binshops';
         $this->need_instance = 0;
 
@@ -44,7 +44,7 @@ class Binshopsrest extends Module
     {
         Configuration::updateValue('BINSHOPSREST_LIVE_MODE', false);
 
-        include(dirname(__FILE__).'/sql/install.php');
+//        include(dirname(__FILE__).'/sql/install.php');
 
         return parent::install() &&
             $this->registerHook('header') &&

@@ -3,7 +3,7 @@
 	<h3><i class="icon icon-credit-card"></i> {l s='Binshops REST' mod='binshopsrest'}</h3>
 	<p>
 		<strong>{l s='Now you can access your prestashop store through REST API' mod='binshopsrest'}</strong><br />
-		{l s='This module works completely out of box without need for any configuration.' mod='binshopsrest'}
+		{l s='This module works completely without need for any configuration out-of-box. Your endpoint: https://mywebsite.com/rest/' mod='binshopsrest'}
 	</p>
 	<br />
 </div>
