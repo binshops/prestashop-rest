@@ -17,7 +17,7 @@ class Binshopsrest extends Module
     {
         $this->name = 'binshopsrest';
         $this->tab = 'others';
-        $this->version = '1.0.1';
+        $this->version = '1.0.2';
         $this->author = 'Binshops';
         $this->need_instance = 0;
 
@@ -252,9 +252,9 @@ class Binshopsrest extends Module
                 ]
             ],
             'module-binshopsrest-cartitems' => [
-                'rule' => 'rest/cartItems',
+                'rule' => 'rest/cartitems',
                 'keywords' => [],
-                'controller' => 'cartItems',
+                'controller' => 'cartitems',
                 'params' => [
                     'fc' => 'module',
                     'module' => 'binshopsrest'
@@ -269,19 +269,19 @@ class Binshopsrest extends Module
                     'module' => 'binshopsrest'
                 ]
             ],
-            'module-binshopsrest-addToCart' => [
-                'rule' => 'rest/addToCart',
+            'module-binshopsrest-addtocart' => [
+                'rule' => 'rest/addtocart',
                 'keywords' => [],
-                'controller' => 'addToCart',
+                'controller' => 'addtocart',
                 'params' => [
                     'fc' => 'module',
                     'module' => 'binshopsrest'
                 ]
             ],
             'module-binshopsrest-removefromcart' => [
-                'rule' => 'rest/removeFromCart',
+                'rule' => 'rest/removefromcart',
                 'keywords' => [],
-                'controller' => 'removeFromCart',
+                'controller' => 'removefromcart',
                 'params' => [
                     'fc' => 'module',
                     'module' => 'binshopsrest'
