@@ -349,6 +349,15 @@ class Binshopsrest extends Module
                     'fc' => 'module',
                     'module' => 'binshopsrest'
                 ]
+            ],
+            'module-binshopsrest-addressform' => [
+                'rule' => 'rest/addressform',
+                'keywords' => [],
+                'controller' => 'addressform',
+                'params' => [
+                    'fc' => 'module',
+                    'module' => 'binshopsrest'
+                ]
             ]
         ];
     }
