@@ -340,6 +340,15 @@ class Binshopsrest extends Module
                     'fc' => 'module',
                     'module' => 'binshopsrest'
                 ]
+            ],
+            'module-binshopsrest-alladdresses' => [
+                'rule' => 'rest/alladdresses',
+                'keywords' => [],
+                'controller' => 'alladdresses',
+                'params' => [
+                    'fc' => 'module',
+                    'module' => 'binshopsrest'
+                ]
             ]
         ];
     }
