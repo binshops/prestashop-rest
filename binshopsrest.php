@@ -322,6 +322,24 @@ class Binshopsrest extends Module
                     'fc' => 'module',
                     'module' => 'binshopsrest'
                 ]
+            ],
+            'module-binshopsrest-hello' => [
+                'rule' => 'rest/hello',
+                'keywords' => [],
+                'controller' => 'hello',
+                'params' => [
+                    'fc' => 'module',
+                    'module' => 'binshopsrest'
+                ]
+            ],
+            'module-binshopsrest-address' => [
+                'rule' => 'rest/address',
+                'keywords' => [],
+                'controller' => 'address',
+                'params' => [
+                    'fc' => 'module',
+                    'module' => 'binshopsrest'
+                ]
             ]
         ];
     }
