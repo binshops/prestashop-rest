@@ -130,7 +130,7 @@ class BinshopsrestAddressModuleFrontController extends AbstractAuthRESTControlle
 
             $persister = new CustomerAddressPersister(
                 $this->context->customer,
-                $this->context->cart,
+                $this->context->cart
             );
 
             $saved = $persister->save(
