@@ -9,21 +9,22 @@ class BinshopsrestAddressModuleFrontController extends AbstractAuthRESTControlle
 
     protected function processGetRequest()
     {
-        $psdata = array();
-        $customer = $this->context->customer;
-
+        $address = new Address(
+            Tools::getValue('id_address'),
+            $this->context->language->id
+        );
 
         $this->ajaxRender(json_encode([
             'success' => true,
             'code' => 200,
-            'psdata' => $psdata
+            'psdata' => $address
         ]));
         die;
     }
 
     protected function processPostRequest(){
         $_POST = json_decode(file_get_contents('php://input'), true);
-        $psdata = array();
+        $psdata = array(); $msg = "";
         $validate_obj = $this->validatePost();
 
         if (!$validate_obj['valid']){
@@ -33,6 +34,12 @@ class BinshopsrestAddressModuleFrontController extends AbstractAuthRESTControlle
                 'psdata' => $validate_obj['errors']
             ]));
             die;
+        }
+
+        if (Tools::getValue('id_address')){
+            $msg = "Successfully updated address";
+        }else{
+            $msg = "Successfully added address";
         }
 
         $address = new Address(
@@ -93,7 +100,8 @@ class BinshopsrestAddressModuleFrontController extends AbstractAuthRESTControlle
         $this->ajaxRender(json_encode([
             'success' => true,
             'code' => 200,
-            'psdata' => $saved
+            'psdata' => $saved,
+            'message' => $msg
         ]));
         die;
     }
