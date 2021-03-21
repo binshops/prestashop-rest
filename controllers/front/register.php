@@ -13,6 +13,8 @@ class BinshopsrestRegisterModuleFrontController extends AbstractRESTController
     }
 
     protected function processPostRequest(){
+        $_POST = json_decode(file_get_contents('php://input'), true);
+
         $psdata = ""; $messageCode = 0; $success = true;
         $firstName = Tools::getValue('firstName');
         $lastName = Tools::getValue('lastName');

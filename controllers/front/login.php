@@ -14,6 +14,7 @@ class BinshopsrestLoginModuleFrontController extends AbstractRESTController
 
     protected function processPostRequest()
     {
+        $_POST = json_decode(file_get_contents('php://input'), true);
         $psdata = ""; $messageCode = 0;
         $email = Tools::getValue('email', '');
         $password = Tools::getValue('password', '');
