@@ -117,9 +117,40 @@ class BinshopsrestAddressModuleFrontController extends AbstractAuthRESTControlle
 
     protected function processDeleteRequest()
     {
+        $_POST = json_decode(file_get_contents('php://input'), true);
+        Tools::getValue('id_address');
+
+        $address = new Address(
+            Tools::getValue('id_address'),
+            $this->context->language->id
+        );
+
+        if ($address->id){
+            $address->deleted = true;
+
+            $persister = new CustomerAddressPersister(
+                $this->context->customer,
+                $this->context->cart,
+            );
+
+            $saved = $persister->save(
+                $address,
+                Tools::getToken(true, $this->context)
+            );
+        }else{
+            $this->ajaxRender(json_encode([
+                'success' => true,
+                'code' => 301,
+                'message' => "There is not such address"
+            ]));
+            die;
+        }
+
         $this->ajaxRender(json_encode([
             'success' => true,
-            'message' => 'delete not supported on this path'
+            'code' => 200,
+            'psdata' => $saved,
+            'message' => "Address successfully deleted"
         ]));
         die;
     }
