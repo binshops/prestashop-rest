@@ -2,14 +2,34 @@
 
 require_once __DIR__ . '/../AbstractRESTController.php';
 
+use PrestaShop\PrestaShop\Adapter\Product\PriceFormatter;
+
 class BinshopsrestCarriersModuleFrontController extends AbstractRESTController
 {
 
     protected function processGetRequest()
     {
+        $deliveryOptionsFinder = new DeliveryOptionsFinder(
+            $this->context,
+            $this->getTranslator(),
+            $this->objectPresenter,
+            new PriceFormatter()
+        );
+        $session = new CheckoutSession(
+            $this->context,
+            $deliveryOptionsFinder
+        );
+        $carriers = $session->getDeliveryOptions();
+
+        foreach ($carriers as &$carrier){
+            unset($carrier['product_list']);
+            unset($carrier['package_list']);
+        }
+
         $this->ajaxRender(json_encode([
             'success' => true,
-            'message' => 'Hello Binshops API!'
+            'code' => 200,
+            'psdata' => $carriers
         ]));
         die;
     }
