@@ -358,6 +358,15 @@ class Binshopsrest extends Module
                     'fc' => 'module',
                     'module' => 'binshopsrest'
                 ]
+            ],
+            'module-binshopsrest-carriers' => [
+                'rule' => 'rest/carriers',
+                'keywords' => [],
+                'controller' => 'carriers',
+                'params' => [
+                    'fc' => 'module',
+                    'module' => 'binshopsrest'
+                ]
             ]
         ];
     }
