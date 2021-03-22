@@ -376,6 +376,15 @@ class Binshopsrest extends Module
                     'fc' => 'module',
                     'module' => 'binshopsrest'
                 ]
+            ],
+            'module-binshopsrest-setcarriercheckout' => [
+                'rule' => 'rest/setcarriercheckout',
+                'keywords' => [],
+                'controller' => 'setcarriercheckout',
+                'params' => [
+                    'fc' => 'module',
+                    'module' => 'binshopsrest'
+                ]
             ]
         ];
     }
