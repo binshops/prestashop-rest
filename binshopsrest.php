@@ -385,6 +385,15 @@ class Binshopsrest extends Module
                     'fc' => 'module',
                     'module' => 'binshopsrest'
                 ]
+            ],
+            'module-binshopsrest-paymentoptions' => [
+                'rule' => 'rest/paymentoptions',
+                'keywords' => [],
+                'controller' => 'paymentoptions',
+                'params' => [
+                    'fc' => 'module',
+                    'module' => 'binshopsrest'
+                ]
             ]
         ];
     }
