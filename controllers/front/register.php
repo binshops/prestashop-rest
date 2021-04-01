@@ -74,7 +74,7 @@ class BinshopsrestRegisterModuleFrontController extends AbstractRESTController
                 );
             }catch (Exception $exception){
                 $messageCode = 300;
-                $psdata = "Internal Server Error";
+                $psdata = $exception->getMessage();
                 $success = false;
             }
         }
