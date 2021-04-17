@@ -44,7 +44,7 @@ class Binshopsrest extends Module
     {
         Configuration::updateValue('BINSHOPSREST_LIVE_MODE', false);
 
-//        include(dirname(__FILE__).'/sql/install.php');
+        include(dirname(__FILE__).'/sql/install.php');
 
         return parent::install() &&
             $this->registerHook('header') &&
@@ -399,6 +399,42 @@ class Binshopsrest extends Module
                 'rule' => 'rest/paymentoptions',
                 'keywords' => [],
                 'controller' => 'paymentoptions',
+                'params' => [
+                    'fc' => 'module',
+                    'module' => 'binshopsrest'
+                ]
+            ],
+            'module-binshopsrest-resetpasswordemail' => [
+                'rule' => 'rest/resetpasswordemail',
+                'keywords' => [],
+                'controller' => 'resetpasswordemail',
+                'params' => [
+                    'fc' => 'module',
+                    'module' => 'binshopsrest'
+                ]
+            ],
+            'module-binshopsrest-resetpasswordcheck' => [
+                'rule' => 'rest/resetpasswordcheck',
+                'keywords' => [],
+                'controller' => 'resetpasswordcheck',
+                'params' => [
+                    'fc' => 'module',
+                    'module' => 'binshopsrest'
+                ]
+            ],
+            'module-binshopsrest-resetpasswordenter' => [
+                'rule' => 'rest/resetpasswordenter',
+                'keywords' => [],
+                'controller' => 'resetpasswordenter',
+                'params' => [
+                    'fc' => 'module',
+                    'module' => 'binshopsrest'
+                ]
+            ],
+            'module-binshopsrest-resetpasswordbyemail' => [
+                'rule' => 'rest/resetpasswordbyemail',
+                'keywords' => [],
+                'controller' => 'resetpasswordbyemail',
                 'params' => [
                     'fc' => 'module',
                     'module' => 'binshopsrest'

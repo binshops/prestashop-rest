@@ -25,9 +25,12 @@
 */
 $sql = array();
 
-$sql[] = 'CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'binshopsrest` (
-    `id_binshopsrest` int(11) NOT NULL AUTO_INCREMENT,
-    PRIMARY KEY  (`id_binshopsrest`)
+$sql[] = 'CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'binshopsrest_reset_pass_tokens` (
+    `id_pass_tokens` int(11) NOT NULL AUTO_INCREMENT,
+    `reset_password_token` varchar(255) NOT NULL,
+    `reset_password_validity` varchar(255) NOT NULL,
+    `id_customer` int(11) NOT NULL,
+    PRIMARY KEY  (`id_pass_tokens`)
 ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8;';
 
 foreach ($sql as $query) {
