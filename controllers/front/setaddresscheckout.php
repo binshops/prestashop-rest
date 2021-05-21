@@ -1,23 +1,51 @@
 <?php
 
-require_once __DIR__ . '/../AbstractRESTController.php';
+require_once __DIR__ . '/../AbstractAuthRESTController.php';
 
-class BinshopsrestSetaddresscheckoutModuleFrontController extends AbstractRESTController
+use PrestaShop\PrestaShop\Adapter\Product\PriceFormatter;
+
+class BinshopsrestSetaddresscheckoutModuleFrontController extends AbstractAuthRESTController
 {
 
     protected function processGetRequest()
     {
         $this->ajaxRender(json_encode([
             'success' => true,
-            'message' => 'Hello Binshops API!'
+            'message' => 'GET not supported on this path'
         ]));
         die;
     }
 
     protected function processPostRequest(){
+        $_POST = json_decode(file_get_contents('php://input'), true);
+        if (Tools::getValue('id_address')){
+            $deliveryOptionsFinder = new DeliveryOptionsFinder(
+                $this->context,
+                $this->getTranslator(),
+                $this->objectPresenter,
+                new PriceFormatter()
+            );
+            $session = new CheckoutSession(
+                $this->context,
+                $deliveryOptionsFinder
+            );
+
+            $session->setIdAddressDelivery(Tools::getValue('id_address'));
+            $session->setIdAddressInvoice(Tools::getValue('id_address'));
+
+        }else{
+            $this->ajaxRender(json_encode([
+                'success' => true,
+                'code' => 301,
+                'psdata' => "id_address-required"
+            ]));
+            die;
+        }
+
         $this->ajaxRender(json_encode([
             'success' => true,
-            'message' => 'POST not supported on this path'
+            'code' => 200,
+            'psdata' => "id address has been successfully set"
         ]));
         die;
     }
