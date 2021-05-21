@@ -118,7 +118,7 @@ abstract class AbstractProductListingRESTController extends ProductListingFrontC
         $products =  $result->getProducts();
 
         // render the facets
-        //todo: commented by HESSAM
+        //todo: commented by SAM
 //        if ($provider instanceof FacetsRendererInterface) {
 //            // with the provider if it wants to
 //            $rendered_facets = $provider->renderFacets(
@@ -172,7 +172,7 @@ abstract class AbstractProductListingRESTController extends ProductListingFrontC
             'sort_orders' => $sort_orders,
             'sort_selected' => $sort_selected,
             'pagination' => $pagination,
-//todo: commented by HESSAM
+//todo: commented by SAM
 
 //            'rendered_facets' => $rendered_facets,
 //            'rendered_active_filters' => $rendered_active_filters,

@@ -2,7 +2,7 @@
 /**
  * Binshios REST API
  *
- * @author Hessam - hessam.modaberi@gmail.com
+ * @author SAM - sam@binshops.com
 */
 
 if (!defined('_PS_VERSION_')) {
