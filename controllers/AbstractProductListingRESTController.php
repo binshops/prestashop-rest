@@ -1,7 +1,14 @@
 <?php
 
 use PrestaShop\PrestaShop\Adapter\Image\ImageRetriever;
+use PrestaShop\PrestaShop\Core\Product\Search\ProductSearchQuery;
+use PrestaShop\PrestaShop\Core\Product\Search\SortOrder;
+use PrestaShop\PrestaShop\Core\Product\Search\ProductSearchProviderInterface;
 
+
+/**
+ * This class is the base class for all "product listing" controllers.
+ */
 abstract class AbstractProductListingRESTController extends ProductListingFrontController
 {
     protected $category;
@@ -54,7 +61,10 @@ abstract class AbstractProductListingRESTController extends ProductListingFrontC
         $context = $this->getProductSearchContext();
 
         // the controller generates the query...
-        $query = $this->getProductSearchQuery();
+        $query = new ProductSearchQuery();
+        $query
+            ->setIdCategory(Tools::getValue('id_category'))
+            ->setSortOrder(new SortOrder('product', Tools::getProductsOrder('by'), Tools::getProductsOrder('way')));
 
         // ...modules decide if they can handle it (first one that can is used)
         $provider = $this->getProductSearchProviderFromModules($query);
@@ -192,13 +202,13 @@ abstract class AbstractProductListingRESTController extends ProductListingFrontC
     {
         $providers = Hook::exec(
             'productSearchProvider',
-            array('query' => $query),
+            ['query' => $query],
             null,
             true
         );
 
         if (!is_array($providers)) {
-            $providers = array();
+            $providers = [];
         }
 
         foreach ($providers as $provider) {
