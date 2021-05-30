@@ -19,16 +19,13 @@ class BinshopsrestProductsearchModuleFrontController extends AbstractProductList
 
     protected function processGetRequest(){
         $this->search_string = Tools::getValue('s');
-        if (!$this->search_string) {
-            $this->search_string = Tools::getValue('search_query');
-            if (!$this->search_string){
-                $this->ajaxRender(json_encode([
-                    'code'=> 301,
-                    'success' => false,
-                    'message' => 'search string is not specified'
-                ]));
-                die;
-            }
+        if (!$this->search_string && !Tools::getValue('q')) {
+            $this->ajaxRender(json_encode([
+                'code'=> 301,
+                'success' => false,
+                'message' => 'query string is not specified'
+            ]));
+            die;
         }
 
         $this->search_tag = Tools::getValue('tag');
@@ -45,12 +42,11 @@ class BinshopsrestProductsearchModuleFrontController extends AbstractProductList
 
         $psdata = [
             'label' => $variables['label'],
-            //todo: keep only required fields for products
             'products' => $productList,
             'sort_orders' => $variables['sort_orders'],
             'sort_selected' => $variables['sort_selected'],
-            'pagination' => $variables['pagination']
-            //todo: handle faceted_search
+            'pagination' => $variables['pagination'],
+            'facets' => $variables['facets']
         ];
 
         $this->ajaxRender(json_encode([

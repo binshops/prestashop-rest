@@ -4,7 +4,7 @@ use PrestaShop\PrestaShop\Adapter\Image\ImageRetriever;
 use PrestaShop\PrestaShop\Core\Product\Search\ProductSearchQuery;
 use PrestaShop\PrestaShop\Core\Product\Search\SortOrder;
 use PrestaShop\PrestaShop\Core\Product\Search\ProductSearchProviderInterface;
-
+use PrestaShop\PrestaShop\Core\Product\Search\ProductSearchResult;
 
 /**
  * This class is the base class for all "product listing" controllers.
@@ -128,26 +128,9 @@ abstract class AbstractProductListingRESTController extends ProductListingFrontC
         $products =  $result->getProducts();
 
         // render the facets
-        //todo: commented by SAM
-//        if ($provider instanceof FacetsRendererInterface) {
-//            // with the provider if it wants to
-//            $rendered_facets = $provider->renderFacets(
-//                $context,
-//                $result
-//            );
-//            $rendered_active_filters = $provider->renderActiveFilters(
-//                $context,
-//                $result
-//            );
-//        } else {
-//            // with the core
-//            $rendered_facets = $this->renderFacets(
-//                $result
-//            );
-//            $rendered_active_filters = $this->renderActiveFilters(
-//                $result
-//            );
-//        }
+        $facets = $this->getFacets(
+            $result
+        );
 
         $pagination = $this->getTemplateVarPagination(
             $query,
@@ -182,10 +165,7 @@ abstract class AbstractProductListingRESTController extends ProductListingFrontC
             'sort_orders' => $sort_orders,
             'sort_selected' => $sort_selected,
             'pagination' => $pagination,
-//todo: commented by SAM
-
-//            'rendered_facets' => $rendered_facets,
-//            'rendered_active_filters' => $rendered_active_filters,
+            'facets' => $facets,
             'js_enabled' => $this->ajax,
             'current_url' => $this->updateQueryString(array(
                 'q' => $result->getEncodedFacets(),
@@ -216,5 +196,33 @@ abstract class AbstractProductListingRESTController extends ProductListingFrontC
                 return $provider;
             }
         }
+    }
+
+    protected function getFacets(ProductSearchResult $result)
+    {
+        $facetCollection = $result->getFacetCollection();
+        // not all search providers generate menus
+        if (empty($facetCollection)) {
+            return '';
+        }
+
+        $facetsVar = array_map(
+            [$this, 'prepareFacetForTemplate'],
+            $facetCollection->getFacets()
+        );
+
+        $activeFilters = [];
+        foreach ($facetsVar as $facet) {
+            foreach ($facet['filters'] as $filter) {
+                if ($filter['active']) {
+                    $activeFilters[] = $filter;
+                }
+            }
+        }
+
+        return [
+            'filters' => $facetCollection,
+            'activeFilters' => $activeFilters
+        ];
     }
 }
