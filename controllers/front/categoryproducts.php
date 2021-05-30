@@ -41,6 +41,11 @@ class BinshopsrestCategoryproductsModuleFrontController extends AbstractProductL
             $productList[$key]['images'] = $retriever->getProductImages($product, $this->context->language);
         }
 
+        $facets = array();
+        foreach ($variables['facets']['filters']->getFacets() as $facet){
+            array_push($facets, $facet->toArray());
+        }
+
         $psdata = [
             'description' => $this->category->description,
             'active' => $this->category->active,
@@ -49,12 +54,11 @@ class BinshopsrestCategoryproductsModuleFrontController extends AbstractProductL
                 $this->category->id_image
             ),
             'label' => $variables['label'],
-            //todo: keep only required fields for products
             'products' => $productList,
             'sort_orders' => $variables['sort_orders'],
             'sort_selected' => $variables['sort_selected'],
-            'pagination' => $variables['pagination']
-            //todo: handle faceted_search
+            'pagination' => $variables['pagination'],
+            'facets' => $facets
         ];
 
         $this->ajaxRender(json_encode([
