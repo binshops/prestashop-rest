@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../AbstractProductListingRESTController.php';
+require_once __DIR__ . '/../../classes/RESTProductLazyArray.php';
 define('PRICE_REDUCTION_TYPE_PERCENT' , 'percentage');
 
 use PrestaShop\PrestaShop\Adapter\Category\CategoryProductSearchProvider;
@@ -37,8 +38,22 @@ class BinshopsrestCategoryproductsModuleFrontController extends AbstractProductL
             $this->context->link
         );
 
+        $settings = $this->getProductPresentationSettings();
+
         foreach ($productList as $key => $product){
-            $productList[$key]['images'] = $retriever->getProductImages($product, $this->context->language);
+            $populated_product = (new ProductAssembler($this->context))
+                ->assembleProduct($product);
+
+            $lazy_product = new RESTProductLazyArray(
+                $settings,
+                $populated_product,
+                $this->context->language,
+                new \PrestaShop\PrestaShop\Adapter\Product\PriceFormatter(),
+                $retriever,
+                $this->context->getTranslator()
+            );
+
+            $productList[$key]['prod_info'] = $lazy_product->getProduct();
         }
 
         $facets = array();
