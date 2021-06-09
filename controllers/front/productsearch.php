@@ -40,12 +40,21 @@ class BinshopsrestProductsearchModuleFrontController extends AbstractProductList
             $productList[$key]['images'] = $retriever->getProductImages($product, $this->context->language);
         }
 
+        if($variables['facets']){
+            $facets = array();
+            foreach ($variables['facets']['filters']->getFacets() as $facet){
+                array_push($facets, $facet->toArray());
+            }
+        }
+
         $psdata = [
             'label' => $variables['label'],
             'products' => $productList,
             'sort_orders' => $variables['sort_orders'],
             'sort_selected' => $variables['sort_selected'],
             'pagination' => $variables['pagination'],
+            'facets' => $facets,
+            'active_filter' => $variables['facets']['activeFilters']
         ];
 
         $this->ajaxRender(json_encode([
