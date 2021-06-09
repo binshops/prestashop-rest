@@ -2,7 +2,7 @@
 <div class="panel">
 	<h3><i class="icon icon-credit-card"></i> {l s='Binshops REST' mod='binshopsrest'}</h3>
 	<p>
-		<strong>{l s='Now you can access your prestashop store through REST API' mod='binshopsrest'}</strong><br />
+		<strong>{l s='Now you can access your Prestashop REST endpoints.' mod='binshopsrest'}</strong><br />
 		{l s='This module works completely without need for any configuration out-of-box. Your endpoint: https://mywebsite.com/rest/' mod='binshopsrest'}
 	</p>
 	<br />
@@ -11,24 +11,63 @@
 <div class="panel">
 	<h3><i class="icon icon-tags"></i> {l s='Endpoints' mod='binshopsrest'}</h3>
 	<p>
-		&raquo; {l s='Here is a list of endpoints' mod='binshopsrest'} :
-		<ul>
-			<li>login</li>
-			<li>register</li>
-			<li>logout</li>
-			<li>bootstrap</li>
-			<li>cartItems</li>
-			<li>productDetail</li>
-			<li>addToCart</li>
-			<li>removeFromCart</li>
-			<li>productSearch</li>
-			<li>categoryProducts</li>
-		</ul>
-	</p>
-	<p>
-		You can access full documentation for REST endpoints on Postman publisher through this
-		<a href="https://documenter.getpostman.com/view/1491681/SWT5jMRb" target="_blank">
-			Link
-		</a>.
+		&raquo; {l s='List of endpoints' mod='binshopsrest'} :
+	<ul>
+		<li>
+			Authentication
+			<ul>
+				<li>Login</li>
+				<li>Register</li>
+				<li>Logour</li>
+			</ul>
+		</li>
+		<li>
+			Cart
+			<ul>
+				<li>Remove From Cart</li>
+				<li>Add Product To Cart</li>
+				<li>Cart Items</li>
+			</ul>
+		</li>
+		<li>
+			Profile/Account
+			<ul>
+				<li>Account Info</li>
+				<li>Account Edit</li>
+				<li>New Password</li>
+				<li>Reset Password By Email</li>
+				<li>Reset Password By Code in Email</li>
+			</ul>
+		</li>
+		<li>
+			Products
+			<ul>
+				<li>Product Detail</li>
+				<li>Category Products</li>
+				<li>Product Search</li>
+				<li>Faceted Search</li>
+				<li>Featured Products</li>
+			</ul>
+		</li>
+		<li>
+			Address
+			<ul>
+				<li>All Addresses</li>
+				<li>Create Address</li>
+				<li>Address Form</li>
+				<li>Get Address</li>
+				<li>Delete Address</li>
+			</ul>
+		</li>
+		<li>
+			Checkout
+			<ul>
+				<li>Set Address</li>
+				<li>List All Carriers</li>
+				<li>Set Carrier</li>
+				<li>Payment Options</li>
+			</ul>
+		</li>
+	</ul>
 	</p>
 </div>
