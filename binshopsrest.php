@@ -1,8 +1,9 @@
 <?php
 /**
- * Binshios REST API
+ * BINSHOPS REST API
  *
- * @author SAM - sam@binshops.com
+ * @author BINSHOPS - contact@binshops.com
+ * @copyright BINSHOPS
 */
 
 if (!defined('_PS_VERSION_')) {
@@ -33,7 +34,7 @@ class Binshopsrest extends Module
 
         $this->confirmUninstall = $this->l('');
 
-        $this->ps_versions_compliancy = array('min' => '1.6', 'max' => _PS_VERSION_);
+        $this->ps_versions_compliancy = array('min' => '1.7', 'max' => _PS_VERSION_);
     }
 
     /**
