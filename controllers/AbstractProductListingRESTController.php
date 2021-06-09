@@ -61,10 +61,14 @@ abstract class AbstractProductListingRESTController extends ProductListingFrontC
         $context = $this->getProductSearchContext();
 
         // the controller generates the query...
-        $query = new ProductSearchQuery();
-        $query
-            ->setIdCategory(Tools::getValue('id_category'))
-            ->setSortOrder(new SortOrder('product', Tools::getProductsOrder('by'), Tools::getProductsOrder('way')));
+        if (Tools::getValue('s')){
+            $query = $this->getProductSearchQuery();
+        }else{
+            $query = new ProductSearchQuery();
+            $query
+                ->setIdCategory(Tools::getValue('id_category'))
+                ->setSortOrder(new SortOrder('product', Tools::getProductsOrder('by'), Tools::getProductsOrder('way')));
+        }
 
         // ...modules decide if they can handle it (first one that can is used)
         $provider = $this->getProductSearchProviderFromModules($query);
