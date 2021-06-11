@@ -18,7 +18,7 @@
 			<ul>
 				<li>Login</li>
 				<li>Register</li>
-				<li>Logour</li>
+				<li>Logout</li>
 			</ul>
 		</li>
 		<li>
