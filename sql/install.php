@@ -30,6 +30,7 @@ $sql[] = 'CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'binshopsrest_reset_pass
     `reset_password_token` varchar(255) NOT NULL,
     `reset_password_validity` varchar(255) NOT NULL,
     `id_customer` int(11) NOT NULL,
+    `last_token_gen` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY  (`id_pass_tokens`)
 ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8;';
 
