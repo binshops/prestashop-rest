@@ -35,6 +35,7 @@ class Binshopsrest extends Module
         $this->confirmUninstall = $this->l('');
 
         $this->ps_versions_compliancy = array('min' => '1.7', 'max' => _PS_VERSION_);
+        $this->module_key = 'b3c3c0c41d0223b9ff10c87b8acb65f5';
     }
 
     /**
