@@ -50,5 +50,3 @@ class BinshopsrestLogoutModuleFrontController extends AbstractRESTController
         die;
     }
 }
-
-

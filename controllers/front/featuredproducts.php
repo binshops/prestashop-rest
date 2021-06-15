@@ -54,5 +54,4 @@ class BinshopsrestFeaturedproductsModuleFrontController extends AbstractRESTCont
         ]));
         die;
     }
-
 }

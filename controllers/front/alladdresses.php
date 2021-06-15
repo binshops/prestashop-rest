@@ -55,5 +55,3 @@ class BinshopsrestAlladdressesModuleFrontController extends AbstractRESTControll
         die;
     }
 }
-
-

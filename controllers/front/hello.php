@@ -48,5 +48,3 @@ class BinshopsrestHelloModuleFrontController extends AbstractRESTController
         die;
     }
 }
-
-

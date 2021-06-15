@@ -40,7 +40,6 @@ class BinshopsrestSetaddresscheckoutModuleFrontController extends AbstractAuthRE
 
             $session->setIdAddressDelivery(Tools::getValue('id_address'));
             $session->setIdAddressInvoice(Tools::getValue('id_address'));
-
         } else {
             $this->ajaxRender(json_encode([
                 'success' => true,
@@ -76,5 +75,3 @@ class BinshopsrestSetaddresscheckoutModuleFrontController extends AbstractAuthRE
         die;
     }
 }
-
-

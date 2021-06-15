@@ -48,5 +48,3 @@ class BinshopsrestAccountinfoModuleFrontController extends AbstractAuthRESTContr
         die;
     }
 }
-
-

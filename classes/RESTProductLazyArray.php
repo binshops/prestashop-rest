@@ -53,8 +53,7 @@ class RESTProductLazyArray
         PriceFormatter $priceFormatter,
         ImageRetriever $imageRetriever,
         TranslatorInterface $translator
-    )
-    {
+    ){
         $this->settings = $settings;
         $this->product = $product;
         $this->language = $language;
@@ -85,8 +84,7 @@ class RESTProductLazyArray
         ProductPresentationSettings $settings,
         array $product,
         Language $language
-    )
-    {
+    ){
         $this->product['has_discount'] = false;
         $this->product['discount_type'] = null;
         $this->product['discount_percentage'] = null;
@@ -151,8 +149,7 @@ class RESTProductLazyArray
         ProductPresentationSettings $settings,
         array $product,
         Language $language
-    )
-    {
+    ){
         // Get all product images, including potential cover
         $productImages = $this->imageRetriever->getAllProductImages(
             $product,
@@ -209,8 +206,7 @@ class RESTProductLazyArray
         ProductPresentationSettings $settings,
         array $product,
         Language $language
-    )
-    {
+    ){
         $show_price = $this->shouldShowPrice($settings, $product);
         $show_availability = $show_price && $settings->stock_management_enabled;
         $this->product['show_availability'] = $show_availability;
@@ -296,8 +292,7 @@ class RESTProductLazyArray
     private function shouldShowPrice(
         ProductPresentationSettings $settings,
         array $product
-    )
-    {
+    ){
         return $settings->shouldShowPrice() && (bool)$product['show_price'];
     }
 

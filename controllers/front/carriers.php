@@ -68,5 +68,3 @@ class BinshopsrestCarriersModuleFrontController extends AbstractRESTController
         die;
     }
 }
-
-

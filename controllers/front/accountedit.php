@@ -131,5 +131,3 @@ class BinshopsrestAccounteditModuleFrontController extends AbstractRESTControlle
         die;
     }
 }
-
-

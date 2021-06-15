@@ -121,5 +121,4 @@ class BinshopsrestAddtocartModuleFrontController extends AbstractRESTController
         ]));
         die;
     }
-
 }

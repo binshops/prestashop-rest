@@ -88,5 +88,4 @@ class BinshopsrestResetpasswordcheckModuleFrontController extends AbstractRESTCo
         ]));
         die;
     }
-
 }

@@ -84,8 +84,7 @@ class BinshopsrestResetpasswordbyemailModuleFrontController extends AbstractREST
                     '{url}' => $this->context->link->getPageLink('password', true, null, 'token=' . $customer->secure_key . '&id_customer=' . (int)$customer->id . '&reset_token=' . $customer->reset_password_token),
                 ];
 
-                if (
-                Mail::Send(
+                if (Mail::Send(
                     $this->context->language->id,
                     'password_query',
                     $this->trans(

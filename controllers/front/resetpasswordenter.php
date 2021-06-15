@@ -117,8 +117,7 @@ class BinshopsrestResetpasswordenterModuleFrontController extends AbstractRESTCo
                     '{firstname}' => $customer->firstname,
                 ];
 
-                if (
-                Mail::Send(
+                if (Mail::Send(
                     $this->context->language->id,
                     'password',
                     $this->trans(
@@ -143,7 +142,6 @@ class BinshopsrestResetpasswordenterModuleFrontController extends AbstractRESTCo
             } else {
                 $this->errors[] = $this->trans('An error occurred with your account, which prevents us from updating the new password. Please report this issue using the contact form.', [], 'Shop.Notifications.Error');
             }
-
         } else {
             $this->ajaxRender(json_encode([
                 'success' => false,

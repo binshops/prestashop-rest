@@ -202,5 +202,3 @@ class BinshopsrestAddressModuleFrontController extends AbstractAuthRESTControlle
         return $psdata;
     }
 }
-
-

@@ -59,5 +59,4 @@ class BinshopsrestCartitemsModuleFrontController extends AbstractRESTController
         ]));
         die;
     }
-
 }

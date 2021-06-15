@@ -87,8 +87,7 @@ class BinshopsrestResetpasswordemailModuleFrontController extends AbstractRESTCo
                     '{gen_code}' => $gen_code,
                 ];
 
-                if (
-                Mail::Send(
+                if (Mail::Send(
                     $this->context->language->id,
                     'password_query_mobile',
                     $this->trans(
@@ -139,5 +138,3 @@ class BinshopsrestResetpasswordemailModuleFrontController extends AbstractRESTCo
         return end($result)['reset_password_token'];
     }
 }
-
-

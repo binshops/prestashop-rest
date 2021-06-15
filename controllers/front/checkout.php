@@ -140,5 +140,3 @@ class BinshopsrestCheckoutModuleFrontController extends AbstractRESTController
             ));
     }
 }
-
-

@@ -45,7 +45,6 @@ class BinshopsrestSetcarriercheckoutModuleFrontController extends AbstractAuthRE
             //set carrier option
             $session->setDeliveryOption($delivery_option);
             $session->getSelectedDeliveryOption();
-
         } else {
             $this->ajaxRender(json_encode([
                 'success' => true,
@@ -81,5 +80,3 @@ class BinshopsrestSetcarriercheckoutModuleFrontController extends AbstractAuthRE
         die;
     }
 }
-
-
