@@ -242,6 +242,7 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
         $product['description'] = preg_replace('/<iframe.*?\/iframe>/i', '', $this->product->description);
 
         /*end:changes made by aayushi on 1 DEC 2018 to add Short Description on product page*/
+        $product_info = array();
         if ($this->product->id_manufacturer) {
             $product_info[] = array(
                 'name' => $this->l('Brand'),
@@ -683,6 +684,7 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
                     // in what Product::getProductCustomization() returns
                     $key = $customization_field['id_customization_field'];
 
+                    $field = array();
                     $field['label'] = $customization_field['name'];
                     $field['id_customization_field'] = $customization_field['id_customization_field'];
                     $field['required'] = $customization_field['required'];
