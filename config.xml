@@ -2,7 +2,7 @@
 <module>
     <name>binshopsrest</name>
     <displayName><![CDATA[Binshops REST API - Pro Version]]></displayName>
-    <version><![CDATA[2.1.0]]></version>
+    <version><![CDATA[2.1.1]]></version>
     <description><![CDATA[This module exposes REST API endpoints for your Prestashop website.]]></description>
     <author><![CDATA[Binshops]]></author>
     <tab><![CDATA[others]]></tab>
