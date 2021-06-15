@@ -4,6 +4,7 @@
  *
  * @author BINSHOPS - contact@binshops.com
  * @copyright BINSHOPS
+ * @license https://www.binshops.com
  */
 
 use PrestaShop\PrestaShop\Adapter\Product\PriceFormatter;
