@@ -32,7 +32,6 @@ class BinshopsrestAddressModuleFrontController extends AbstractAuthRESTControlle
     protected function processPostRequest()
     {
         $_POST = json_decode(Tools::file_get_contents('php://input'), true);
-        $psdata = array();
         $msg = "";
         $validate_obj = $this->validatePost();
 

@@ -62,15 +62,13 @@ class RESTProductLazyArray
         $this->translator = $translator;
 
         $this->fillImages(
-            $settings,
             $product,
             $language
         );
 
         $this->addPriceInformation(
             $settings,
-            $product,
-            $language
+            $product
         );
 
         $this->addQuantityInformation(
@@ -82,8 +80,7 @@ class RESTProductLazyArray
 
     protected function addPriceInformation(
         ProductPresentationSettings $settings,
-        array $product,
-        Language $language
+        array $product
     ) {
         $this->product['has_discount'] = false;
         $this->product['discount_type'] = null;
@@ -146,7 +143,6 @@ class RESTProductLazyArray
     }
 
     private function fillImages(
-        ProductPresentationSettings $settings,
         array $product,
         Language $language
     ) {

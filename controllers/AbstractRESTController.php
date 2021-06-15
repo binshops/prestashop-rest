@@ -44,7 +44,7 @@ abstract class AbstractRESTController extends ModuleFrontController
 
     abstract protected function processDeleteRequest();
 
-    public function formatPrice($price, $curr = '')
+    public function formatPrice($price)
     {
         return Tools::displayPrice(
             $price,
