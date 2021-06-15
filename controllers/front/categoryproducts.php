@@ -1,4 +1,10 @@
 <?php
+/**
+ * BINSHOPS
+ *
+ * @author BINSHOPS - contact@binshops.com
+ * @copyright BINSHOPS
+ */
 
 require_once dirname(__FILE__) . '/../AbstractProductListingRESTController.php';
 require_once dirname(__FILE__) . '/../../classes/RESTProductLazyArray.php';

@@ -1,4 +1,10 @@
 <?php
+/**
+ * BINSHOPS
+ *
+ * @author BINSHOPS - contact@binshops.com
+ * @copyright BINSHOPS
+ */
 
 use PrestaShop\PrestaShop\Adapter\Product\PriceFormatter;
 

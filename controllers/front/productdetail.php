@@ -1,4 +1,10 @@
 <?php
+/**
+ * BINSHOPS
+ *
+ * @author BINSHOPS - contact@binshops.com
+ * @copyright BINSHOPS
+ */
 
 require_once dirname(__FILE__) . '/../AbstractRESTController.php';
 define('PRICE_REDUCTION_TYPE_PERCENT', 'percentage');

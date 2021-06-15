@@ -1,9 +1,16 @@
 <?php
 /**
- * Description: This class bootstraps the main page of the application
- * */
+ * BINSHOPS
+ *
+ * @author BINSHOPS - contact@binshops.com
+ * @copyright BINSHOPS
+ */
 
 require_once dirname(__FILE__) . '/../AbstractRESTController.php';
+
+/**
+ * Description: This class bootstraps the main page of the application
+ * */
 
 class BinshopsrestBootstrapModuleFrontController extends AbstractRESTController
 {

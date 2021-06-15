@@ -1,4 +1,11 @@
 <?php
+/**
+ * BINSHOPS
+ *
+ * @author BINSHOPS - contact@binshops.com
+ * @copyright BINSHOPS
+ */
+
 require_once dirname(__FILE__) . '/../AbstractAuthRESTController.php';
 
 class BinshopsrestAccountinfoModuleFrontController extends AbstractAuthRESTController
