@@ -14,28 +14,29 @@ class BinshopsrestRemovefromcartModuleFrontController extends AbstractRESTContro
 
     public function init()
     {
-        $this->id_product = (int) Tools::getValue('id_product', null);
-        $this->id_product_attribute = (int) Tools::getValue('id_product_attribute', Tools::getValue('ipa'));
-        $this->customization_id = (int) Tools::getValue('id_customization');
+        $this->id_product = (int)Tools::getValue('id_product', null);
+        $this->id_product_attribute = (int)Tools::getValue('id_product_attribute', Tools::getValue('ipa'));
+        $this->customization_id = (int)Tools::getValue('id_customization');
         $this->qty = abs(Tools::getValue('qty', 1));
-        $this->id_address_delivery = (int) Tools::getValue('id_address_delivery');
+        $this->id_address_delivery = (int)Tools::getValue('id_address_delivery');
         parent::init();
     }
 
-    protected function processGetRequest(){
+    protected function processGetRequest()
+    {
         $customization_product = Db::getInstance()->executeS(
             'SELECT * FROM `' . _DB_PREFIX_ . 'customization`'
-            . ' WHERE `id_cart` = ' . (int) $this->context->cart->id
-            . ' AND `id_product` = ' . (int) $this->id_product
-            . ' AND `id_customization` != ' . (int) $this->customization_id
+            . ' WHERE `id_cart` = ' . (int)$this->context->cart->id
+            . ' AND `id_product` = ' . (int)$this->id_product
+            . ' AND `id_customization` != ' . (int)$this->customization_id
         );
 
         if (count($customization_product)) {
-            $product = new Product((int) $this->id_product);
+            $product = new Product((int)$this->id_product);
             if ($this->id_product_attribute > 0) {
-                $minimal_quantity = (int) Attribute::getAttributeMinimalQty($this->id_product_attribute);
+                $minimal_quantity = (int)Attribute::getAttributeMinimalQty($this->id_product_attribute);
             } else {
-                $minimal_quantity = (int) $product->minimal_quantity;
+                $minimal_quantity = (int)$product->minimal_quantity;
             }
 
             $total_quantity = 0;
@@ -54,11 +55,11 @@ class BinshopsrestRemovefromcartModuleFrontController extends AbstractRESTContro
         }
 
         $data = array(
-            'id_cart' => (int) $this->context->cart->id,
-            'id_product' => (int) $this->id_product,
-            'id_product_attribute' => (int) $this->id_product_attribute,
-            'customization_id' => (int) $this->customization_id,
-            'id_address_delivery' => (int) $this->id_address_delivery,
+            'id_cart' => (int)$this->context->cart->id,
+            'id_product' => (int)$this->id_product,
+            'id_product_attribute' => (int)$this->id_product_attribute,
+            'customization_id' => (int)$this->customization_id,
+            'id_address_delivery' => (int)$this->id_address_delivery,
         );
 
         Hook::exec('actionObjectProductInCartDeleteBefore', $data, null, true);
@@ -71,7 +72,7 @@ class BinshopsrestRemovefromcartModuleFrontController extends AbstractRESTContro
         )) {
             Hook::exec('actionObjectProductInCartDeleteAfter', $data);
 
-            if (!Cart::getNbProducts((int) $this->context->cart->id)) {
+            if (!Cart::getNbProducts((int)$this->context->cart->id)) {
                 $this->context->cart->setDeliveryOption(null);
                 $this->context->cart->gift = 0;
                 $this->context->cart->gift_message = '';

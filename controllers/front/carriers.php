@@ -21,7 +21,7 @@ class BinshopsrestCarriersModuleFrontController extends AbstractRESTController
         );
         $carriers = $session->getDeliveryOptions();
 
-        foreach ($carriers as &$carrier){
+        foreach ($carriers as &$carrier) {
             unset($carrier['product_list']);
             unset($carrier['package_list']);
         }
@@ -34,7 +34,8 @@ class BinshopsrestCarriersModuleFrontController extends AbstractRESTController
         die;
     }
 
-    protected function processPostRequest(){
+    protected function processPostRequest()
+    {
         $this->ajaxRender(json_encode([
             'success' => true,
             'message' => 'POST not supported on this path'

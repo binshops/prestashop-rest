@@ -14,7 +14,8 @@ class BinshopsrestResetpasswordemailModuleFrontController extends AbstractRESTCo
         die;
     }
 
-    protected function processPostRequest(){
+    protected function processPostRequest()
+    {
         $_POST = json_decode(file_get_contents('php://input'), true);
 
         $this->sendRenewPasswordLink();
@@ -64,8 +65,8 @@ class BinshopsrestResetpasswordemailModuleFrontController extends AbstractRESTCo
                 $this->setTemplate('customer/password-infos');
             } elseif (!$customer->active) {
                 $this->errors[] = $this->trans('You cannot regenerate the password for this account.', [], 'Shop.Notifications.Error');
-            } elseif ((strtotime($customer->last_passwd_gen . '+' . ($minTime = (int) Configuration::get('PS_PASSWD_TIME_FRONT')) . ' minutes') - time()) > 0) {
-                $this->errors[] = $this->trans('You can regenerate your password only every %d minute(s)', [(int) $minTime], 'Shop.Notifications.Error');
+            } elseif ((strtotime($customer->last_passwd_gen . '+' . ($minTime = (int)Configuration::get('PS_PASSWD_TIME_FRONT')) . ' minutes') - time()) > 0) {
+                $this->errors[] = $this->trans('You can regenerate your password only every %d minute(s)', [(int)$minTime], 'Shop.Notifications.Error');
             } else {
                 $gen_code = $this->hasRecentResetPasswordToken($customer);
                 if (empty($gen_code)) {
@@ -105,13 +106,13 @@ class BinshopsrestResetpasswordemailModuleFrontController extends AbstractRESTCo
     public function stampResetPasswordToken($customer)
     {
         $digits = 5;
-        $rand = rand(pow(10, $digits-1), pow(10, $digits)-1);
-        $validity = (int) Configuration::get('PS_PASSWD_RESET_VALIDITY') ?: 1440;
+        $rand = rand(pow(10, $digits - 1), pow(10, $digits) - 1);
+        $validity = (int)Configuration::get('PS_PASSWD_RESET_VALIDITY') ?: 1440;
         $reset_password_validity = date('Y-m-d H:i:s', strtotime('+' . $validity . ' minutes'));
 
         $db = Db::getInstance();
-        $sql = 'INSERT INTO `'._DB_PREFIX_.'binshopsrest_reset_pass_tokens` (`reset_password_token`, `reset_password_validity`,`id_customer`)
-				VALUES (\''.$rand.'\',\''.$reset_password_validity.'\',' . $customer->id .')';
+        $sql = 'INSERT INTO `' . _DB_PREFIX_ . 'binshopsrest_reset_pass_tokens` (`reset_password_token`, `reset_password_validity`,`id_customer`)
+				VALUES (\'' . $rand . '\',\'' . $reset_password_validity . '\',' . $customer->id . ')';
         $db->execute($sql);
         return $rand;
     }
@@ -122,9 +123,9 @@ class BinshopsrestResetpasswordemailModuleFrontController extends AbstractRESTCo
             WHERE id_customer =' . $customer->id;
         $result = Db::getInstance()->executeS($sql);
 
-        if (empty($result)){
+        if (empty($result)) {
             return false;
-        }elseif (strtotime(end($result)['reset_password_validity']) < time()){
+        } elseif (strtotime(end($result)['reset_password_validity']) < time()) {
             return false;
         }
 

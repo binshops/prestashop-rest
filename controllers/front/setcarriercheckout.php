@@ -16,9 +16,10 @@ class BinshopsrestSetcarriercheckoutModuleFrontController extends AbstractAuthRE
         die;
     }
 
-    protected function processPostRequest(){
+    protected function processPostRequest()
+    {
         $_POST = json_decode(file_get_contents('php://input'), true);
-        if (Tools::getValue('id_carrier') || Tools::getValue('id_address')){
+        if (Tools::getValue('id_carrier') || Tools::getValue('id_address')) {
             $deliveryOptionsFinder = new DeliveryOptionsFinder(
                 $this->context,
                 $this->getTranslator(),
@@ -38,7 +39,7 @@ class BinshopsrestSetcarriercheckoutModuleFrontController extends AbstractAuthRE
             $session->setDeliveryOption($delivery_option);
             $session->getSelectedDeliveryOption();
 
-        }else{
+        } else {
             $this->ajaxRender(json_encode([
                 'success' => true,
                 'code' => 301,

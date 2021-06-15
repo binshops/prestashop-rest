@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__) . '/../AbstractProductListingRESTController.php';
 require_once dirname(__FILE__) . '/../../classes/RESTProductLazyArray.php';
-define('PRICE_REDUCTION_TYPE_PERCENT' , 'percentage');
+define('PRICE_REDUCTION_TYPE_PERCENT', 'percentage');
 
 use PrestaShop\PrestaShop\Adapter\Category\CategoryProductSearchProvider;
 use PrestaShop\PrestaShop\Core\Product\Search\ProductSearchQuery;
@@ -17,15 +17,15 @@ class BinshopsrestCategoryproductsModuleFrontController extends AbstractProductL
 {
     protected function processGetRequest()
     {
-        $id_category = (int) Tools::getValue('id_category');
+        $id_category = (int)Tools::getValue('id_category');
         $this->category = new Category(
             $id_category,
             $this->context->language->id
         );
 
-        if (!$id_category){
+        if (!$id_category) {
             $this->ajaxRender(json_encode([
-                'code'=> 301,
+                'code' => 301,
                 'success' => false,
                 'message' => 'id category not specified'
             ]));
@@ -40,7 +40,7 @@ class BinshopsrestCategoryproductsModuleFrontController extends AbstractProductL
 
         $settings = $this->getProductPresentationSettings();
 
-        foreach ($productList as $key => $product){
+        foreach ($productList as $key => $product) {
             $populated_product = (new ProductAssembler($this->context))
                 ->assembleProduct($product);
 
@@ -57,7 +57,7 @@ class BinshopsrestCategoryproductsModuleFrontController extends AbstractProductL
         }
 
         $facets = array();
-        foreach ($variables['facets']['filters']->getFacets() as $facet){
+        foreach ($variables['facets']['filters']->getFacets() as $facet) {
             array_push($facets, $facet->toArray());
         }
 
@@ -116,7 +116,7 @@ class BinshopsrestCategoryproductsModuleFrontController extends AbstractProductL
     {
         if (!Validate::isLoadedObject($this->category)) {
             $this->category = new Category(
-                (int) Tools::getValue('id_category'),
+                (int)Tools::getValue('id_category'),
                 $this->context->language->id
             );
         }

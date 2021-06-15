@@ -6,14 +6,15 @@ class BinshopsrestAccountinfoModuleFrontController extends AbstractAuthRESTContr
     protected function processGetRequest()
     {
         $this->ajaxRender(json_encode([
-            'code'=> 200,
+            'code' => 200,
             'success' => true,
             'psdata' => $this->context->customer
         ]));
         die;
     }
 
-    protected function processPostRequest(){
+    protected function processPostRequest()
+    {
         $this->ajaxRender(json_encode([
             'success' => true,
             'message' => 'POST not supported on this path'

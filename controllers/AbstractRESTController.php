@@ -30,8 +30,11 @@ abstract class AbstractRESTController extends ModuleFrontController
     }
 
     abstract protected function processGetRequest();
+
     abstract protected function processPostRequest();
+
     abstract protected function processPutRequest();
+
     abstract protected function processDeleteRequest();
 
     public function formatPrice($price, $curr = '')

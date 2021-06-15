@@ -14,10 +14,13 @@ class BinshopsrestAccounteditModuleFrontController extends AbstractRESTControlle
         die;
     }
 
-    protected function processPostRequest(){
+    protected function processPostRequest()
+    {
         $_POST = json_decode(file_get_contents('php://input'), true);
 
-        $psdata = ""; $messageCode = 0; $success = true;
+        $psdata = "";
+        $messageCode = 0;
+        $success = true;
         $firstName = Tools::getValue('firstName');
         $lastName = Tools::getValue('lastName');
         $email = Tools::getValue('email');
@@ -31,7 +34,7 @@ class BinshopsrestAccounteditModuleFrontController extends AbstractRESTControlle
         } elseif (!Validate::isEmail($email)) {
             $psdata = "Invalid email address";
             $messageCode = 302;
-        }elseif (empty($password)) {
+        } elseif (empty($password)) {
             $psdata = 'Password is not provided';
             $messageCode = 303;
         } elseif (!Validate::isPasswd($password)) {
@@ -40,13 +43,13 @@ class BinshopsrestAccounteditModuleFrontController extends AbstractRESTControlle
         } elseif (empty($firstName)) {
             $psdata = "First name required";
             $messageCode = 305;
-        }elseif (empty($lastName)) {
+        } elseif (empty($lastName)) {
             $psdata = "Last name required";
             $messageCode = 306;
-        }elseif (empty($gender)) {
+        } elseif (empty($gender)) {
             $psdata = "gender required";
             $messageCode = 307;
-        }else{
+        } else {
             $guestAllowedCheckout = Configuration::get('PS_GUEST_CHECKOUT_ENABLED');
             $cp = new CustomerPersister(
                 $this->context,
@@ -54,13 +57,13 @@ class BinshopsrestAccounteditModuleFrontController extends AbstractRESTControlle
                 $this->getTranslator(),
                 $guestAllowedCheckout
             );
-            try{
+            try {
                 $customer = new Customer($this->context->customer->id);
                 $customer->firstname = $firstName;
                 $customer->lastname = $lastName;
                 $customer->email = $email;
                 $customer->id_gender = $gender;
-                $customer->id_shop = (int) $this->context->shop->id;
+                $customer->id_shop = (int)$this->context->shop->id;
                 $customer->newsletter = $newsletter;
 
                 $clearTextPassword = Tools::getValue('password');
@@ -73,14 +76,14 @@ class BinshopsrestAccounteditModuleFrontController extends AbstractRESTControlle
                     true
                 );
 
-                if ($status){
+                if ($status) {
                     $psdata = array(
                         'registered' => $status,
                         'message' => 'User updated successfully',
                         'customer_id' => $customer->id,
                         'session_data' => (int)$this->context->cart->id
                     );
-                }else{
+                } else {
                     $psdata = array(
                         'registered' => $status,
                         'message' => 'password incorrect',
@@ -88,7 +91,7 @@ class BinshopsrestAccounteditModuleFrontController extends AbstractRESTControlle
                         'session_data' => (int)$this->context->cart->id
                     );
                 }
-            }catch (Exception $exception){
+            } catch (Exception $exception) {
                 $messageCode = 300;
                 $psdata = $exception->getMessage();
                 $success = false;

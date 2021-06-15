@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__) . '/../AbstractProductListingRESTController.php';
 require_once dirname(__FILE__) . '/../../classes/RESTProductLazyArray.php';
-define('PRICE_REDUCTION_TYPE_PERCENT' , 'percentage');
+define('PRICE_REDUCTION_TYPE_PERCENT', 'percentage');
 
 use PrestaShop\PrestaShop\Adapter\Search\SearchProductSearchProvider;
 use PrestaShop\PrestaShop\Core\Product\Search\ProductSearchQuery;
@@ -18,11 +18,12 @@ class BinshopsrestProductsearchModuleFrontController extends AbstractProductList
     protected $search_string;
     protected $search_tag;
 
-    protected function processGetRequest(){
+    protected function processGetRequest()
+    {
         $this->search_string = Tools::getValue('s');
         if (!$this->search_string && !Tools::getValue('q')) {
             $this->ajaxRender(json_encode([
-                'code'=> 301,
+                'code' => 301,
                 'success' => false,
                 'message' => 'query string is not specified'
             ]));
@@ -39,7 +40,7 @@ class BinshopsrestProductsearchModuleFrontController extends AbstractProductList
 
         $settings = $this->getProductPresentationSettings();
 
-        foreach ($productList as $key => $product){
+        foreach ($productList as $key => $product) {
             $populated_product = (new ProductAssembler($this->context))
                 ->assembleProduct($product);
 
@@ -55,9 +56,9 @@ class BinshopsrestProductsearchModuleFrontController extends AbstractProductList
             $productList[$key]['prod_info'] = $lazy_product->getProduct();
         }
 
-        if($variables['facets']){
+        if ($variables['facets']) {
             $facets = array();
-            foreach ($variables['facets']['filters']->getFacets() as $facet){
+            foreach ($variables['facets']['filters']->getFacets() as $facet) {
                 array_push($facets, $facet->toArray());
             }
         }

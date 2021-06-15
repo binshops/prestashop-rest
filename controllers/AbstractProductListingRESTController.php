@@ -37,8 +37,11 @@ abstract class AbstractProductListingRESTController extends ProductListingFrontC
     }
 
     abstract protected function processGetRequest();
+
     abstract protected function processPostRequest();
+
     abstract protected function processPutRequest();
+
     abstract protected function processDeleteRequest();
 
     protected function getImage($object, $id_image)
@@ -61,9 +64,9 @@ abstract class AbstractProductListingRESTController extends ProductListingFrontC
         $context = $this->getProductSearchContext();
 
         // the controller generates the query...
-        if (Tools::getValue('s')){
+        if (Tools::getValue('s')) {
             $query = $this->getProductSearchQuery();
-        }else{
+        } else {
             $query = new ProductSearchQuery();
             $query
                 ->setIdCategory(Tools::getValue('id_category'))
@@ -78,7 +81,7 @@ abstract class AbstractProductListingRESTController extends ProductListingFrontC
             $provider = $this->getDefaultProductSearchProvider();
         }
 
-        $resultsPerPage = (int) Tools::getValue('resultsPerPage');
+        $resultsPerPage = (int)Tools::getValue('resultsPerPage');
         if ($resultsPerPage <= 0) {
             $resultsPerPage = Configuration::get('PS_PRODUCTS_PER_PAGE');
         }
@@ -86,8 +89,7 @@ abstract class AbstractProductListingRESTController extends ProductListingFrontC
         // we need to set a few parameters from back-end preferences
         $query
             ->setResultsPerPage($resultsPerPage)
-            ->setPage(max((int) Tools::getValue('page'), 1))
-        ;
+            ->setPage(max((int)Tools::getValue('page'), 1));
 
         // set the sort order if provided in the URL
         if (($encodedSortOrder = Tools::getValue('order'))) {
@@ -129,7 +131,7 @@ abstract class AbstractProductListingRESTController extends ProductListingFrontC
         }
 
         // prepare the products
-        $products =  $result->getProducts();
+        $products = $result->getProducts();
 
         // render the facets
         $facets = $this->getFacets(
