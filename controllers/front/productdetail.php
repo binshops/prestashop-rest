@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../AbstractRESTController.php';
+require_once dirname(__FILE__) . '/../AbstractRESTController.php';
 define('PRICE_REDUCTION_TYPE_PERCENT' , 'percentage');
 use PrestaShop\PrestaShop\Core\Product\ProductExtraContentFinder;
 use PrestaShop\PrestaShop\Adapter\Presenter\Object\ObjectPresenter;

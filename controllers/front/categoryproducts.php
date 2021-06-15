@@ -1,7 +1,7 @@
 <?php
 
-require_once __DIR__ . '/../AbstractProductListingRESTController.php';
-require_once __DIR__ . '/../../classes/RESTProductLazyArray.php';
+require_once dirname(__FILE__) . '/../AbstractProductListingRESTController.php';
+require_once dirname(__FILE__) . '/../../classes/RESTProductLazyArray.php';
 define('PRICE_REDUCTION_TYPE_PERCENT' , 'percentage');
 
 use PrestaShop\PrestaShop\Adapter\Category\CategoryProductSearchProvider;

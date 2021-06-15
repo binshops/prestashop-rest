@@ -2,7 +2,7 @@
 
 use PrestaShop\PrestaShop\Adapter\Product\PriceFormatter;
 
-require_once __DIR__ . '/../AbstractRESTController.php';
+require_once dirname(__FILE__) . '/../AbstractRESTController.php';
 //todo: needs to be completed
 class BinshopsrestCheckoutModuleFrontController extends AbstractRESTController
 {

@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/AbstractRESTController.php';
+require_once dirname(__FILE__) . '/AbstractRESTController.php';
 
 /**
  * Any REST request which needs authentication must extend this class

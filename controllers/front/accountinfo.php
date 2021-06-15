@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../AbstractAuthRESTController.php';
+require_once dirname(__FILE__) . '/../AbstractAuthRESTController.php';
 
 class BinshopsrestAccountinfoModuleFrontController extends AbstractAuthRESTController
 {
