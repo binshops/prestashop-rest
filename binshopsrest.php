@@ -29,8 +29,8 @@ class Binshopsrest extends Module
 
         parent::__construct();
 
-        $this->displayName = $this->l('Binshops REST - Pro Version');
-        $this->description = $this->l('This module exposes REST API endpoints for your Prestashop website. This version includes checkout steps and some other endpoints.');
+        $this->displayName = $this->l('Binshops REST API - Pro Version');
+        $this->description = $this->l('This module exposes REST API endpoints for your Prestashop website.');
 
         $this->confirmUninstall = $this->l('');
 
