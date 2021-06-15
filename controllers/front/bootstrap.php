@@ -34,7 +34,7 @@ class BinshopsrestBootstrapModuleFrontController extends AbstractRESTController
         );
         foreach ($menuItems as $key => $item) {
             $category = new Category(
-                substr($item['page_identifier'], -1),
+                Tools::substr($item['page_identifier'], -1),
                 $this->context->language->id
             );
             $menuItems[$key]['images'] = $retriever->getImage(
@@ -108,7 +108,7 @@ class BinshopsrestBootstrapModuleFrontController extends AbstractRESTController
 
     private function updateUrl($link)
     {
-        if (substr($link, 0, 7) !== "http://" && substr($link, 0, 8) !== "https://") {
+        if (Tools::substr($link, 0, 7) !== "http://" && Tools::substr($link, 0, 8) !== "https://") {
             $link = "http://" . $link;
         }
 
