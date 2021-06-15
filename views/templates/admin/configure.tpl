@@ -1,3 +1,11 @@
+{**
+ * BINSHOPS REST API
+ *
+ * @author BINSHOPS - contact@binshops.com
+ * @copyright BINSHOPS
+ * @license https://www.binshops.com
+ *}
+
 <div class="panel">
     <h3><i class="icon icon-credit-card"></i> {l s='Binshops REST' mod='binshopsrest'}</h3>
     <p>
