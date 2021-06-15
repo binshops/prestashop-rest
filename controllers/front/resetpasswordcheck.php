@@ -23,7 +23,7 @@ class BinshopsrestResetpasswordcheckModuleFrontController extends AbstractRESTCo
 
     protected function processPostRequest()
     {
-        $_POST = json_decode(file_get_contents('php://input'), true);
+        $_POST = json_decode(Tools::file_get_contents('php://input'), true);
 
         if (!($email = Tools::getValue('email')) || !Validate::isEmail($email)) {
             $this->errors[] = $this->trans('Invalid email address.', [], 'Shop.Notifications.Error');

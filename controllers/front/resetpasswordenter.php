@@ -24,7 +24,7 @@ class BinshopsrestResetpasswordenterModuleFrontController extends AbstractRESTCo
 
     protected function processPostRequest()
     {
-        $_POST = json_decode(file_get_contents('php://input'), true);
+        $_POST = json_decode(Tools::file_get_contents('php://input'), true);
 
         $this->changePassword();
 

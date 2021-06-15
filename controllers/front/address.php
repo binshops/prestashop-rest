@@ -31,7 +31,7 @@ class BinshopsrestAddressModuleFrontController extends AbstractAuthRESTControlle
 
     protected function processPostRequest()
     {
-        $_POST = json_decode(file_get_contents('php://input'), true);
+        $_POST = json_decode(Tools::file_get_contents('php://input'), true);
         $psdata = array();
         $msg = "";
         $validate_obj = $this->validatePost();
@@ -126,7 +126,7 @@ class BinshopsrestAddressModuleFrontController extends AbstractAuthRESTControlle
 
     protected function processDeleteRequest()
     {
-        $_POST = json_decode(file_get_contents('php://input'), true);
+        $_POST = json_decode(Tools::file_get_contents('php://input'), true);
         Tools::getValue('id_address');
 
         $address = new Address(
