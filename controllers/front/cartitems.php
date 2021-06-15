@@ -22,7 +22,7 @@ class BinshopsrestCartitemsModuleFrontController extends AbstractRESTController
         $link = Context::getContext()->link;
 
         foreach ($presented_cart as $key => $product) {
-            $presented_cart[$key]['image_url'] = $link->getImageLink($product['link_rewrite'], $product['id_image'], Tools::getValue('image_size', "small_default"));
+            $presented_cart[$key]['image_url'] = $link->getImageLink($product['link_rewrite'], $product['id_image'], Tools::getValue('image_size', ImageType::getFormattedName('small')));
         }
 
         $this->ajaxRender(json_encode([
