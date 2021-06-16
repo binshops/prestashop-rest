@@ -4,7 +4,8 @@
  *
  * @author BINSHOPS - contact@binshops.com
  * @copyright BINSHOPS
-*/
+ * @license https://www.binshops.com
+ */
 
 if (!defined('_PS_VERSION_')) {
     exit;
@@ -18,7 +19,7 @@ class Binshopsrest extends Module
     {
         $this->name = 'binshopsrest';
         $this->tab = 'others';
-        $this->version = '2.1.0';
+        $this->version = '2.1.1';
         $this->author = 'Binshops';
         $this->need_instance = 0;
 
@@ -29,8 +30,8 @@ class Binshopsrest extends Module
 
         parent::__construct();
 
-        $this->displayName = $this->l('Binshops REST - Pro Version');
-        $this->description = $this->l('This module exposes REST API endpoints for your Prestashop website. This version includes checkout steps and some other endpoints.');
+        $this->displayName = $this->l('Binshops REST API - Pro Version');
+        $this->description = $this->l('This module exposes REST API endpoints for your Prestashop website.');
 
         $this->confirmUninstall = $this->l('');
 
@@ -46,7 +47,7 @@ class Binshopsrest extends Module
     {
         Configuration::updateValue('BINSHOPSREST_LIVE_MODE', false);
 
-        include(dirname(__FILE__).'/sql/install.php');
+        include(dirname(__FILE__) . '/sql/install.php');
 
         return parent::install() &&
             $this->registerHook('header') &&
@@ -57,7 +58,7 @@ class Binshopsrest extends Module
     {
         Configuration::deleteByName('BINSHOPSREST_LIVE_MODE');
 
-        include(dirname(__FILE__).'/sql/uninstall.php');
+        include(dirname(__FILE__) . '/sql/uninstall.php');
 
         return parent::uninstall();
     }
@@ -76,7 +77,7 @@ class Binshopsrest extends Module
 
         $this->context->smarty->assign('module_dir', $this->_path);
 
-        $output = $this->context->smarty->fetch($this->local_path.'views/templates/admin/configure.tpl');
+        $output = $this->context->smarty->fetch($this->local_path . 'views/templates/admin/configure.tpl');
 
         return $output;
     }
@@ -97,7 +98,7 @@ class Binshopsrest extends Module
         $helper->identifier = $this->identifier;
         $helper->submit_action = 'submitBinshopsrestModule';
         $helper->currentIndex = $this->context->link->getAdminLink('AdminModules', false)
-            .'&configure='.$this->name.'&tab_module='.$this->tab.'&module_name='.$this->name;
+            . '&configure=' . $this->name . '&tab_module=' . $this->tab . '&module_name=' . $this->name;
         $helper->token = Tools::getAdminTokenLite('AdminModules');
 
         $helper->tpl_vars = array(
@@ -117,8 +118,8 @@ class Binshopsrest extends Module
         return array(
             'form' => array(
                 'legend' => array(
-                'title' => $this->l('Settings'),
-                'icon' => 'icon-cogs',
+                    'title' => $this->l('Settings'),
+                    'icon' => 'icon-cogs',
                 ),
                 'input' => array(
                     array(
@@ -186,13 +187,13 @@ class Binshopsrest extends Module
     }
 
     /**
-    * Add the CSS & JavaScript files you want to be loaded in the BO.
-    */
+     * Add the CSS & JavaScript files you want to be loaded in the BO.
+     */
     public function hookBackOfficeHeader()
     {
         if (Tools::getValue('module_name') == $this->name) {
-            $this->context->controller->addJS($this->_path.'views/js/back.js');
-            $this->context->controller->addCSS($this->_path.'views/css/back.css');
+            $this->context->controller->addJS($this->_path . 'views/js/back.js');
+            $this->context->controller->addCSS($this->_path . 'views/css/back.css');
         }
     }
 
@@ -201,8 +202,8 @@ class Binshopsrest extends Module
      */
     public function hookHeader()
     {
-        $this->context->controller->addJS($this->_path.'/views/js/front.js');
-        $this->context->controller->addCSS($this->_path.'/views/css/front.css');
+        $this->context->controller->addJS($this->_path . '/views/js/front.js');
+        $this->context->controller->addCSS($this->_path . '/views/css/front.css');
     }
 
     public function hookModuleRoutes()

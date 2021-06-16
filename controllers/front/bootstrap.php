@@ -1,13 +1,22 @@
 <?php
 /**
+ * BINSHOPS
+ *
+ * @author BINSHOPS - contact@binshops.com
+ * @copyright BINSHOPS
+ * @license https://www.binshops.com
+ */
+
+require_once dirname(__FILE__) . '/../AbstractRESTController.php';
+
+/**
  * Description: This class bootstraps the main page of the application
  * */
-
-require_once __DIR__ . '/../AbstractRESTController.php';
 
 class BinshopsrestBootstrapModuleFrontController extends AbstractRESTController
 {
     protected $banner;
+
     protected function processGetRequest()
     {
         $messageCode = 200;
@@ -23,15 +32,15 @@ class BinshopsrestBootstrapModuleFrontController extends AbstractRESTController
         $retriever = new \PrestaShop\PrestaShop\Adapter\Image\ImageRetriever(
             $this->context->link
         );
-        foreach ($menuItems as $key => $item){
+        foreach ($menuItems as $key => $item) {
             $category = new Category(
-                substr($item['page_identifier'], -1),
+                Tools::substr($item['page_identifier'], -1),
                 $this->context->language->id
             );
             $menuItems[$key]['images'] = $retriever->getImage(
-                    $category,
-                    $category->id_image
-                );
+                $category,
+                $category->id_image
+            );
         }
 
         $psdata = array();
@@ -49,7 +58,8 @@ class BinshopsrestBootstrapModuleFrontController extends AbstractRESTController
         die;
     }
 
-    protected function processPostRequest(){
+    protected function processPostRequest()
+    {
         $this->ajaxRender(json_encode([
             'success' => true,
             'message' => 'POST not supported on this path'
@@ -75,12 +85,13 @@ class BinshopsrestBootstrapModuleFrontController extends AbstractRESTController
         die;
     }
 
-    protected function getBanner(){
+    protected function getBanner()
+    {
         $imgname = Configuration::get('BANNER_IMG', $this->context->language->id);
         $image_url = "";
 
-        if ($imgname && file_exists(_PS_MODULE_DIR_.$this->banner->name.DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.$imgname)) {
-            $image_url = $this->context->link->protocol_content . Tools::getMediaServer($imgname) . __PS_BASE_URI__ . 'modules/'. $this->banner->name . '/' . 'img/' . $imgname;
+        if ($imgname && file_exists(_PS_MODULE_DIR_ . $this->banner->name . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . $imgname)) {
+            $image_url = $this->context->link->protocol_content . Tools::getMediaServer($imgname) . __PS_BASE_URI__ . 'modules/' . $this->banner->name . '/' . 'img/' . $imgname;
         }
 
         $banner_link = Configuration::get('BANNER_LINK', $this->context->language->id);
@@ -97,7 +108,7 @@ class BinshopsrestBootstrapModuleFrontController extends AbstractRESTController
 
     private function updateUrl($link)
     {
-        if (substr($link, 0, 7) !== "http://" && substr($link, 0, 8) !== "https://") {
+        if (Tools::substr($link, 0, 7) !== "http://" && Tools::substr($link, 0, 8) !== "https://") {
             $link = "http://" . $link;
         }
 

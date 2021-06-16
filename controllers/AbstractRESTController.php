@@ -1,4 +1,11 @@
 <?php
+/**
+ * BINSHOPS
+ *
+ * @author BINSHOPS - contact@binshops.com
+ * @copyright BINSHOPS
+ * @license https://www.binshops.com
+ */
 
 abstract class AbstractRESTController extends ModuleFrontController
 {
@@ -30,11 +37,14 @@ abstract class AbstractRESTController extends ModuleFrontController
     }
 
     abstract protected function processGetRequest();
+
     abstract protected function processPostRequest();
+
     abstract protected function processPutRequest();
+
     abstract protected function processDeleteRequest();
 
-    public function formatPrice($price, $curr = '')
+    public function formatPrice($price)
     {
         return Tools::displayPrice(
             $price,

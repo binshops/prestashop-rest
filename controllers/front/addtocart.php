@@ -1,5 +1,13 @@
 <?php
-require_once __DIR__ . '/../AbstractRESTController.php';
+/**
+ * BINSHOPS
+ *
+ * @author BINSHOPS - contact@binshops.com
+ * @copyright BINSHOPS
+ * @license https://www.binshops.com
+ */
+
+require_once dirname(__FILE__) . '/../AbstractRESTController.php';
 
 /**
  * This REST endpoint adds a product to cart
@@ -12,7 +20,7 @@ class BinshopsrestAddtocartModuleFrontController extends AbstractRESTController
 
     protected function processGetRequest()
     {
-        if (!(int) Tools::getValue('product_id', 0)) {
+        if (!(int)Tools::getValue('product_id', 0)) {
             $this->ajaxRender(json_encode([
                 'code' => 301,
                 'message' => 'product id not specified'
@@ -35,13 +43,13 @@ class BinshopsrestAddtocartModuleFrontController extends AbstractRESTController
                 'message' => 'product not found'
             ]));
             die;
-        }elseif ($this->qty == 0 || !$this->qty) {
+        } elseif ($this->qty == 0 || !$this->qty) {
             $this->ajaxRender(json_encode([
                 'code' => 303,
                 'message' => 'null quantity or zero'
             ]));
             die;
-        }else{
+        } else {
             // Add cart if no cart found
             if (!$this->context->cart->id) {
                 if (Context::getContext()->cookie->id_guest) {
@@ -50,11 +58,11 @@ class BinshopsrestAddtocartModuleFrontController extends AbstractRESTController
                 }
                 $this->context->cart->add();
                 if ($this->context->cart->id) {
-                    $this->context->cookie->id_cart = (int) $this->context->cart->id;
+                    $this->context->cookie->id_cart = (int)$this->context->cart->id;
                 }
             }
 
-            $customization_id = (int) Tools::getValue('id_customization');
+            $customization_id = (int)Tools::getValue('id_customization');
             // Check customizable fields
             if (!$this->product->hasAllRequiredCustomizableFields() && !$customization_id) {
                 $this->ajaxRender(json_encode([
@@ -64,20 +72,20 @@ class BinshopsrestAddtocartModuleFrontController extends AbstractRESTController
                 die;
             }
 
-            $id_product_attribute = (int) Tools::getValue('id_product_attribute', Tools::getValue('ipa'));
+            $id_product_attribute = (int)Tools::getValue('id_product_attribute', Tools::getValue('ipa'));
 
             $update_quantity = $this->context->cart->updateQty(
                 $this->qty,
                 $this->id_product,
                 $id_product_attribute
             );
-            if(!$update_quantity){
+            if (!$update_quantity) {
                 $this->ajaxRender(json_encode([
                     'code' => 305,
                     'message' => 'could not add to cart - error'
                 ]));
                 die;
-            }else{
+            } else {
                 $this->ajaxRender(json_encode([
                     'code' => 200,
                     'message' => 'added successfully'
@@ -113,5 +121,4 @@ class BinshopsrestAddtocartModuleFrontController extends AbstractRESTController
         ]));
         die;
     }
-
 }

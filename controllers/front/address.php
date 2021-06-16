@@ -1,6 +1,13 @@
 <?php
+/**
+ * BINSHOPS
+ *
+ * @author BINSHOPS - contact@binshops.com
+ * @copyright BINSHOPS
+ * @license https://www.binshops.com
+ */
 
-require_once __DIR__ . '/../AbstractAuthRESTController.php';
+require_once dirname(__FILE__) . '/../AbstractAuthRESTController.php';
 
 use PrestaShop\PrestaShop\Adapter\Product\PriceFormatter;
 
@@ -22,12 +29,13 @@ class BinshopsrestAddressModuleFrontController extends AbstractAuthRESTControlle
         die;
     }
 
-    protected function processPostRequest(){
-        $_POST = json_decode(file_get_contents('php://input'), true);
-        $psdata = array(); $msg = "";
+    protected function processPostRequest()
+    {
+        $_POST = json_decode(Tools::file_get_contents('php://input'), true);
+        $msg = "";
         $validate_obj = $this->validatePost();
 
-        if (!$validate_obj['valid']){
+        if (!$validate_obj['valid']) {
             $this->ajaxRender(json_encode([
                 'success' => false,
                 'code' => 301,
@@ -36,9 +44,9 @@ class BinshopsrestAddressModuleFrontController extends AbstractAuthRESTControlle
             die;
         }
 
-        if (Tools::getValue('id_address')){
+        if (Tools::getValue('id_address')) {
             $msg = "Successfully updated address";
-        }else{
+        } else {
             $msg = "Successfully added address";
         }
 
@@ -88,7 +96,7 @@ class BinshopsrestAddressModuleFrontController extends AbstractAuthRESTControlle
             Tools::getToken(true, $this->context)
         );
 
-        if (!$saved){
+        if (!$saved) {
             $this->ajaxRender(json_encode([
                 'success' => false,
                 'code' => 302,
@@ -117,7 +125,7 @@ class BinshopsrestAddressModuleFrontController extends AbstractAuthRESTControlle
 
     protected function processDeleteRequest()
     {
-        $_POST = json_decode(file_get_contents('php://input'), true);
+        $_POST = json_decode(Tools::file_get_contents('php://input'), true);
         Tools::getValue('id_address');
 
         $address = new Address(
@@ -125,7 +133,7 @@ class BinshopsrestAddressModuleFrontController extends AbstractAuthRESTControlle
             $this->context->language->id
         );
 
-        if ($address->id){
+        if ($address->id) {
             $address->deleted = true;
 
             $persister = new CustomerAddressPersister(
@@ -137,7 +145,7 @@ class BinshopsrestAddressModuleFrontController extends AbstractAuthRESTControlle
                 $address,
                 Tools::getToken(true, $this->context)
             );
-        }else{
+        } else {
             $this->ajaxRender(json_encode([
                 'success' => true,
                 'code' => 301,
@@ -155,36 +163,37 @@ class BinshopsrestAddressModuleFrontController extends AbstractAuthRESTControlle
         die;
     }
 
-    public function validatePost(){
+    public function validatePost()
+    {
         $psdata = array();
         $psdata['valid'] = true;
         $psdata['errors'] = array();
 
-        if (!Tools::getValue('alias')){
+        if (!Tools::getValue('alias')) {
             $psdata['valid'] = false;
             $psdata['errors'][] = "alias-required";
         }
-        if (!Tools::getValue('postcode')){
+        if (!Tools::getValue('postcode')) {
             $psdata['valid'] = false;
             $psdata['errors'][] = "postcode-required";
         }
-        if (!Tools::getValue('address1')){
+        if (!Tools::getValue('address1')) {
             $psdata['valid'] = false;
             $psdata['errors'][] = "address1-required";
         }
-        if (!Tools::getValue('id_country')){
+        if (!Tools::getValue('id_country')) {
             $psdata['valid'] = false;
             $psdata['errors'][] = "id_country-required";
         }
-        if (!Tools::getValue('country')){
+        if (!Tools::getValue('country')) {
             $psdata['valid'] = false;
             $psdata['errors'][] = "country-required";
         }
-        if (!Tools::getValue('id_state')){
+        if (!Tools::getValue('id_state')) {
             $psdata['valid'] = false;
             $psdata['errors'][] = "id_state-required";
         }
-        if (!Tools::getValue('city')){
+        if (!Tools::getValue('city')) {
             $psdata['valid'] = false;
             $psdata['errors'][] = "city-required";
         }
@@ -192,5 +201,3 @@ class BinshopsrestAddressModuleFrontController extends AbstractAuthRESTControlle
         return $psdata;
     }
 }
-
-

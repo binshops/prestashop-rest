@@ -1,4 +1,11 @@
 <?php
+/**
+ * BINSHOPS
+ *
+ * @author BINSHOPS - contact@binshops.com
+ * @copyright BINSHOPS
+ * @license https://www.binshops.com
+ */
 
 use PrestaShop\Decimal\Number;
 use PrestaShop\Decimal\Operation\Rounding;
@@ -55,15 +62,13 @@ class RESTProductLazyArray
         $this->translator = $translator;
 
         $this->fillImages(
-            $settings,
             $product,
             $language
         );
 
         $this->addPriceInformation(
             $settings,
-            $product,
-            $language
+            $product
         );
 
         $this->addQuantityInformation(
@@ -75,8 +80,7 @@ class RESTProductLazyArray
 
     protected function addPriceInformation(
         ProductPresentationSettings $settings,
-        array $product,
-        Language $language
+        array $product
     ) {
         $this->product['has_discount'] = false;
         $this->product['discount_type'] = null;
@@ -139,7 +143,6 @@ class RESTProductLazyArray
     }
 
     private function fillImages(
-        ProductPresentationSettings $settings,
         array $product,
         Language $language
     ) {
@@ -150,7 +153,7 @@ class RESTProductLazyArray
         );
 
         // Get filtered product images matching the specified id_product_attribute
-        if (Tools::getValue('with_all_images')){
+        if (Tools::getValue('with_all_images')) {
             $this->product['images'] = $this->filterImagesForCombination($productImages, $product['id_product_attribute']);
         }
 
@@ -286,7 +289,7 @@ class RESTProductLazyArray
         ProductPresentationSettings $settings,
         array $product
     ) {
-        return $settings->shouldShowPrice() && (bool) $product['show_price'];
+        return $settings->shouldShowPrice() && (bool)$product['show_price'];
     }
 
     /**
@@ -294,7 +297,7 @@ class RESTProductLazyArray
      */
     private function getQuantityWanted()
     {
-        return (int) Tools::getValue('quantity_wanted', 1);
+        return (int)Tools::getValue('quantity_wanted', 1);
     }
 
     /**

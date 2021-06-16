@@ -1,5 +1,13 @@
 <?php
-require_once __DIR__ . '/../AbstractRESTController.php';
+/**
+ * BINSHOPS
+ *
+ * @author BINSHOPS - contact@binshops.com
+ * @copyright BINSHOPS
+ * @license https://www.binshops.com
+ */
+
+require_once dirname(__FILE__) . '/../AbstractRESTController.php';
 
 class BinshopsrestLoginModuleFrontController extends AbstractRESTController
 {
@@ -14,8 +22,9 @@ class BinshopsrestLoginModuleFrontController extends AbstractRESTController
 
     protected function processPostRequest()
     {
-        $_POST = json_decode(file_get_contents('php://input'), true);
-        $psdata = ""; $messageCode = 0;
+        $_POST = json_decode(Tools::file_get_contents('php://input'), true);
+        $psdata = "";
+        $messageCode = 0;
         $email = Tools::getValue('email', '');
         $password = Tools::getValue('password', '');
         $cart_id = Tools::getValue('session_data', '');
@@ -23,7 +32,7 @@ class BinshopsrestLoginModuleFrontController extends AbstractRESTController
         if (!empty($cart_id)) {
             $this->context->cart->id_currency = $this->context->currency->id;
             $this->context->cart = new Cart($cart_id);
-            $this->context->cookie->id_cart = (int) $this->context->cart->id;
+            $this->context->cookie->id_cart = (int)$this->context->cart->id;
             $this->context->cookie->write();
         }
 
@@ -33,13 +42,13 @@ class BinshopsrestLoginModuleFrontController extends AbstractRESTController
         } elseif (!Validate::isEmail($email)) {
             $psdata = "Invalid email address";
             $messageCode = 302;
-        }elseif (empty($password)) {
+        } elseif (empty($password)) {
             $psdata = 'Password is not provided';
             $messageCode = 303;
         } elseif (!Validate::isPasswd($password)) {
             $psdata = "Invalid Password";
             $messageCode = 304;
-        }else{
+        } else {
             Hook::exec('actionAuthenticationBefore');
             $customer = new Customer();
             $authentication = $customer->getByEmail(

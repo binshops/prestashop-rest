@@ -1,6 +1,13 @@
 <?php
+/**
+ * BINSHOPS
+ *
+ * @author BINSHOPS - contact@binshops.com
+ * @copyright BINSHOPS
+ * @license https://www.binshops.com
+ */
 
-require_once __DIR__ . '/../AbstractRESTController.php';
+require_once dirname(__FILE__) . '/../AbstractRESTController.php';
 
 use PrestaShop\PrestaShop\Adapter\Product\PriceFormatter;
 
@@ -21,7 +28,7 @@ class BinshopsrestCarriersModuleFrontController extends AbstractRESTController
         );
         $carriers = $session->getDeliveryOptions();
 
-        foreach ($carriers as &$carrier){
+        foreach ($carriers as &$carrier) {
             unset($carrier['product_list']);
             unset($carrier['package_list']);
         }
@@ -34,7 +41,8 @@ class BinshopsrestCarriersModuleFrontController extends AbstractRESTController
         die;
     }
 
-    protected function processPostRequest(){
+    protected function processPostRequest()
+    {
         $this->ajaxRender(json_encode([
             'success' => true,
             'message' => 'POST not supported on this path'
@@ -60,5 +68,3 @@ class BinshopsrestCarriersModuleFrontController extends AbstractRESTController
         die;
     }
 }
-
-

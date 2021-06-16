@@ -1,6 +1,13 @@
 <?php
+/**
+ * BINSHOPS
+ *
+ * @author BINSHOPS - contact@binshops.com
+ * @copyright BINSHOPS
+ * @license https://www.binshops.com
+ */
 
-require_once __DIR__ . '/../AbstractAuthRESTController.php';
+require_once dirname(__FILE__) . '/../AbstractAuthRESTController.php';
 
 use PrestaShop\PrestaShop\Adapter\Product\PriceFormatter;
 
@@ -21,7 +28,7 @@ class BinshopsrestPaymentoptionsModuleFrontController extends AbstractAuthRESTCo
         );
 
         $paymentOptionsFinder = new PaymentOptionsFinder();
-        $isFree = 0 == (float) $session->getCart()->getOrderTotal(true, Cart::BOTH);
+        $isFree = 0 == (float)$session->getCart()->getOrderTotal(true, Cart::BOTH);
         $paymentOptions = $paymentOptionsFinder->present($isFree);
 
         $this->ajaxRender(json_encode([
@@ -32,7 +39,8 @@ class BinshopsrestPaymentoptionsModuleFrontController extends AbstractAuthRESTCo
         die;
     }
 
-    protected function processPostRequest(){
+    protected function processPostRequest()
+    {
         $this->ajaxRender(json_encode([
             'success' => true,
             'message' => 'POST not supported on this path'

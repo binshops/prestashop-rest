@@ -1,6 +1,13 @@
 <?php
+/**
+ * BINSHOPS
+ *
+ * @author BINSHOPS - contact@binshops.com
+ * @copyright BINSHOPS
+ * @license https://www.binshops.com
+ */
 
-require_once __DIR__ . '/../AbstractRESTController.php';
+require_once dirname(__FILE__) . '/../AbstractRESTController.php';
 
 class BinshopsrestResetpasswordcheckModuleFrontController extends AbstractRESTController
 {
@@ -14,8 +21,9 @@ class BinshopsrestResetpasswordcheckModuleFrontController extends AbstractRESTCo
         die;
     }
 
-    protected function processPostRequest(){
-        $_POST = json_decode(file_get_contents('php://input'), true);
+    protected function processPostRequest()
+    {
+        $_POST = json_decode(Tools::file_get_contents('php://input'), true);
 
         if (!($email = Tools::getValue('email')) || !Validate::isEmail($email)) {
             $this->errors[] = $this->trans('Invalid email address.', [], 'Shop.Notifications.Error');
@@ -28,14 +36,14 @@ class BinshopsrestResetpasswordcheckModuleFrontController extends AbstractRESTCo
             WHERE id_customer =' . $customer->id;
         $result = Db::getInstance()->executeS($sql);
 
-        if (empty($result)){
+        if (empty($result)) {
             $this->ajaxRender(json_encode([
                 'success' => true,
                 'code' => 200,
                 'psdata' => "this state is not expected"
             ]));
             die;
-        }elseif (strtotime(end($result)['reset_password_validity']) < time()){
+        } elseif (strtotime(end($result)['reset_password_validity']) < time()) {
             $this->ajaxRender(json_encode([
                 'success' => true,
                 'code' => 200,
@@ -46,14 +54,14 @@ class BinshopsrestResetpasswordcheckModuleFrontController extends AbstractRESTCo
 
         $theCode = end($result)['reset_password_token'];
 
-        if (Tools::getValue('pass-code') === $theCode){
+        if (Tools::getValue('pass-code') === $theCode) {
             $this->ajaxRender(json_encode([
                 'success' => true,
                 'code' => 200,
                 'psdata' => "success"
             ]));
             die;
-        }else{
+        } else {
             $this->ajaxRender(json_encode([
                 'success' => false,
                 'code' => 301,
@@ -80,5 +88,4 @@ class BinshopsrestResetpasswordcheckModuleFrontController extends AbstractRESTCo
         ]));
         die;
     }
-
 }

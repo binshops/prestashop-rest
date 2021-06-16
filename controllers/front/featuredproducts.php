@@ -1,7 +1,13 @@
 <?php
+/**
+ * BINSHOPS
+ *
+ * @author BINSHOPS - contact@binshops.com
+ * @copyright BINSHOPS
+ * @license https://www.binshops.com
+ */
 
-
-require_once __DIR__ . '/../AbstractRESTController.php';
+require_once dirname(__FILE__) . '/../AbstractRESTController.php';
 
 /**
  * This REST endpoint gets featured products list
@@ -48,5 +54,4 @@ class BinshopsrestFeaturedproductsModuleFrontController extends AbstractRESTCont
         ]));
         die;
     }
-
 }

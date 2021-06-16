@@ -1,5 +1,13 @@
 <?php
-require_once __DIR__ . '/../AbstractRESTController.php';
+/**
+ * BINSHOPS
+ *
+ * @author BINSHOPS - contact@binshops.com
+ * @copyright BINSHOPS
+ * @license https://www.binshops.com
+ */
+
+require_once dirname(__FILE__) . '/../AbstractRESTController.php';
 
 class BinshopsrestRegisterModuleFrontController extends AbstractRESTController
 {
@@ -12,10 +20,13 @@ class BinshopsrestRegisterModuleFrontController extends AbstractRESTController
         die;
     }
 
-    protected function processPostRequest(){
-        $_POST = json_decode(file_get_contents('php://input'), true);
+    protected function processPostRequest()
+    {
+        $_POST = json_decode(Tools::file_get_contents('php://input'), true);
 
-        $psdata = ""; $messageCode = 0; $success = true;
+        $psdata = "";
+        $messageCode = 0;
+        $success = true;
         $firstName = Tools::getValue('firstName');
         $lastName = Tools::getValue('lastName');
         $email = Tools::getValue('email');
@@ -29,7 +40,7 @@ class BinshopsrestRegisterModuleFrontController extends AbstractRESTController
         } elseif (!Validate::isEmail($email)) {
             $psdata = "Invalid email address";
             $messageCode = 302;
-        }elseif (empty($password)) {
+        } elseif (empty($password)) {
             $psdata = 'Password is not provided';
             $messageCode = 303;
         } elseif (!Validate::isPasswd($password)) {
@@ -38,16 +49,16 @@ class BinshopsrestRegisterModuleFrontController extends AbstractRESTController
         } elseif (empty($firstName)) {
             $psdata = "First name required";
             $messageCode = 305;
-        }elseif (empty($lastName)) {
+        } elseif (empty($lastName)) {
             $psdata = "Last name required";
             $messageCode = 306;
-        }elseif (empty($gender)) {
+        } elseif (empty($gender)) {
             $psdata = "gender required";
             $messageCode = 307;
-        }elseif(Customer::customerExists($email, false, true)) {
+        } elseif (Customer::customerExists($email, false, true)) {
             $psdata = "User already exists - checked by email";
             $messageCode = 308;
-        }else{
+        } else {
             $guestAllowedCheckout = Configuration::get('PS_GUEST_CHECKOUT_ENABLED');
             $cp = new CustomerPersister(
                 $this->context,
@@ -55,13 +66,13 @@ class BinshopsrestRegisterModuleFrontController extends AbstractRESTController
                 $this->getTranslator(),
                 $guestAllowedCheckout
             );
-            try{
+            try {
                 $customer = new Customer();
                 $customer->firstname = $firstName;
                 $customer->lastname = $lastName;
                 $customer->email = $email;
                 $customer->id_gender = $gender;
-                $customer->id_shop = (int) $this->context->shop->id;
+                $customer->id_shop = (int)$this->context->shop->id;
                 $customer->newsletter = $newsletter;
 
                 $status = $cp->save($customer, $password);
@@ -72,7 +83,7 @@ class BinshopsrestRegisterModuleFrontController extends AbstractRESTController
                     'customer_id' => $customer->id,
                     'session_data' => (int)$this->context->cart->id
                 );
-            }catch (Exception $exception){
+            } catch (Exception $exception) {
                 $messageCode = 300;
                 $psdata = $exception->getMessage();
                 $success = false;

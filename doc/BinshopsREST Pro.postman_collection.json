@@ -1,853 +1,853 @@
 {
-	"info": {
-		"_postman_id": "011c6709-abc9-4619-b4b4-fbf504ed83e1",
-		"name": "BinshopsREST Pro",
-		"description": "A collection for prestashop rest services",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "Authentication",
-			"item": [
-				{
-					"name": "Login",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"email\": \"sam@binshops.com\",\n    \"password\": \"123456789\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost/prestashop/rest/login",
-							"host": [
-								"localhost"
-							],
-							"path": [
-								"prestashop",
-								"rest",
-								"login"
-							]
-						},
-						"description": "This API logins to prestashop"
-					},
-					"response": []
-				},
-				{
-					"name": "Register",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"email\": \"sam@binshops.com\",\n    \"password\": \"123456789\",\n    \"firstName\": \"Sam\",\n    \"lastName\": \"Beri\",\n    \"gender\": 1\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost/prestashop/rest/register",
-							"host": [
-								"localhost"
-							],
-							"path": [
-								"prestashop",
-								"rest",
-								"register"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Logout",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost/prestashop/rest/logout",
-							"host": [
-								"localhost"
-							],
-							"path": [
-								"prestashop",
-								"rest",
-								"logout"
-							]
-						}
-					},
-					"response": []
-				}
-			],
-			"description": "This Section contains authentication REST endpoints",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				}
-			]
-		},
-		{
-			"name": "Cart",
-			"item": [
-				{
-					"name": "Remove From Cart",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost/prestashop/rest/removefromcart?id_product_attribute=11&id_product=2&id_customization=null&id_address_delivery=14&qty=1",
-							"host": [
-								"localhost"
-							],
-							"path": [
-								"prestashop",
-								"rest",
-								"removefromcart"
-							],
-							"query": [
-								{
-									"key": "id_product_attribute",
-									"value": "11"
-								},
-								{
-									"key": "id_product",
-									"value": "2"
-								},
-								{
-									"key": "id_customization",
-									"value": "null"
-								},
-								{
-									"key": "id_address_delivery",
-									"value": "14"
-								},
-								{
-									"key": "qty",
-									"value": "1"
-								}
-							]
-						},
-						"description": "Removes a product from shopping cart"
-					},
-					"response": []
-				},
-				{
-					"name": "Add Product To Cart",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost/prestashop/rest/addtocart?product_id=2&id_product_attribute=11&quantity=1",
-							"host": [
-								"localhost"
-							],
-							"path": [
-								"prestashop",
-								"rest",
-								"addtocart"
-							],
-							"query": [
-								{
-									"key": "product_id",
-									"value": "2"
-								},
-								{
-									"key": "id_product_attribute",
-									"value": "11"
-								},
-								{
-									"key": "quantity",
-									"value": "1"
-								}
-							]
-						},
-						"description": "Using this endpoint a product will be added to customer's shopping cart."
-					},
-					"response": []
-				},
-				{
-					"name": "Cart Items",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost/prestashop/rest/cartitems?image_size=small_default",
-							"host": [
-								"localhost"
-							],
-							"path": [
-								"prestashop",
-								"rest",
-								"cartitems"
-							],
-							"query": [
-								{
-									"key": "image_size",
-									"value": "small_default"
-								},
-								{
-									"key": "image_size",
-									"value": "medium_default",
-									"disabled": true
-								},
-								{
-									"key": "image_size",
-									"value": "large_default",
-									"disabled": true
-								}
-							]
-						},
-						"description": "Lists orders for a customer"
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Profile/Account",
-			"item": [
-				{
-					"name": "Account Info",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost/prestashop/rest/accountInfo",
-							"host": [
-								"localhost"
-							],
-							"path": [
-								"prestashop",
-								"rest",
-								"accountInfo"
-							]
-						},
-						"description": "Gets customer account information"
-					},
-					"response": []
-				},
-				{
-					"name": "Account Edit",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"email\": \"sam@binshops.com\",\n    \"password\": \"123456789\",\n    \"firstName\": \"Sam\",\n    \"lastName\": \"Beri\",\n    \"gender\": 1\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost/prestashop/rest/accountedit",
-							"host": [
-								"localhost"
-							],
-							"path": [
-								"prestashop",
-								"rest",
-								"accountedit"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "New Password",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"email\": \"sam@binshops.com\",\n    \"password\": \"123456789\",\n    \"firstName\": \"Sam\",\n    \"lastName\": \"Beri\",\n    \"gender\": 1,\n    \"new_password\": \"987654321\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost/prestashop/rest/accountedit",
-							"host": [
-								"localhost"
-							],
-							"path": [
-								"prestashop",
-								"rest",
-								"accountedit"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Reset Pass By Email",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"email\": \"sam@binshops.com\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost/prestashop/rest/resetpasswordbyemail",
-							"host": [
-								"localhost"
-							],
-							"path": [
-								"prestashop",
-								"rest",
-								"resetpasswordbyemail"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "1- Send Reset Password Code",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"email\": \"sam@binshops.com\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost/prestashop/rest/resetpasswordemail",
-							"host": [
-								"localhost"
-							],
-							"path": [
-								"prestashop",
-								"rest",
-								"resetpasswordemail"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "2- Check Reset Pass Code",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"email\": \"sam@binshops.com\",\n    \"pass-code\": \"70622\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost/prestashop/rest/resetpasswordcheck",
-							"host": [
-								"localhost"
-							],
-							"path": [
-								"prestashop",
-								"rest",
-								"resetpasswordcheck"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "3- Reset Password",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"email\": \"sam@binshops.com\",\n    \"pass-code\": \"70622\",\n    \"passwd\": \"123456789\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost/prestashop/rest/resetpasswordenter",
-							"host": [
-								"localhost"
-							],
-							"path": [
-								"prestashop",
-								"rest",
-								"resetpasswordenter"
-							]
-						}
-					},
-					"response": []
-				}
-			],
-			"description": "REST endpoints related to user profile section"
-		},
-		{
-			"name": "Products",
-			"item": [
-				{
-					"name": "Product Detail",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"url": {
-							"raw": "localhost/prestashop/rest/productdetail?product_id=3",
-							"host": [
-								"localhost"
-							],
-							"path": [
-								"prestashop",
-								"rest",
-								"productdetail"
-							],
-							"query": [
-								{
-									"key": "product_id",
-									"value": "3"
-								},
-								{
-									"key": "refresh",
-									"value": "true",
-									"disabled": true
-								},
-								{
-									"key": "id_customization",
-									"value": "0",
-									"disabled": true
-								},
-								{
-									"key": "group[3]",
-									"value": "21",
-									"disabled": true
-								}
-							]
-						},
-						"description": "Gets detail of a product. Including price, name, features and so on."
-					},
-					"response": []
-				},
-				{
-					"name": "Category Products",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost/prestashop/rest/categoryProducts?id_category=2&page=1&with_all_images=0",
-							"host": [
-								"localhost"
-							],
-							"path": [
-								"prestashop",
-								"rest",
-								"categoryProducts"
-							],
-							"query": [
-								{
-									"key": "id_category",
-									"value": "2"
-								},
-								{
-									"key": "page",
-									"value": "1"
-								},
-								{
-									"key": "with_all_images",
-									"value": "0",
-									"description": "If 0 it does not load different images for products. If 1 loads different images for products and leads to be lengthy json response. "
-								}
-							]
-						},
-						"description": "This API endpoint can be used to get category products, pagination and faceted search. The id_category is mandatory parameter. "
-					},
-					"response": []
-				},
-				{
-					"name": "Product Search",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost/prestashop/rest/productSearch?s=mug&resultsPerPage=10",
-							"host": [
-								"localhost"
-							],
-							"path": [
-								"prestashop",
-								"rest",
-								"productSearch"
-							],
-							"query": [
-								{
-									"key": "s",
-									"value": "mug"
-								},
-								{
-									"key": "resultsPerPage",
-									"value": "10"
-								}
-							]
-						},
-						"description": "Is used for product search"
-					},
-					"response": []
-				},
-				{
-					"name": "Faceted Search",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost/prestashop/rest/productSearch?q=Paper Type-Ruled&resultsPerPage=10&id_category=6",
-							"host": [
-								"localhost"
-							],
-							"path": [
-								"prestashop",
-								"rest",
-								"productSearch"
-							],
-							"query": [
-								{
-									"key": "q",
-									"value": "Paper Type-Ruled"
-								},
-								{
-									"key": "resultsPerPage",
-									"value": "10"
-								},
-								{
-									"key": "id_category",
-									"value": "6"
-								}
-							]
-						},
-						"description": "Is used for product search"
-					},
-					"response": []
-				},
-				{
-					"name": "Featured Products",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost/prestashop/rest/featured-products",
-							"host": [
-								"localhost"
-							],
-							"path": [
-								"prestashop",
-								"rest",
-								"featured-products"
-							]
-						},
-						"description": "Gets featured products"
-					},
-					"response": []
-				}
-			],
-			"description": "REST endpoints related to products"
-		},
-		{
-			"name": "Address",
-			"item": [
-				{
-					"name": "All Addresses",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost/prestashop/rest/alladdresses",
-							"host": [
-								"localhost"
-							],
-							"path": [
-								"prestashop",
-								"rest",
-								"alladdresses"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Create Address",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"alias\": \"Home\",\n    \"postcode\": \"12245\",\n    \"address1\": \"win Street\",\n    \"id_country\": 1,\n    \"country\": \"Canada\",\n    \"id_state\": 20,\n    \"city\": \"Winnipeg\",\n    \"company\": \"Binshops\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost/prestashop/rest/address",
-							"host": [
-								"localhost"
-							],
-							"path": [
-								"prestashop",
-								"rest",
-								"address"
-							]
-						},
-						"description": "If the address ID is not passed, it creates new address"
-					},
-					"response": []
-				},
-				{
-					"name": "Address Form",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost/prestashop/rest/addressform",
-							"host": [
-								"localhost"
-							],
-							"path": [
-								"prestashop",
-								"rest",
-								"addressform"
-							]
-						},
-						"description": "Contains countries and states"
-					},
-					"response": []
-				},
-				{
-					"name": "Get Address",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost/prestashop/rest/address?id_address=5",
-							"host": [
-								"localhost"
-							],
-							"path": [
-								"prestashop",
-								"rest",
-								"address"
-							],
-							"query": [
-								{
-									"key": "id_address",
-									"value": "5"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete Address",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"id_address\": 9862\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost/prestashop/rest/address",
-							"host": [
-								"localhost"
-							],
-							"path": [
-								"prestashop",
-								"rest",
-								"address"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Checkout",
-			"item": [
-				{
-					"name": "1- Set Address",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"id_address\": 14\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost/prestashop/rest/setaddresscheckout",
-							"host": [
-								"localhost"
-							],
-							"path": [
-								"prestashop",
-								"rest",
-								"setaddresscheckout"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "2- All Carriers",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost/prestashop/rest/carriers",
-							"host": [
-								"localhost"
-							],
-							"path": [
-								"prestashop",
-								"rest",
-								"carriers"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "3- Set Carrier",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"id_address\": 14,\n    \"id_carrier\": \"4,\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost/prestashop/rest/setcarriercheckout",
-							"host": [
-								"localhost"
-							],
-							"path": [
-								"prestashop",
-								"rest",
-								"setcarriercheckout"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "4- Payment Options",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost/prestashop/rest/paymentoptions",
-							"host": [
-								"localhost"
-							],
-							"path": [
-								"prestashop",
-								"rest",
-								"paymentoptions"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Bootstrap",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "localhost/prestashop/rest/bootstrap",
-					"host": [
-						"localhost"
-					],
-					"path": [
-						"prestashop",
-						"rest",
-						"bootstrap"
-					]
-				},
-				"description": "Bootstraps binshops applciation. This request is used to render the home page of the application."
-			},
-			"response": []
-		},
-		{
-			"name": "Hello",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "localhost/prestashop/rest/hello",
-					"host": [
-						"localhost"
-					],
-					"path": [
-						"prestashop",
-						"rest",
-						"hello"
-					]
-				}
-			},
-			"response": []
-		}
-	]
+  "info": {
+    "_postman_id": "011c6709-abc9-4619-b4b4-fbf504ed83e1",
+    "name": "BinshopsREST Pro",
+    "description": "A collection for prestashop rest services",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"sam@binshops.com\",\n    \"password\": \"123456789\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost/prestashop/rest/login",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "prestashop",
+                "rest",
+                "login"
+              ]
+            },
+            "description": "This API logins to prestashop"
+          },
+          "response": []
+        },
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"sam@binshops.com\",\n    \"password\": \"123456789\",\n    \"firstName\": \"Sam\",\n    \"lastName\": \"Beri\",\n    \"gender\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost/prestashop/rest/register",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "prestashop",
+                "rest",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost/prestashop/rest/logout",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "prestashop",
+                "rest",
+                "logout"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "This Section contains authentication REST endpoints",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Cart",
+      "item": [
+        {
+          "name": "Remove From Cart",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost/prestashop/rest/removefromcart?id_product_attribute=11&id_product=2&id_customization=null&id_address_delivery=14&qty=1",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "prestashop",
+                "rest",
+                "removefromcart"
+              ],
+              "query": [
+                {
+                  "key": "id_product_attribute",
+                  "value": "11"
+                },
+                {
+                  "key": "id_product",
+                  "value": "2"
+                },
+                {
+                  "key": "id_customization",
+                  "value": "null"
+                },
+                {
+                  "key": "id_address_delivery",
+                  "value": "14"
+                },
+                {
+                  "key": "qty",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Removes a product from shopping cart"
+          },
+          "response": []
+        },
+        {
+          "name": "Add Product To Cart",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost/prestashop/rest/addtocart?product_id=2&id_product_attribute=11&quantity=1",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "prestashop",
+                "rest",
+                "addtocart"
+              ],
+              "query": [
+                {
+                  "key": "product_id",
+                  "value": "2"
+                },
+                {
+                  "key": "id_product_attribute",
+                  "value": "11"
+                },
+                {
+                  "key": "quantity",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Using this endpoint a product will be added to customer's shopping cart."
+          },
+          "response": []
+        },
+        {
+          "name": "Cart Items",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost/prestashop/rest/cartitems?image_size=small_default",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "prestashop",
+                "rest",
+                "cartitems"
+              ],
+              "query": [
+                {
+                  "key": "image_size",
+                  "value": "small_default"
+                },
+                {
+                  "key": "image_size",
+                  "value": "medium_default",
+                  "disabled": true
+                },
+                {
+                  "key": "image_size",
+                  "value": "large_default",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Lists orders for a customer"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Profile/Account",
+      "item": [
+        {
+          "name": "Account Info",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost/prestashop/rest/accountInfo",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "prestashop",
+                "rest",
+                "accountInfo"
+              ]
+            },
+            "description": "Gets customer account information"
+          },
+          "response": []
+        },
+        {
+          "name": "Account Edit",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"sam@binshops.com\",\n    \"password\": \"123456789\",\n    \"firstName\": \"Sam\",\n    \"lastName\": \"Beri\",\n    \"gender\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost/prestashop/rest/accountedit",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "prestashop",
+                "rest",
+                "accountedit"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "New Password",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"sam@binshops.com\",\n    \"password\": \"123456789\",\n    \"firstName\": \"Sam\",\n    \"lastName\": \"Beri\",\n    \"gender\": 1,\n    \"new_password\": \"987654321\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost/prestashop/rest/accountedit",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "prestashop",
+                "rest",
+                "accountedit"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Reset Pass By Email",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"sam@binshops.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost/prestashop/rest/resetpasswordbyemail",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "prestashop",
+                "rest",
+                "resetpasswordbyemail"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "1- Send Reset Password Code",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"sam@binshops.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost/prestashop/rest/resetpasswordemail",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "prestashop",
+                "rest",
+                "resetpasswordemail"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2- Check Reset Pass Code",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"sam@binshops.com\",\n    \"pass-code\": \"70622\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost/prestashop/rest/resetpasswordcheck",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "prestashop",
+                "rest",
+                "resetpasswordcheck"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "3- Reset Password",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"sam@binshops.com\",\n    \"pass-code\": \"70622\",\n    \"passwd\": \"123456789\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost/prestashop/rest/resetpasswordenter",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "prestashop",
+                "rest",
+                "resetpasswordenter"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "REST endpoints related to user profile section"
+    },
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "Product Detail",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "localhost/prestashop/rest/productdetail?product_id=3",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "prestashop",
+                "rest",
+                "productdetail"
+              ],
+              "query": [
+                {
+                  "key": "product_id",
+                  "value": "3"
+                },
+                {
+                  "key": "refresh",
+                  "value": "true",
+                  "disabled": true
+                },
+                {
+                  "key": "id_customization",
+                  "value": "0",
+                  "disabled": true
+                },
+                {
+                  "key": "group[3]",
+                  "value": "21",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Gets detail of a product. Including price, name, features and so on."
+          },
+          "response": []
+        },
+        {
+          "name": "Category Products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost/prestashop/rest/categoryProducts?id_category=2&page=1&with_all_images=0",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "prestashop",
+                "rest",
+                "categoryProducts"
+              ],
+              "query": [
+                {
+                  "key": "id_category",
+                  "value": "2"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "with_all_images",
+                  "value": "0",
+                  "description": "If 0 it does not load different images for products. If 1 loads different images for products and leads to be lengthy json response. "
+                }
+              ]
+            },
+            "description": "This API endpoint can be used to get category products, pagination and faceted search. The id_category is mandatory parameter. "
+          },
+          "response": []
+        },
+        {
+          "name": "Product Search",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost/prestashop/rest/productSearch?s=mug&resultsPerPage=10",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "prestashop",
+                "rest",
+                "productSearch"
+              ],
+              "query": [
+                {
+                  "key": "s",
+                  "value": "mug"
+                },
+                {
+                  "key": "resultsPerPage",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "Is used for product search"
+          },
+          "response": []
+        },
+        {
+          "name": "Faceted Search",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost/prestashop/rest/productSearch?q=Paper Type-Ruled&resultsPerPage=10&id_category=6",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "prestashop",
+                "rest",
+                "productSearch"
+              ],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "Paper Type-Ruled"
+                },
+                {
+                  "key": "resultsPerPage",
+                  "value": "10"
+                },
+                {
+                  "key": "id_category",
+                  "value": "6"
+                }
+              ]
+            },
+            "description": "Is used for product search"
+          },
+          "response": []
+        },
+        {
+          "name": "Featured Products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost/prestashop/rest/featured-products",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "prestashop",
+                "rest",
+                "featured-products"
+              ]
+            },
+            "description": "Gets featured products"
+          },
+          "response": []
+        }
+      ],
+      "description": "REST endpoints related to products"
+    },
+    {
+      "name": "Address",
+      "item": [
+        {
+          "name": "All Addresses",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost/prestashop/rest/alladdresses",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "prestashop",
+                "rest",
+                "alladdresses"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Address",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"alias\": \"Home\",\n    \"postcode\": \"12245\",\n    \"address1\": \"win Street\",\n    \"id_country\": 1,\n    \"country\": \"Canada\",\n    \"id_state\": 20,\n    \"city\": \"Winnipeg\",\n    \"company\": \"Binshops\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost/prestashop/rest/address",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "prestashop",
+                "rest",
+                "address"
+              ]
+            },
+            "description": "If the address ID is not passed, it creates new address"
+          },
+          "response": []
+        },
+        {
+          "name": "Address Form",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost/prestashop/rest/addressform",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "prestashop",
+                "rest",
+                "addressform"
+              ]
+            },
+            "description": "Contains countries and states"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Address",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost/prestashop/rest/address?id_address=5",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "prestashop",
+                "rest",
+                "address"
+              ],
+              "query": [
+                {
+                  "key": "id_address",
+                  "value": "5"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Address",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"id_address\": 9862\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost/prestashop/rest/address",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "prestashop",
+                "rest",
+                "address"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Checkout",
+      "item": [
+        {
+          "name": "1- Set Address",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"id_address\": 14\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost/prestashop/rest/setaddresscheckout",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "prestashop",
+                "rest",
+                "setaddresscheckout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2- All Carriers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost/prestashop/rest/carriers",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "prestashop",
+                "rest",
+                "carriers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "3- Set Carrier",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"id_address\": 14,\n    \"id_carrier\": \"4,\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost/prestashop/rest/setcarriercheckout",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "prestashop",
+                "rest",
+                "setcarriercheckout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "4- Payment Options",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost/prestashop/rest/paymentoptions",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "prestashop",
+                "rest",
+                "paymentoptions"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Bootstrap",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost/prestashop/rest/bootstrap",
+          "host": [
+            "localhost"
+          ],
+          "path": [
+            "prestashop",
+            "rest",
+            "bootstrap"
+          ]
+        },
+        "description": "Bootstraps binshops applciation. This request is used to render the home page of the application."
+      },
+      "response": []
+    },
+    {
+      "name": "Hello",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost/prestashop/rest/hello",
+          "host": [
+            "localhost"
+          ],
+          "path": [
+            "prestashop",
+            "rest",
+            "hello"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
 }

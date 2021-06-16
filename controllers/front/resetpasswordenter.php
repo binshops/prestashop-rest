@@ -1,6 +1,13 @@
 <?php
+/**
+ * BINSHOPS
+ *
+ * @author BINSHOPS - contact@binshops.com
+ * @copyright BINSHOPS
+ * @license https://www.binshops.com
+ */
 
-require_once __DIR__ . '/../AbstractRESTController.php';
+require_once dirname(__FILE__) . '/../AbstractRESTController.php';
 
 class BinshopsrestResetpasswordenterModuleFrontController extends AbstractRESTController
 {
@@ -15,8 +22,9 @@ class BinshopsrestResetpasswordenterModuleFrontController extends AbstractRESTCo
         die;
     }
 
-    protected function processPostRequest(){
-        $_POST = json_decode(file_get_contents('php://input'), true);
+    protected function processPostRequest()
+    {
+        $_POST = json_decode(Tools::file_get_contents('php://input'), true);
 
         $this->changePassword();
 
@@ -59,14 +67,14 @@ class BinshopsrestResetpasswordenterModuleFrontController extends AbstractRESTCo
             WHERE id_customer =' . $customer->id;
         $result = Db::getInstance()->executeS($sql);
 
-        if (empty($result)){
+        if (empty($result)) {
             $this->ajaxRender(json_encode([
                 'success' => true,
                 'code' => 200,
                 'psdata' => "this state is not expected"
             ]));
             die;
-        }elseif (strtotime(end($result)['reset_password_validity']) < time()){
+        } elseif (strtotime(end($result)['reset_password_validity']) < time()) {
             $this->ajaxRender(json_encode([
                 'success' => true,
                 'code' => 200,
@@ -77,7 +85,7 @@ class BinshopsrestResetpasswordenterModuleFrontController extends AbstractRESTCo
 
         $theCode = end($result)['reset_password_token'];
 
-        if (Tools::getValue('pass-code') === $theCode){
+        if (Tools::getValue('pass-code') === $theCode) {
             if (!$passwd = Tools::getValue('passwd')) {
                 $this->psdata = $this->trans('The password is missing: please enter your new password.', [], 'Shop.Notifications.Error');
             }
@@ -109,8 +117,7 @@ class BinshopsrestResetpasswordenterModuleFrontController extends AbstractRESTCo
                     '{firstname}' => $customer->firstname,
                 ];
 
-                if (
-                Mail::Send(
+                if (Mail::Send(
                     $this->context->language->id,
                     'password',
                     $this->trans(
@@ -135,8 +142,7 @@ class BinshopsrestResetpasswordenterModuleFrontController extends AbstractRESTCo
             } else {
                 $this->errors[] = $this->trans('An error occurred with your account, which prevents us from updating the new password. Please report this issue using the contact form.', [], 'Shop.Notifications.Error');
             }
-
-        }else{
+        } else {
             $this->ajaxRender(json_encode([
                 'success' => false,
                 'code' => 301,

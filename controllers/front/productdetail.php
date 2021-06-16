@@ -1,7 +1,15 @@
 <?php
+/**
+ * BINSHOPS
+ *
+ * @author BINSHOPS - contact@binshops.com
+ * @copyright BINSHOPS
+ * @license https://www.binshops.com
+ */
 
-require_once __DIR__ . '/../AbstractRESTController.php';
-define('PRICE_REDUCTION_TYPE_PERCENT' , 'percentage');
+require_once dirname(__FILE__) . '/../AbstractRESTController.php';
+define('PRICE_REDUCTION_TYPE_PERCENT', 'percentage');
+
 use PrestaShop\PrestaShop\Core\Product\ProductExtraContentFinder;
 use PrestaShop\PrestaShop\Adapter\Presenter\Object\ObjectPresenter;
 use PrestaShop\PrestaShop\Adapter\Product\PriceFormatter;
@@ -16,7 +24,7 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
 
     protected function processPostRequest()
     {
-        if (!(int) Tools::getValue('product_id', 0)) {
+        if (!(int)Tools::getValue('product_id', 0)) {
             $this->ajaxRender(json_encode([
                 'code' => 301,
                 'message' => 'product id not specified'
@@ -39,7 +47,7 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
             die;
         } else {
             //this is when you change an attribute, every time a request is sent to get the price and its discount
-            if ((boolean) Tools::getValue('refresh', 0)) {
+            if ((boolean)Tools::getValue('refresh', 0)) {
                 $product = $this->getTemplateVarProduct();
 
                 $this->ajaxRender(json_encode([
@@ -116,7 +124,6 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
         }
 
 
-
         $priceDisplay = Product::getTaxCalculationMethod(0); //(int)$this->context->cookie->id_customer
         if (!$priceDisplay || $priceDisplay == 2) {
             $price = $this->product->getPrice(true, false);
@@ -137,8 +144,8 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
                 } elseif ($this->product->specificPrice
                     && $this->product->specificPrice['reduction_type'] == 'amount'
                     && $this->product->specificPrice['reduction'] > 0) {
-                    $temp_price = (float) ($this->product->specificPrice['reduction'] * 100);
-                    $percent = (float) ($temp_price/ $price_without_reduction);
+                    $temp_price = (float)($this->product->specificPrice['reduction'] * 100);
+                    $percent = (float)($temp_price / $price_without_reduction);
                     $product['discount_percentage'] = Tools::ps_round($percent);
                     unset($temp_price);
                 }
@@ -152,7 +159,7 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
         }
 
         $product['images'] = array();
-        $temp_images = $this->product->getImages((int) $this->context->language->id);
+        $temp_images = $this->product->getImages((int)$this->context->language->id);
         $cover = false;
         $images = array();
         foreach ($temp_images as $image) {
@@ -222,7 +229,7 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
                 $combinations[$index]['minimal_quantity'] = $attr['minimal_quantity'];
                 $attribute_list = '';
                 foreach ($attr['attributes'] as $attribute_id) {
-                    $attribute_list .= (int) $attribute_id . '_';
+                    $attribute_list .= (int)$attribute_id . '_';
                 }
                 $attribute_list = rtrim($attribute_list, '_');
                 $combinations[$index]['combination_code'] = $attribute_list;
@@ -235,6 +242,7 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
         $product['description'] = preg_replace('/<iframe.*?\/iframe>/i', '', $this->product->description);
 
         /*end:changes made by aayushi on 1 DEC 2018 to add Short Description on product page*/
+        $product_info = array();
         if ($this->product->id_manufacturer) {
             $product_info[] = array(
                 'name' => $this->l('Brand'),
@@ -287,7 +295,7 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
         $attachments = Product::getAttachmentsStatic((int)$this->context->language->id, $id_product);
         $count = 0;
         foreach ($attachments as $attachment) {
-            $final_attachment_data[$count]['download_link'] = $this->context->link->getPageLink('attachment', true, null, "id_attachment=".$attachment['id_attachment']);
+            $final_attachment_data[$count]['download_link'] = $this->context->link->getPageLink('attachment', true, null, "id_attachment=" . $attachment['id_attachment']);
             $final_attachment_data[$count]['file_size'] = Tools::formatBytes($attachment['file_size'], 2);
             $final_attachment_data[$count]['description'] = $attachment['description'];
             $final_attachment_data[$count]['file_name'] = $attachment['file_name'];
@@ -323,7 +331,7 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
                     if (!isset($colors[$row['id_attribute']]['attributes_quantity'])) {
                         $colors[$row['id_attribute']]['attributes_quantity'] = 0;
                     }
-                    $colors[$row['id_attribute']]['attributes_quantity'] += (int) $row['quantity'];
+                    $colors[$row['id_attribute']]['attributes_quantity'] += (int)$row['quantity'];
                 }
                 if (!isset($groups[$row['id_attribute_group']])) {
                     $groups[$row['id_attribute_group']] = array(
@@ -337,15 +345,15 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
                 $attr_g = $row['id_attribute_group'];
                 $groups[$attr_g]['attributes'][$row['id_attribute']] = $row['attribute_name'];
                 if ($row['default_on'] && $groups[$row['id_attribute_group']]['default'] == -1) {
-                    $groups[$row['id_attribute_group']]['default'] = (int) $row['id_attribute'];
+                    $groups[$row['id_attribute_group']]['default'] = (int)$row['id_attribute'];
                 }
                 if (!isset($groups[$row['id_attribute_group']]['attributes_quantity'][$row['id_attribute']])) {
                     $groups[$row['id_attribute_group']]['attributes_quantity'][$row['id_attribute']] = 0;
                 }
                 $r_attr = $row['id_attribute_group'];
-                $groups[$r_attr]['attributes_quantity'][$row['id_attribute']] += (int) $row['quantity'];
+                $groups[$r_attr]['attributes_quantity'][$row['id_attribute']] += (int)$row['quantity'];
 
-                $combinations[$row['id_product_attribute']]['attributes'][] = (int) $row['id_attribute'];
+                $combinations[$row['id_product_attribute']]['attributes'][] = (int)$row['id_attribute'];
 
                 //calculate full price for combination
                 $priceDisplay = Product::getTaxCalculationMethod(0); //(int)$this->context->cookie->id_customer
@@ -355,8 +363,8 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
                     $combination_price = $this->product->getPrice(false, $row['id_product_attribute']);
                 }
                 $combinations[$row['id_product_attribute']]['price'] = $this->formatPrice($combination_price);
-                $combinations[$row['id_product_attribute']]['quantity'] = (int) $row['quantity'];
-                $combinations[$row['id_product_attribute']]['minimal_quantity'] = (int) $row['minimal_quantity'];
+                $combinations[$row['id_product_attribute']]['quantity'] = (int)$row['quantity'];
+                $combinations[$row['id_product_attribute']]['minimal_quantity'] = (int)$row['minimal_quantity'];
             }
 
             // wash attributes list (if some attributes are unavailables and if allowed to wash it)
@@ -379,7 +387,7 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
             foreach ($combinations as $id_product_attribute => $comb) {
                 $attribute_list = '';
                 foreach ($comb['attributes'] as $id_attribute) {
-                    $attribute_list .= '\'' . (int) $id_attribute . '\',';
+                    $attribute_list .= '\'' . (int)$id_attribute . '\',';
                 }
                 $attribute_list = rtrim($attribute_list, ',');
                 $combinations[$id_product_attribute]['list'] = $attribute_list;
@@ -429,13 +437,13 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
                     if (count($accessory['specific_prices']) > 0) {
                         $accessory_products[$index]['discount_price'] = $this->formatPrice($accessory['price']);
                         if ($accessory['specific_prices']['reduction_type'] == PRICE_REDUCTION_TYPE_PERCENT) {
-                            $temp_p = (float) $accessory['specific_prices']['reduction'] * 100;
+                            $temp_p = (float)$accessory['specific_prices']['reduction'] * 100;
                             $accessory_products[$index]['discount_percentage'] = $temp_p;
                             unset($temp_p);
                         } else {
                             if ($accessory['price_without_reduction']) {
-                                $temp_price = ((float) $accessory['specific_prices']['reduction'] * 100);
-                                $percent = (float) ($temp_price / $accessory['price_without_reduction']);
+                                $temp_price = ((float)$accessory['specific_prices']['reduction'] * 100);
+                                $percent = (float)($temp_price / $accessory['price_without_reduction']);
                                 unset($temp_price);
                             } else {
                                 $percent = 0;
@@ -524,11 +532,11 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
                     if (count($item['specific_prices']) > 0) {
                         $pack_products[$index]['discount_price'] = $this->formatPrice($item['price']);
                         if ($item['specific_prices']['reduction_type'] == PRICE_REDUCTION_TYPE_PERCENT) {
-                            $item[$index]['discount_percentage'] = (float) $item['specific_prices']['reduction'] * 100;
+                            $item[$index]['discount_percentage'] = (float)$item['specific_prices']['reduction'] * 100;
                         } else {
                             if ($item['price_without_reduction']) {
-                                $temp_price = (float) ($item['specific_prices']['reduction'] * 100);
-                                $percent = (float) ($temp_price / $item['price_without_reduction']);
+                                $temp_price = (float)($item['specific_prices']['reduction'] * 100);
+                                $percent = (float)($temp_price / $item['price_without_reduction']);
                                 unset($temp_price);
                             } else {
                                 $percent = 0;
@@ -556,20 +564,20 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
         $objectPresenter = new ObjectPresenter();
 
         $product = $objectPresenter->present($this->product);
-        $product['id_product'] = (int) $this->product->id;
-        $product['out_of_stock'] = (int) $this->product->out_of_stock;
-        $product['new'] = (int) $this->product->new;
+        $product['id_product'] = (int)$this->product->id;
+        $product['out_of_stock'] = (int)$this->product->out_of_stock;
+        $product['new'] = (int)$this->product->new;
         $product['id_product_attribute'] = $this->getIdProductAttributeByGroupOrRequestOrDefault();
 //        $product['minimal_quantity'] = $this->getProductMinimalQuantity($product);
 //        $product['quantity_wanted'] = $this->getRequiredQuantity($product);
         $product['extraContent'] = $extraContentFinder->addParams(array('product' => $this->product))->present();
-        $product['ecotax'] = Tools::convertPrice((float) $product['ecotax'], $this->context->currency, true, $this->context);
+        $product['ecotax'] = Tools::convertPrice((float)$product['ecotax'], $this->context->currency, true, $this->context);
 
         $product_full = Product::getProductProperties($this->context->language->id, $product, $this->context);
 
         $product_full = $this->addProductCustomizationData($product_full);
 
-        $product_full['show_quantities'] = (bool) (
+        $product_full['show_quantities'] = (bool)(
             Configuration::get('PS_DISPLAY_QTIES')
             && Configuration::get('PS_STOCK_MANAGEMENT')
             && $this->product->quantity > 0
@@ -580,22 +588,22 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
         $id_product_attribute = $this->getIdProductAttributeByGroupOrRequestOrDefault();
         $product_price = $this->product->getPrice(Product::$_taxCalculationMethod == PS_TAX_INC, $id_product_attribute);
 
-        $id_customer = (isset($this->context->customer) ? (int) $this->context->customer->id : 0);
-        $id_group = (int) Group::getCurrent()->id;
-        $id_country = $id_customer ? (int) Customer::getCurrentCountry($id_customer) : (int) Tools::getCountry();
-        $id_currency = (int) $this->context->cookie->id_currency;
-        $id_product = (int) $this->product->id;
+        $id_customer = (isset($this->context->customer) ? (int)$this->context->customer->id : 0);
+        $id_group = (int)Group::getCurrent()->id;
+        $id_country = $id_customer ? (int)Customer::getCurrentCountry($id_customer) : (int)Tools::getCountry();
+        $id_currency = (int)$this->context->cookie->id_currency;
+        $id_product = (int)$this->product->id;
         $id_product_attribute = $this->getIdProductAttributeByGroupOrRequestOrDefault();
         $id_shop = $this->context->shop->id;
 
 
-        $quantity_discounts = SpecificPrice::getQuantityDiscounts($id_product, $id_shop, $id_currency, $id_country, $id_group, $id_product_attribute, false, (int) $this->context->customer->id);
+        $quantity_discounts = SpecificPrice::getQuantityDiscounts($id_product, $id_shop, $id_currency, $id_country, $id_group, $id_product_attribute, false, (int)$this->context->customer->id);
 
 
-        $tax = (float) $this->product->getTaxesRate(new Address((int) $this->context->cart->{Configuration::get('PS_TAX_ADDRESS_TYPE')}));
+        $tax = (float)$this->product->getTaxesRate(new Address((int)$this->context->cart->{Configuration::get('PS_TAX_ADDRESS_TYPE')}));
 
 
-        $this->quantity_discounts = $this->formatQuantityDiscounts($quantity_discounts, $product_price, (float) $tax, $this->product->ecotax);
+        $this->quantity_discounts = $this->formatQuantityDiscounts($quantity_discounts, $product_price, (float)$tax, $this->product->ecotax);
 
 
         $product_full['quantity_label'] = ($this->product->quantity > 1) ? $this->trans('Items', array(), 'Shop.Theme.Catalog') : $this->trans('Item', array(), 'Shop.Theme.Catalog');
@@ -606,9 +614,9 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
             $product_full['unit_price'] = $unitPrice / $product_full['unit_price_ratio'];
         }
 
-        $group_reduction = GroupReduction::getValueForProduct($this->product->id, (int) Group::getCurrent()->id);
+        $group_reduction = GroupReduction::getValueForProduct($this->product->id, (int)Group::getCurrent()->id);
         if ($group_reduction === false) {
-            $group_reduction = Group::getReduction((int) $this->context->cookie->id_customer) / 100;
+            $group_reduction = Group::getReduction((int)$this->context->cookie->id_customer) / 100;
         }
         $product_full['customer_group_discount'] = $group_reduction;
         $presenter = $factory->getPresenter();
@@ -624,11 +632,11 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
     {
         $idProductAttribute = $this->getIdProductAttributeByGroup();
         if (null === $idProductAttribute) {
-            $idProductAttribute = (int) Tools::getValue('id_product_attribute');
+            $idProductAttribute = (int)Tools::getValue('id_product_attribute');
         }
 
         if (0 === $idProductAttribute) {
-            $idProductAttribute = (int) Product::getDefaultAttribute($this->product->id);
+            $idProductAttribute = (int)Product::getDefaultAttribute($this->product->id);
         }
 
         return $this->tryToGetAvailableIdProductAttribute($idProductAttribute);
@@ -641,7 +649,7 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
             return null;
         }
 
-        return (int) Product::getIdProductAttributeByIdAttributes(
+        return (int)Product::getIdProductAttributeByIdAttributes(
             $this->product->id,
             $groups,
             true
@@ -676,6 +684,7 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
                     // in what Product::getProductCustomization() returns
                     $key = $customization_field['id_customization_field'];
 
+                    $field = array();
                     $field['label'] = $customization_field['name'];
                     $field['id_customization_field'] = $customization_field['id_customization_field'];
                     $field['required'] = $customization_field['required'];
@@ -756,7 +765,7 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
             );
 
             if (empty($availableProductAttribute) && count($availableProductAttributes)) {
-                return (int) array_shift($availableProductAttributes)['id_product_attribute'];
+                return (int)array_shift($availableProductAttributes)['id_product_attribute'];
             }
         }
 
@@ -773,7 +782,7 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
                 // The price may be directly set
 
                 /** @var float $currentPriceDefaultCurrency current price with taxes in default currency */
-                $currentPriceDefaultCurrency = (!$row['reduction_tax'] ? $row['price'] : $row['price'] * (1 + $tax_rate / 100)) + (float) $ecotax_amount;
+                $currentPriceDefaultCurrency = (!$row['reduction_tax'] ? $row['price'] : $row['price'] * (1 + $tax_rate / 100)) + (float)$ecotax_amount;
                 // Since this price is set in default currency,
                 // we need to convert it into current currency
                 $row['id_currency'];
@@ -831,7 +840,7 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
             }
 
             $row['save'] = $priceFormatter->format((($price * $row['quantity']) - ($discountPrice * $row['quantity'])));
-            $row['nextQuantity'] = (isset($specific_prices[$key + 1]) ? (int) $specific_prices[$key + 1]['from_quantity'] : -1);
+            $row['nextQuantity'] = (isset($specific_prices[$key + 1]) ? (int)$specific_prices[$key + 1]['from_quantity'] : -1);
         }
 
         return $specific_prices;

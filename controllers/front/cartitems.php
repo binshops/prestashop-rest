@@ -1,10 +1,17 @@
 <?php
-require_once __DIR__ . '/../AbstractRESTController.php';
+/**
+ * BINSHOPS
+ *
+ * @author BINSHOPS - contact@binshops.com
+ * @copyright BINSHOPS
+ * @license https://www.binshops.com
+ */
+
+require_once dirname(__FILE__) . '/../AbstractRESTController.php';
 
 /**
  * This REST gets current user order list
-*/
-
+ */
 class BinshopsrestCartitemsModuleFrontController extends AbstractRESTController
 {
 
@@ -14,8 +21,8 @@ class BinshopsrestCartitemsModuleFrontController extends AbstractRESTController
         $presented_cart = $this->context->cart->getProducts(true);
         $link = Context::getContext()->link;
 
-        foreach ($presented_cart as $key => $product){
-            $presented_cart[$key]['image_url'] = $link->getImageLink($product['link_rewrite'], $product['id_image'], Tools::getValue('image_size', "small_default"));
+        foreach ($presented_cart as $key => $product) {
+            $presented_cart[$key]['image_url'] = $link->getImageLink($product['link_rewrite'], $product['id_image'], Tools::getValue('image_size', ImageType::getFormattedName('small')));
         }
 
         $this->ajaxRender(json_encode([
@@ -26,7 +33,8 @@ class BinshopsrestCartitemsModuleFrontController extends AbstractRESTController
         die;
     }
 
-    protected function processPostRequest(){
+    protected function processPostRequest()
+    {
         $this->ajaxRender(json_encode([
             'success' => true,
             'message' => 'POST not supported on this path'
@@ -51,5 +59,4 @@ class BinshopsrestCartitemsModuleFrontController extends AbstractRESTController
         ]));
         die;
     }
-
 }

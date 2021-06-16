@@ -1,10 +1,18 @@
 <?php
+/**
+ * BINSHOPS
+ *
+ * @author BINSHOPS - contact@binshops.com
+ * @copyright BINSHOPS
+ * @license https://www.binshops.com
+ */
 
-require_once __DIR__ . '/../AbstractRESTController.php';
+require_once dirname(__FILE__) . '/../AbstractRESTController.php';
 
 class BinshopsrestResetpasswordbyemailModuleFrontController extends AbstractRESTController
 {
     private $psdata;
+
     protected function processGetRequest()
     {
         $this->ajaxRender(json_encode([
@@ -14,8 +22,9 @@ class BinshopsrestResetpasswordbyemailModuleFrontController extends AbstractREST
         die;
     }
 
-    protected function processPostRequest(){
-        $_POST = json_decode(file_get_contents('php://input'), true);
+    protected function processPostRequest()
+    {
+        $_POST = json_decode(Tools::file_get_contents('php://input'), true);
         $this->psdata = "pass reset mail successfully sent";
 
         $this->sendRenewPasswordLink();
@@ -60,8 +69,8 @@ class BinshopsrestResetpasswordbyemailModuleFrontController extends AbstractREST
             if (!Validate::isLoadedObject($customer)) {
             } elseif (!$customer->active) {
                 $this->psdata = $this->trans('You cannot regenerate the password for this account.', [], 'Shop.Notifications.Error');
-            } elseif ((strtotime($customer->last_passwd_gen . '+' . ($minTime = (int) Configuration::get('PS_PASSWD_TIME_FRONT')) . ' minutes') - time()) > 0) {
-                $this->psdata = $this->trans('You can regenerate your password only every %d minute(s)', [(int) $minTime], 'Shop.Notifications.Error');
+            } elseif ((strtotime($customer->last_passwd_gen . '+' . ($minTime = (int)Configuration::get('PS_PASSWD_TIME_FRONT')) . ' minutes') - time()) > 0) {
+                $this->psdata = $this->trans('You can regenerate your password only every %d minute(s)', [(int)$minTime], 'Shop.Notifications.Error');
             } else {
                 if (!$customer->hasRecentResetPasswordToken()) {
                     $customer->stampResetPasswordToken();
@@ -72,11 +81,10 @@ class BinshopsrestResetpasswordbyemailModuleFrontController extends AbstractREST
                     '{email}' => $customer->email,
                     '{lastname}' => $customer->lastname,
                     '{firstname}' => $customer->firstname,
-                    '{url}' => $this->context->link->getPageLink('password', true, null, 'token=' . $customer->secure_key . '&id_customer=' . (int) $customer->id . '&reset_token=' . $customer->reset_password_token),
+                    '{url}' => $this->context->link->getPageLink('password', true, null, 'token=' . $customer->secure_key . '&id_customer=' . (int)$customer->id . '&reset_token=' . $customer->reset_password_token),
                 ];
 
-                if (
-                Mail::Send(
+                if (Mail::Send(
                     $this->context->language->id,
                     'password_query',
                     $this->trans(

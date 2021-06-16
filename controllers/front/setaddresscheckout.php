@@ -1,6 +1,13 @@
 <?php
+/**
+ * BINSHOPS
+ *
+ * @author BINSHOPS - contact@binshops.com
+ * @copyright BINSHOPS
+ * @license https://www.binshops.com
+ */
 
-require_once __DIR__ . '/../AbstractAuthRESTController.php';
+require_once dirname(__FILE__) . '/../AbstractAuthRESTController.php';
 
 use PrestaShop\PrestaShop\Adapter\Product\PriceFormatter;
 
@@ -16,9 +23,10 @@ class BinshopsrestSetaddresscheckoutModuleFrontController extends AbstractAuthRE
         die;
     }
 
-    protected function processPostRequest(){
-        $_POST = json_decode(file_get_contents('php://input'), true);
-        if (Tools::getValue('id_address')){
+    protected function processPostRequest()
+    {
+        $_POST = json_decode(Tools::file_get_contents('php://input'), true);
+        if (Tools::getValue('id_address')) {
             $deliveryOptionsFinder = new DeliveryOptionsFinder(
                 $this->context,
                 $this->getTranslator(),
@@ -32,8 +40,7 @@ class BinshopsrestSetaddresscheckoutModuleFrontController extends AbstractAuthRE
 
             $session->setIdAddressDelivery(Tools::getValue('id_address'));
             $session->setIdAddressInvoice(Tools::getValue('id_address'));
-
-        }else{
+        } else {
             $this->ajaxRender(json_encode([
                 'success' => true,
                 'code' => 301,
@@ -68,5 +75,3 @@ class BinshopsrestSetaddresscheckoutModuleFrontController extends AbstractAuthRE
         die;
     }
 }
-
-
