@@ -19,7 +19,7 @@ class Binshopsrest extends Module
     {
         $this->name = 'binshopsrest';
         $this->tab = 'others';
-        $this->version = '2.1.1';
+        $this->version = '2.1.2';
         $this->author = 'Binshops';
         $this->need_instance = 0;
 
@@ -335,15 +335,6 @@ class Binshopsrest extends Module
                     'module' => 'binshopsrest'
                 ]
             ],
-            'module-binshopsrest-hello' => [
-                'rule' => 'rest/hello',
-                'keywords' => [],
-                'controller' => 'hello',
-                'params' => [
-                    'fc' => 'module',
-                    'module' => 'binshopsrest'
-                ]
-            ],
             'module-binshopsrest-address' => [
                 'rule' => 'rest/address',
                 'keywords' => [],
@@ -442,7 +433,16 @@ class Binshopsrest extends Module
                     'fc' => 'module',
                     'module' => 'binshopsrest'
                 ]
-            ]
+            ],
+            'module-binshopsrest-hello' => [
+                'rule' => 'rest',
+                'keywords' => [],
+                'controller' => 'hello',
+                'params' => [
+                    'fc' => 'module',
+                    'module' => 'binshopsrest'
+                ]
+            ],
         ];
     }
 }

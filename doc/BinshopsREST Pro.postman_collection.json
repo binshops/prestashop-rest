@@ -829,25 +829,6 @@
         "description": "Bootstraps binshops applciation. This request is used to render the home page of the application."
       },
       "response": []
-    },
-    {
-      "name": "Hello",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "localhost/prestashop/rest/hello",
-          "host": [
-            "localhost"
-          ],
-          "path": [
-            "prestashop",
-            "rest",
-            "hello"
-          ]
-        }
-      },
-      "response": []
     }
   ]
 }
