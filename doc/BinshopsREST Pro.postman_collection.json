@@ -16,7 +16,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"email\": \"sam@binshops.com\",\n    \"password\": \"123456789\"\n}",
+              "raw": "{\n    \"email\": \"example@mail.com\",\n    \"password\": \"123456789\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -45,7 +45,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"email\": \"sam@binshops.com\",\n    \"password\": \"123456789\",\n    \"firstName\": \"Sam\",\n    \"lastName\": \"Beri\",\n    \"gender\": 1\n}",
+              "raw": "{\n    \"email\": \"example@mail.com\",\n    \"password\": \"123456789\",\n    \"firstName\": \"Sam\",\n    \"lastName\": \"Beri\",\n    \"gender\": 1\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -255,7 +255,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"email\": \"sam@binshops.com\",\n    \"password\": \"123456789\",\n    \"firstName\": \"Sam\",\n    \"lastName\": \"Beri\",\n    \"gender\": 1\n}",
+              "raw": "{\n    \"email\": \"example@mail.com\",\n    \"password\": \"123456789\",\n    \"firstName\": \"Sam\",\n    \"lastName\": \"Beri\",\n    \"gender\": 1\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -283,7 +283,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"email\": \"sam@binshops.com\",\n    \"password\": \"123456789\",\n    \"firstName\": \"Sam\",\n    \"lastName\": \"Beri\",\n    \"gender\": 1,\n    \"new_password\": \"987654321\"\n}",
+              "raw": "{\n    \"email\": \"example@mail.com\",\n    \"password\": \"123456789\",\n    \"firstName\": \"Sam\",\n    \"lastName\": \"Beri\",\n    \"gender\": 1,\n    \"new_password\": \"987654321\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -311,7 +311,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"email\": \"sam@binshops.com\"\n}",
+              "raw": "{\n    \"email\": \"example@mail.com\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -339,7 +339,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"email\": \"sam@binshops.com\"\n}",
+              "raw": "{\n    \"email\": \"example@mail.com\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -367,7 +367,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"email\": \"sam@binshops.com\",\n    \"pass-code\": \"70622\"\n}",
+              "raw": "{\n    \"email\": \"example@mail.com\",\n    \"pass-code\": \"70622\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -395,7 +395,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"email\": \"sam@binshops.com\",\n    \"pass-code\": \"70622\",\n    \"passwd\": \"123456789\"\n}",
+              "raw": "{\n    \"email\": \"example@mail.com\",\n    \"pass-code\": \"70622\",\n    \"passwd\": \"123456789\"\n}",
               "options": {
                 "raw": {
                   "language": "json"

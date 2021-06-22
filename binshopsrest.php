@@ -2,9 +2,9 @@
 /**
  * BINSHOPS REST API
  *
- * @author BINSHOPS - contact@binshops.com
+ * @author BINSHOPS
  * @copyright BINSHOPS
- * @license https://www.binshops.com
+ *
  */
 
 if (!defined('_PS_VERSION_')) {
