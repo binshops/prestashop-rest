@@ -155,16 +155,30 @@ class RESTProductLazyArray
         // Get filtered product images matching the specified id_product_attribute
         if (Tools::getValue('with_all_images')) {
             $this->product['images'] = $this->filterImagesForCombination($productImages, $product['id_product_attribute']);
-        }
 
-        // Get default image for selected combination (used for product page, cart details, ...)
-        $this->product['default_image'] = reset($this->product['images']);
-        foreach ($this->product['images'] as $image) {
-            // If one of the image is a cover it is used as such
-            if (isset($image['cover']) && null !== $image['cover']) {
-                $this->product['default_image'] = $image;
+            // Get default image for selected combination (used for product page, cart details, ...)
+            $this->product['default_image'] = reset($this->product['images']);
+            foreach ($this->product['images'] as $image) {
+                // If one of the image is a cover it is used as such
+                if (isset($image['cover']) && null !== $image['cover']) {
+                    $this->product['default_image'] = $image;
 
-                break;
+                    break;
+                }
+            }
+        }else{
+            $images = $this->filterImagesForCombination($productImages, $product['id_product_attribute']);
+
+            // Get default image for selected combination (used for product page, cart details, ...)
+            $tmp = reset($images);
+            $this->product['default_image'] = $tmp['bySize'][Tools::getValue('image_size', "home_default")];
+            foreach ($images as $image) {
+                // If one of the image is a cover it is used as such
+                if (isset($image['cover']) && null !== $image['cover']) {
+                    $this->product['default_image'] = $image['bySize'][Tools::getValue('image_size', "home_default")];
+
+                    break;
+                }
             }
         }
 
