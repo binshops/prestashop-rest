@@ -187,7 +187,11 @@ class RESTProductLazyArray
             // First try to find cover in product images
             foreach ($productImages as $productImage) {
                 if ($productImage['id_image'] == $product['cover_image_id']) {
-                    $this->product['cover'] = $productImage;
+                    if (Tools::getValue('with_all_images')) {
+                        $this->product['cover'] = $productImage;
+                    }else{
+                        $this->product['cover'] = $productImage['bySize'][Tools::getValue('image_size', "home_default")];
+                    }
                     break;
                 }
             }
