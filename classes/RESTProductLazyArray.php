@@ -46,13 +46,19 @@ class RESTProductLazyArray
      */
     private $translator;
 
+    /**
+     * @var Link
+     */
+    private $link;
+
     public function __construct(
         ProductPresentationSettings $settings,
         array $product,
         Language $language,
         PriceFormatter $priceFormatter,
         ImageRetriever $imageRetriever,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
+        Link $link
     ) {
         $this->settings = $settings;
         $this->product = $product;
@@ -60,6 +66,7 @@ class RESTProductLazyArray
         $this->priceFormatter = $priceFormatter;
         $this->imageRetriever = $imageRetriever;
         $this->translator = $translator;
+        $this->link = $link;
 
         $this->fillImages(
             $product,
@@ -147,7 +154,8 @@ class RESTProductLazyArray
         Language $language
     ) {
         // Get all product images, including potential cover
-        $productImages = $this->imageRetriever->getAllProductImages(
+        // getAllProductImages() method does not exists in 1.7.6.x version
+        $productImages = $this->getAllProductImages(
             $product,
             $language
         );
@@ -338,4 +346,151 @@ class RESTProductLazyArray
     {
         return $this->product;
     }
+
+    /**
+     * @param array $product
+     * @param Language $language
+     *
+     * @return array
+     */
+    public function getAllProductImages(array $product, Language $language)
+    {
+        $productInstance = new Product(
+            $product['id_product'],
+            false,
+            $language->id
+        );
+
+        $images = $productInstance->getImages($language->id);
+
+        if (empty($images)) {
+            return [];
+        }
+
+        $combinationImages = $productInstance->getCombinationImages($language->id);
+        if (!$combinationImages) {
+            $combinationImages = [];
+        }
+        $imageToCombinations = [];
+
+        foreach ($combinationImages as $imgs) {
+            foreach ($imgs as $img) {
+                $imageToCombinations[$img['id_image']][] = $img['id_product_attribute'];
+            }
+        }
+
+        $images = array_map(function (array $image) use (
+            $productInstance,
+            $imageToCombinations
+        ) {
+            $image = array_merge($this->getImage(
+                $productInstance,
+                $image['id_image']
+            ), $image);
+
+            if (isset($imageToCombinations[$image['id_image']])) {
+                $image['associatedVariants'] = $imageToCombinations[$image['id_image']];
+            } else {
+                $image['associatedVariants'] = [];
+            }
+
+            return $image;
+        }, $images);
+
+        return $images;
+    }
+
+    /**
+     * @param $object
+     * @param int $id_image
+     *
+     * @return array|null
+     *
+     * @throws \PrestaShopDatabaseException
+     */
+    public function getImage($object, $id_image)
+    {
+        if (!$id_image) {
+            return null;
+        }
+
+        if (get_class($object) === 'Product') {
+            $type = 'products';
+            $getImageURL = 'getImageLink';
+            $root = _PS_PROD_IMG_DIR_;
+            $imageFolderPath = implode(DIRECTORY_SEPARATOR, [
+                rtrim($root, DIRECTORY_SEPARATOR),
+                rtrim(Image::getImgFolderStatic($id_image), DIRECTORY_SEPARATOR),
+            ]);
+        } elseif (get_class($object) === 'Store') {
+            $type = 'stores';
+            $getImageURL = 'getStoreImageLink';
+            $root = _PS_STORE_IMG_DIR_;
+            $imageFolderPath = rtrim($root, DIRECTORY_SEPARATOR);
+        } else {
+            $type = 'categories';
+            $getImageURL = 'getCatImageLink';
+            $root = _PS_CAT_IMG_DIR_;
+            $imageFolderPath = rtrim($root, DIRECTORY_SEPARATOR);
+        }
+
+        $urls = [];
+        $image_types = ImageType::getImagesTypes($type, true);
+
+        $extPath = $imageFolderPath . DIRECTORY_SEPARATOR . 'fileType';
+        $ext = @file_get_contents($extPath) ?: 'jpg';
+
+        $mainImagePath = implode(DIRECTORY_SEPARATOR, [
+            $imageFolderPath,
+            $id_image . '.' . $ext,
+        ]);
+
+        foreach ($image_types as $image_type) {
+            $resizedImagePath = implode(DIRECTORY_SEPARATOR, [
+                $imageFolderPath,
+                $id_image . '-' . $image_type['name'] . '.' . $ext,
+            ]);
+
+            if (!file_exists($resizedImagePath)) {
+                ImageManager::resize(
+                    $mainImagePath,
+                    $resizedImagePath,
+                    (int) $image_type['width'],
+                    (int) $image_type['height']
+                );
+            }
+
+            $url = $this->link->$getImageURL(
+                isset($object->link_rewrite) ? $object->link_rewrite : $object->name,
+                $id_image,
+                $image_type['name']
+            );
+
+            $urls[$image_type['name']] = [
+                'url' => $url,
+                'width' => (int) $image_type['width'],
+                'height' => (int) $image_type['height'],
+            ];
+        }
+
+        uasort($urls, function (array $a, array $b) {
+            return $a['width'] * $a['height'] > $b['width'] * $b['height'] ? 1 : -1;
+        });
+
+        $keys = array_keys($urls);
+
+        $small = $urls[$keys[0]];
+        $large = end($urls);
+        $medium = $urls[$keys[ceil((count($keys) - 1) / 2)]];
+
+        return [
+            'bySize' => $urls,
+            'small' => $small,
+            'medium' => $medium,
+            'large' => $large,
+            'legend' => isset($object->meta_title) ? $object->meta_title : $object->name,
+            'id_image' => $id_image,
+        ];
+    }
+
 }

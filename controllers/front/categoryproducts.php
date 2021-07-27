@@ -57,7 +57,8 @@ class BinshopsrestCategoryproductsModuleFrontController extends AbstractProductL
                 $this->context->language,
                 new \PrestaShop\PrestaShop\Adapter\Product\PriceFormatter(),
                 $retriever,
-                $this->context->getTranslator()
+                $this->context->getTranslator(),
+                $this->context->link
             );
 
             $productList[$key]['prod_info'] = $lazy_product->getProduct();
