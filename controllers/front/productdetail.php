@@ -13,6 +13,10 @@ define('PRICE_REDUCTION_TYPE_PERCENT', 'percentage');
 use PrestaShop\PrestaShop\Core\Product\ProductExtraContentFinder;
 use PrestaShop\PrestaShop\Adapter\Presenter\Object\ObjectPresenter;
 use PrestaShop\PrestaShop\Adapter\Product\PriceFormatter;
+use PrestaShop\PrestaShop\Adapter\Presenter\Product\ProductListingPresenter;
+use PrestaShop\PrestaShop\Adapter\Image\ImageRetriever;
+use PrestaShop\PrestaShop\Adapter\Product\ProductColorsRetriever;
+use PrestaShop\PrestaShop\Core\Product\ProductPresentationSettings;
 
 /**
  * This REST endpoint gets details of a product
@@ -21,9 +25,12 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
 {
     /** @var Product */
     private $product = null;
+    private $taxConfiguration;
 
     protected function processPostRequest()
     {
+        $this->taxConfiguration = new TaxConfiguration();
+
         if (!(int)Tools::getValue('product_id', 0)) {
             $this->ajaxRender(json_encode([
                 'code' => 301,
@@ -500,58 +507,29 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
      *
      * @return array pick items information
      */
-    public function getPackProducts()
-    {
-        $is_pack = "0";
-        $pack_products = array();
-        if (Pack::isPack($this->product->id)) {
-            $is_pack = "1";
-            $pack_items = Pack::getItemTable($this->product->id, $this->context->language->id, true);
-            if ($pack_items) {
-                $index = 0;
-                foreach ($pack_items as $item) {
-                    $pack_products[$index] = array(
-                        'id' => $item['id_product'],
-                        'name' => $item['name'],
-                        'price' => $this->formatPrice($item['price_without_reduction']),
-                        'available_for_order' => $item['available_for_order'],
-                        'show_price' => $item['show_price'],
-                        'new_products' => (isset($item['new']) && $item['new'] == 1) ? "1" : "0",
-                        'on_sale_products' => $item['on_sale'],
-                        'src' => $this->context->link->getImageLink(
-                        /* Changes started by rishabh jain on 3rd sep 2018
-                        * To get url encoded image link as per admin setting
-                        */
-                            $this->getUrlEncodedImageLink($item['link_rewrite']),
-                            /* Changes over */
-                            $item['id_image'],
-                            $this->getImageType('large')
-                        ),
-                        'pack_quantity' => $item['pack_quantity']
-                    );
-                    if (count($item['specific_prices']) > 0) {
-                        $pack_products[$index]['discount_price'] = $this->formatPrice($item['price']);
-                        if ($item['specific_prices']['reduction_type'] == PRICE_REDUCTION_TYPE_PERCENT) {
-                            $item[$index]['discount_percentage'] = (float)$item['specific_prices']['reduction'] * 100;
-                        } else {
-                            if ($item['price_without_reduction']) {
-                                $temp_price = (float)($item['specific_prices']['reduction'] * 100);
-                                $percent = (float)($temp_price / $item['price_without_reduction']);
-                                unset($temp_price);
-                            } else {
-                                $percent = 0;
-                            }
-                            $pack_products[$index]['discount_percentage'] = Tools::ps_round($percent);
-                        }
-                    } else {
-                        $pack_products[$index]['discount_price'] = '';
-                        $pack_products[$index]['discount_percentage'] = '';
-                    }
-                    $index++;
-                }
-            }
+    public function getPackProducts(){
+        $pack_items = Pack::isPack($this->product->id) ? Pack::getItemTable($this->product->id, $this->context->language->id, true) : [];
+        $assembler = new ProductAssembler($this->context);
+        $presenter = new ProductListingPresenter(
+            new ImageRetriever(
+                $this->context->link
+            ),
+            $this->context->link,
+            new PriceFormatter(),
+            new ProductColorsRetriever(),
+            $this->getTranslator()
+        );
+
+        $presentedPackItems = [];
+        foreach ($pack_items as $item) {
+            $presentedPackItems[] = $presenter->present(
+                $this->getProductPresentationSettings(),
+                $assembler->assembleProduct($item),
+                $this->context->language
+            );
         }
-        return array('is_pack' => $is_pack, 'pack_items' => $pack_products);
+
+        return $presentedPackItems;
     }
 
 
@@ -844,5 +822,19 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
         }
 
         return $specific_prices;
+    }
+
+    protected function getProductPresentationSettings(){
+        $settings = new ProductPresentationSettings();
+
+        $settings->catalog_mode = Configuration::isCatalogMode();
+        $settings->catalog_mode_with_prices = (int) Configuration::get('PS_CATALOG_MODE_WITH_PRICES');
+        $settings->include_taxes = $this->taxConfiguration->includeTaxes();
+        $settings->allow_add_variant_to_cart_from_listing = (int) Configuration::get('PS_ATTRIBUTE_CATEGORY_DISPLAY');
+        $settings->stock_management_enabled = Configuration::get('PS_STOCK_MANAGEMENT');
+        $settings->showPrices = Configuration::showPrices();
+        $settings->lastRemainingItems = Configuration::get('PS_LAST_QTIES');
+
+        return $settings;
     }
 }
