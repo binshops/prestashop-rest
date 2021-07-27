@@ -272,10 +272,21 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
                 $product_info[] = array('name' => $f['name'], 'value' => $f['value']);
             }
         }
+
+        $presenter = new ProductListingPresenter(
+            new ImageRetriever(
+                $this->context->link
+            ),
+            $this->context->link,
+            new PriceFormatter(),
+            new ProductColorsRetriever(),
+            $this->getTranslator()
+        );
+
         $product['product_info'] = $product_info;
-        $product['accessories'] = $this->getProductAccessories();
+        $product['accessories'] = $this->getProductAccessories($presenter);
         $product['customization_fields'] = $this->getCustomizationFields();
-        $product['pack_products'] = $this->getPackProducts();
+        $product['pack_products'] = $this->getPackProducts($presenter);
         $product['seller_info'] = array();
 
         //Add seller Information if Marketplace is installed and feature is enable
@@ -413,61 +424,22 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
      *
      * @return array product accessories information
      */
-    public function getProductAccessories()
+    public function getProductAccessories($presenter)
     {
-        $accessory_products = array();
         $accessories = $this->product->getAccessories($this->context->language->id);
-        $has_accessories = "1";
 
-        if ($accessories) {
-            $index = 0;
-            foreach ($accessories as $accessory) {
-                if ($accessory['available_for_order']) {
-                    $accessory_products[$index] = array(
-                        'id' => $accessory['id_product'],
-                        'name' => $accessory['name'],
-                        'price' => $this->formatPrice($accessory['price_without_reduction']),
-                        'available_for_order' => $accessory['available_for_order'],
-                        'show_price' => $accessory['show_price'],
-                        'new_products' => (isset($accessory['new']) && $accessory['new'] == 1) ? "1" : "0",
-                        'on_sale_products' => $accessory['on_sale'],
-                        'src' => $this->context->link->getImageLink(
-                        /* Changes started by rishabh jain on 3rd sep 2018
-                        * To get url encoded image link as per admin setting
-                        */
-                            $this->getUrlEncodedImageLink($accessory['link_rewrite']),
-                            /* Changes over */
-                            $accessory['id_image'],
-                            $this->getImageType('large')
-                        )
-                    );
-                    if (count($accessory['specific_prices']) > 0) {
-                        $accessory_products[$index]['discount_price'] = $this->formatPrice($accessory['price']);
-                        if ($accessory['specific_prices']['reduction_type'] == PRICE_REDUCTION_TYPE_PERCENT) {
-                            $temp_p = (float)$accessory['specific_prices']['reduction'] * 100;
-                            $accessory_products[$index]['discount_percentage'] = $temp_p;
-                            unset($temp_p);
-                        } else {
-                            if ($accessory['price_without_reduction']) {
-                                $temp_price = ((float)$accessory['specific_prices']['reduction'] * 100);
-                                $percent = (float)($temp_price / $accessory['price_without_reduction']);
-                                unset($temp_price);
-                            } else {
-                                $percent = 0;
-                            }
-                            $accessory_products[$index]['discount_percentage'] = Tools::ps_round($percent);
-                        }
-                    } else {
-                        $accessory_products[$index]['discount_price'] = '';
-                        $accessory_products[$index]['discount_percentage'] = '';
-                    }
-                    $index++;
-                }
+        if (is_array($accessories)) {
+            foreach ($accessories as &$accessory) {
+                $accessory = $presenter->present(
+                    $this->getProductPresentationSettings(),
+                    Product::getProductProperties($this->context->language->id, $accessory, $this->context),
+                    $this->context->language
+                );
             }
-        } else {
-            $has_accessories = "0";
+            unset($accessory);
         }
-        return array('has_accessories' => $has_accessories, 'accessories_items' => $accessory_products);
+
+        return $accessories;
     }
 
     /**
@@ -507,18 +479,9 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
      *
      * @return array pick items information
      */
-    public function getPackProducts(){
+    public function getPackProducts($presenter){
         $pack_items = Pack::isPack($this->product->id) ? Pack::getItemTable($this->product->id, $this->context->language->id, true) : [];
         $assembler = new ProductAssembler($this->context);
-        $presenter = new ProductListingPresenter(
-            new ImageRetriever(
-                $this->context->link
-            ),
-            $this->context->link,
-            new PriceFormatter(),
-            new ProductColorsRetriever(),
-            $this->getTranslator()
-        );
 
         $presentedPackItems = [];
         foreach ($pack_items as $item) {
