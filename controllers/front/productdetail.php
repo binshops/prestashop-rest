@@ -141,6 +141,7 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
         }
         if ($priceDisplay >= 0 && $priceDisplay <= 2) {
             if ($price_without_reduction <= 0 || !$this->product->specificPrice) {
+                $product['float_price'] = $price;
                 $product['price'] = $this->formatPrice($price);
                 $product['discount_price'] = '';
                 $product['discount_percentage'] = '';
@@ -157,7 +158,9 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
                     unset($temp_price);
                 }
                 $product['price'] = $this->formatPrice($price_without_reduction);
+                $product['float_price'] = $price_without_reduction;
                 $product['discount_price'] = $this->formatPrice($price);
+                $product['discount_float_price'] = $price;
             }
         } else {
             $product['price'] = '';
@@ -381,6 +384,7 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
                     $combination_price = $this->product->getPrice(false, $row['id_product_attribute']);
                 }
                 $combinations[$row['id_product_attribute']]['price'] = $this->formatPrice($combination_price);
+                $combinations[$row['id_product_attribute']]['float_price'] = $combination_price;
                 $combinations[$row['id_product_attribute']]['quantity'] = (int)$row['quantity'];
                 $combinations[$row['id_product_attribute']]['minimal_quantity'] = (int)$row['minimal_quantity'];
             }
