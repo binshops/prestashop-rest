@@ -236,6 +236,7 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
                 $combinations[$index]['id_product_attribute'] = $attr_id;
                 $combinations[$index]['quantity'] = $attr['quantity'];
                 $combinations[$index]['price'] = $attr['price'];
+                $combinations[$index]['float_price'] = $attr['float_price'];
                 $combinations[$index]['minimal_quantity'] = $attr['minimal_quantity'];
                 $attribute_list = '';
                 foreach ($attr['attributes'] as $attribute_id) {
