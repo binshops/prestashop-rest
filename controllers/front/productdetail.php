@@ -27,7 +27,7 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
     private $product = null;
     private $taxConfiguration;
 
-    protected function processPostRequest()
+    protected function processGetRequest()
     {
         $this->taxConfiguration = new TaxConfiguration();
 
@@ -74,7 +74,7 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
         }
     }
 
-    protected function processGetRequest()
+    protected function processPostRequest()
     {
         $this->ajaxRender(json_encode([
             'success' => true,
