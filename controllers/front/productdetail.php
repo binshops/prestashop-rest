@@ -185,15 +185,22 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
         }
         foreach ($images as $image) {
             $product['images'][]['src'] = $this->context->link->getImageLink(
-            /* Changes started by rishabh jain on 3rd sep 2018
-            * To get url encoded image link as per admin setting
-            */
+
                 urlencode($this->product->link_rewrite),
-                /* Changes over */
                 ($this->product->id . '-' . $image['id_image']),
-                $this->getImageType('large')
+                $this->getImageType(Tools::getValue('image_type', 'large'))
             );
         }
+
+        //product cover
+        $product['cover_image'] = $this->context->link->getImageLink(
+
+            urlencode($this->product->link_rewrite),
+            ($this->product->id . '-' . $cover['id_image']),
+            $this->getImageType(Tools::getValue('image_type', 'large'))
+        );
+
+
         $options = array();
         $combinations = array();
         $attributes = $this->getProductAttributesGroups();
