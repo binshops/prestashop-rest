@@ -35,9 +35,8 @@ class BinshopsrestBootstrapModuleFrontController extends AbstractRESTController
         $slidesList = $imagesSlider->getWidgetVariables(null, []);
         $menuItems = $menuItems['children'];
 
-        foreach ($menuItems as $key => $item) {
-            $menuItems[$key]['category_id'] = Tools::substr($item['page_identifier'], -1);
-            if ((boolean)Tools::getValue('menu_with_images', 0)){
+        if ((boolean)Tools::getValue('menu_with_images', 0)){
+            foreach ($menuItems as $key => $item) {
                 $retriever = new \PrestaShop\PrestaShop\Adapter\Image\ImageRetriever(
                     $this->context->link
                 );
