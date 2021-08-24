@@ -19,7 +19,7 @@ class Binshopsrest extends Module
     {
         $this->name = 'binshopsrest';
         $this->tab = 'others';
-        $this->version = '2.1.4';
+        $this->version = '2.2.0';
         $this->author = 'Binshops';
         $this->need_instance = 0;
 
