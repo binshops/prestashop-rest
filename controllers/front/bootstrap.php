@@ -8,6 +8,7 @@
  */
 
 require_once dirname(__FILE__) . '/../AbstractRESTController.php';
+require_once dirname(__FILE__) . '/../../classes/RESTMainMenu.php';
 require_once dirname(__FILE__) . '/../../classes/RESTProductLazyArray.php';
 
 use PrestaShop\PrestaShop\Adapter\Category\CategoryProductSearchProvider;
@@ -30,10 +31,10 @@ class BinshopsrestBootstrapModuleFrontController extends AbstractRESTController
         $this->banner = Module::getInstanceByName('ps_banner');
         $imagesSlider = Module::getInstanceByName('ps_imageslider');
 
-        $menuItems = $mainMenu->getWidgetVariables(null, []);
+        $restMenu = new RESTMainMenu();
+        $menuItems = $restMenu->renderMenu($this->context, $mainMenu);
         $featuredProductsList = $this->getFeaturedProducts();
         $slidesList = $imagesSlider->getWidgetVariables(null, []);
-        $menuItems = $menuItems['children'];
 
         if ((boolean)Tools::getValue('menu_with_images', 0)){
             foreach ($menuItems as $key => $item) {
