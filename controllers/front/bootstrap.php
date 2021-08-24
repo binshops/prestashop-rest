@@ -36,7 +36,7 @@ class BinshopsrestBootstrapModuleFrontController extends AbstractRESTController
         $featuredProductsList = $this->getFeaturedProducts();
         $slidesList = $imagesSlider->getWidgetVariables(null, []);
 
-        if ((boolean)Tools::getValue('menu_with_images', 0)){
+        if (Tools::getValue('menu_with_images', false)){
             foreach ($menuItems as $key => $item) {
                 $retriever = new \PrestaShop\PrestaShop\Adapter\Image\ImageRetriever(
                     $this->context->link
@@ -45,10 +45,18 @@ class BinshopsrestBootstrapModuleFrontController extends AbstractRESTController
                     Tools::substr($item['page_identifier'], -1),
                     $this->context->language->id
                 );
-                $menuItems[$key]['images'] = $retriever->getImage(
-                    $category,
-                    $category->id_image
-                );
+                if (Tools::getValue('menu_with_images', 'all') === "single"){
+                    $menuItems[$key]['image']['src'] =$this->context->link->getImageLink(
+                        urlencode($item['slug']),
+                        ($category->id . '-' . $category->id_image),
+                        $this->getImageType('large')
+                    );
+                }else{
+                    $menuItems[$key]['images'] = $retriever->getImage(
+                        $category,
+                        $category->id_image
+                    );
+                }
             }
         }
 
