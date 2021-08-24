@@ -24,20 +24,38 @@ class BinshopsrestCategoryproductsModuleFrontController extends AbstractProductL
 {
     protected function processGetRequest()
     {
-        $id_category = (int)Tools::getValue('id_category');
+        if ((int)Tools::getValue('id_category')){
+            $id_category = (int)Tools::getValue('id_category');
+        }elseif (Tools::getValue('slug')){
+            $sql = 'SELECT * FROM `' . _DB_PREFIX_ . "category_lang`
+            WHERE link_rewrite = '" . Tools::getValue('slug') . "'";
+            $result = Db::getInstance()->executeS($sql);
+
+            if (empty($result)){
+                $this->ajaxRender(json_encode([
+                    'code' => 302,
+                    'success' => false,
+                    'message' => 'There is not a category with this slug'
+                ]));
+                die;
+            }else{
+                $this->id_category = $result[0]['id_category'];
+                $id_category = $result[0]['id_category'];
+                $_POST['id_category'] = $id_category;
+            }
+        }else{
+            $this->ajaxRender(json_encode([
+                'code' => 301,
+                'success' => false,
+                'message' => 'id category or slug not specified'
+            ]));
+            die;
+        }
+
         $this->category = new Category(
             $id_category,
             $this->context->language->id
         );
-
-        if (!$id_category) {
-            $this->ajaxRender(json_encode([
-                'code' => 301,
-                'success' => false,
-                'message' => 'id category not specified'
-            ]));
-            die;
-        }
 
         $variables = $this->getProductSearchVariables();
         $productList = $variables['products'];
@@ -117,7 +135,6 @@ class BinshopsrestCategoryproductsModuleFrontController extends AbstractProductL
         ]));
         die;
     }
-
 
     public function getListingLabel()
     {
