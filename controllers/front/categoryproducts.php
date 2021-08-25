@@ -78,7 +78,7 @@ class BinshopsrestCategoryproductsModuleFrontController extends AbstractProductL
                 $this->context->getTranslator()
             );
 
-            $productList[$key]['prod_info'] = $lazy_product->getProduct();
+            $productList[$key] = $lazy_product->getProduct();
         }
 
         $facets = array();
