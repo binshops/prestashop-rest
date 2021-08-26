@@ -258,6 +258,11 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
         $product['options'] = $options;
 
         $product['description'] = preg_replace('/<iframe.*?\/iframe>/i', '', $this->product->description);
+        $product['description_short'] = preg_replace('/<iframe.*?\/iframe>/i', '', $this->product->description_short);
+
+        $product['reference'] = $this->product->reference;
+        $product['category_name'] = $this->product->category;
+        $product['manufacturer_name'] = $this->product->manufacturer_name;
 
         /*end:changes made by aayushi on 1 DEC 2018 to add Short Description on product page*/
         $product_info = array();
