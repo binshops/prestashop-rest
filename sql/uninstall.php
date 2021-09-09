@@ -4,6 +4,8 @@
  *
  * @author BINSHOPS
  * @copyright BINSHOPS
+ * @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ * Best In Shops eCommerce Solutions Inc.
  *
  */
 
