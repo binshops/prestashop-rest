@@ -1,5 +1,5 @@
-# PrestaShop REST Module
-This module setups REST API endpoint for any Prestashop website. This module does not require the Prestashop's Webservices feature to be enabled. Totally free without any restriction.
+# PrestaShop REST API Module
+This module exposes REST API endpoints for any Prestashop website. It does not require the Prestashop's Webservices feature to be enabled. Totally free without any restriction.
 
 ### Demo Link
 https://rest.binshops.com/rest/bootstrap
