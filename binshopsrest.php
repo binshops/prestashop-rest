@@ -338,7 +338,7 @@ class Binshopsrest extends Module
                 ]
             ],
             'module-binshopsrest-featuredproducts' => [
-                'rule' => 'rest/featured-products',
+                'rule' => 'rest/featuredproducts',
                 'keywords' => [],
                 'controller' => 'featuredproducts',
                 'params' => [
