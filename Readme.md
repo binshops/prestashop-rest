@@ -15,5 +15,6 @@ You can access full documentation for REST endpoints on Postman publisher:
 https://documenter.getpostman.com/view/1491681/TzkyP1UC
 
 ### Change Log
-- #### 2.2.1 some response cleaning - ability to load menu item images
-- #### 2.2.0 improves bootstrap api - adds id and slug to menu items 
+- #### 2.2.2. adds light bootstrap endpoint
+- 2.2.1 some response cleaning - ability to load menu item images
+- 2.2.0 improves bootstrap api - adds id and slug to menu items 

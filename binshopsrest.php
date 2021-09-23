@@ -265,6 +265,15 @@ class Binshopsrest extends Module
                     'module' => 'binshopsrest'
                 ]
             ],
+            'module-binshopsrest-lightbootstrap' => [
+                'rule' => 'rest/lightbootstrap',
+                'keywords' => [],
+                'controller' => 'lightbootstrap',
+                'params' => [
+                    'fc' => 'module',
+                    'module' => 'binshopsrest'
+                ]
+            ],
             'module-binshopsrest-cartitems' => [
                 'rule' => 'rest/cartitems',
                 'keywords' => [],
