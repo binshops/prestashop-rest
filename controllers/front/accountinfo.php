@@ -15,10 +15,17 @@ class BinshopsrestAccountinfoModuleFrontController extends AbstractAuthRESTContr
 {
     protected function processGetRequest()
     {
+        $user = $this->context->customer;
+        unset($user->secure_key);
+        unset($user->passwd);
+        unset($user->last_passwd_gen);
+        unset($user->reset_password_token);
+        unset($user->reset_password_validity);
+
         $this->ajaxRender(json_encode([
             'code' => 200,
             'success' => true,
-            'psdata' => $this->context->customer
+            'psdata' => $user
         ]));
         die;
     }

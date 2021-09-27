@@ -70,13 +70,20 @@ class BinshopsrestLoginModuleFrontController extends AbstractRESTController
                 Hook::exec('actionAuthentication', ['customer' => $this->context->customer]);
 
                 $messageCode = 200;
+                $user = $this->context->customer;
+                unset($user->secure_key);
+                unset($user->passwd);
+                unset($user->last_passwd_gen);
+                unset($user->reset_password_token);
+                unset($user->reset_password_validity);
+
                 $psdata = array(
                     'status' => 'success',
                     'message' => 'User login successfully',
                     'customer_id' => $customer->id,
                     'session_data' => (int)$this->context->cart->id,
                     'cart_count' => Cart::getNbProducts($this->context->cookie->id_cart),
-                    'user' => $this->context->customer
+                    'user' => $user
                 );
 
                 // Login information have changed, so we check if the cart rules still apply
