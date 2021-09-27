@@ -75,7 +75,8 @@ class BinshopsrestLoginModuleFrontController extends AbstractRESTController
                     'message' => 'User login successfully',
                     'customer_id' => $customer->id,
                     'session_data' => (int)$this->context->cart->id,
-                    'cart_count' => Cart::getNbProducts($this->context->cookie->id_cart)
+                    'cart_count' => Cart::getNbProducts($this->context->cookie->id_cart),
+                    'user' => $this->context->customer
                 );
 
                 // Login information have changed, so we check if the cart rules still apply
