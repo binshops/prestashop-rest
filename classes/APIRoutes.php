@@ -239,6 +239,24 @@ class APIRoutes
                     'module' => 'binshopsrest'
                 ]
             ],
+            'module-binshopsrest-listcomments' => [
+                'rule' => 'rest/listcomments',
+                'keywords' => [],
+                'controller' => 'listcomments',
+                'params' => [
+                    'fc' => 'module',
+                    'module' => 'binshopsrest'
+                ]
+            ],
+            'module-binshopsrest-postcomment' => [
+                'rule' => 'rest/postcomment',
+                'keywords' => [],
+                'controller' => 'postcomment',
+                'params' => [
+                    'fc' => 'module',
+                    'module' => 'binshopsrest'
+                ]
+            ],
             'module-binshopsrest-hello' => [
                 'rule' => 'rest',
                 'keywords' => [],
