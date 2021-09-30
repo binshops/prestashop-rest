@@ -248,10 +248,10 @@ class APIRoutes
                     'module' => 'binshopsrest'
                 ]
             ],
-            'module-binshopsrest-createcomment' => [
-                'rule' => 'rest/createcomment',
+            'module-binshopsrest-postcomment' => [
+                'rule' => 'rest/postcomment',
                 'keywords' => [],
-                'controller' => 'createcomment',
+                'controller' => 'postcomment',
                 'params' => [
                     'fc' => 'module',
                     'module' => 'binshopsrest'
