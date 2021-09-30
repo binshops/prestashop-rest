@@ -54,9 +54,6 @@ class BinshopsrestRegisterModuleFrontController extends AbstractRESTController
         } elseif (empty($lastName)) {
             $psdata = "Last name required";
             $messageCode = 306;
-        } elseif (empty($gender)) {
-            $psdata = "gender required";
-            $messageCode = 307;
         } elseif (Customer::customerExists($email, false, true)) {
             $psdata = "User already exists - checked by email";
             $messageCode = 308;
