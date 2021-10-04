@@ -4,8 +4,6 @@
  *
  * @author BINSHOPS
  * @copyright BINSHOPS
- * @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
- * Best In Shops eCommerce Solutions Inc.
  *
  */
 
@@ -76,6 +74,7 @@ class BinshopsrestRegisterModuleFrontController extends AbstractRESTController
 
                 $status = $cp->save($customer, $password);
 
+                $messageCode = 200;
                 $psdata = array(
                     'registered' => $status,
                     'message' => 'User registered successfully',
