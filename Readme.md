@@ -14,6 +14,9 @@ You can get more info about this module: https://www.binshops.com/prestashop-res
 You can access full documentation for REST endpoints on Postman publisher:
 https://documenter.getpostman.com/view/1491681/TzkyP1UC
 
+### Backward Compatibilirt
+If your shop is running on 1.7.6.x version of PrestaShop, please check the 1.7.6.x branch. The stable version supports latest Ps version. 
+
 ### Change Log
 - #### 2.2.5 product comment api - APIRoutes class
 - 2.2.4 cleaning customer info - makes gender optional - adds user info to login api 
