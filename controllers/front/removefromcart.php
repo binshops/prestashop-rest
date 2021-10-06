@@ -93,10 +93,18 @@ class BinshopsrestRemovefromcartModuleFrontController extends AbstractRESTContro
         CartRule::autoRemoveFromCart();
         CartRule::autoAddToCart();
 
+        $presented_cart = $this->context->cart->getProducts(true);
+        $link = Context::getContext()->link;
+
+        foreach ($presented_cart as $key => $product) {
+            $presented_cart[$key]['image_url'] = $link->getImageLink($product['link_rewrite'], $product['id_image'], Tools::getValue('image_size', ImageType::getFormattedName('small')));
+        }
+
         $this->ajaxRender(json_encode([
             'code' => 200,
             'success' => true,
-            'message' => 'product successfully removed from cart'
+            'message' => 'product successfully removed from cart',
+            'psdata' => $presented_cart
         ]));
         die;
     }

@@ -88,9 +88,17 @@ class BinshopsrestAddtocartModuleFrontController extends AbstractRESTController
                 ]));
                 die;
             } else {
+                $presented_cart = $this->context->cart->getProducts(true);
+                $link = Context::getContext()->link;
+
+                foreach ($presented_cart as $key => $product) {
+                    $presented_cart[$key]['image_url'] = $link->getImageLink($product['link_rewrite'], $product['id_image'], Tools::getValue('image_size', ImageType::getFormattedName('small')));
+                }
+
                 $this->ajaxRender(json_encode([
                     'code' => 200,
-                    'message' => 'added successfully'
+                    'message' => 'added successfully',
+                    'psdata' => $presented_cart
                 ]));
                 die;
             }
