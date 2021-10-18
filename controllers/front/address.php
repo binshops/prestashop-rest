@@ -110,7 +110,7 @@ class BinshopsrestAddressModuleFrontController extends AbstractAuthRESTControlle
         $this->ajaxRender(json_encode([
             'success' => true,
             'code' => 200,
-            'psdata' => $saved,
+            'psdata' => $address,
             'message' => $msg
         ]));
         die;
