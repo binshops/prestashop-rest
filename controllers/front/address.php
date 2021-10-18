@@ -136,17 +136,27 @@ class BinshopsrestAddressModuleFrontController extends AbstractAuthRESTControlle
         );
 
         if ($address->id) {
-            $address->deleted = true;
+            if (!$address->deleted){
+                $address->deleted = true;
 
-            $persister = new CustomerAddressPersister(
-                $this->context->customer,
-                $this->context->cart
-            );
+                $persister = new CustomerAddressPersister(
+                    $this->context->customer,
+                    $this->context->cart,
+                    Tools::getToken(true, $this->context)
+                );
 
-            $saved = $persister->save(
-                $address,
-                Tools::getToken(true, $this->context)
-            );
+                $saved = $persister->save(
+                    $address,
+                    Tools::getToken(true, $this->context)
+                );
+            }else{
+                $this->ajaxRender(json_encode([
+                    'success' => true,
+                    'code' => 202,
+                    'message' => "Address was already deleted"
+                ]));
+                die;
+            }
         } else {
             $this->ajaxRender(json_encode([
                 'success' => true,
