@@ -18,7 +18,8 @@ https://documenter.getpostman.com/view/1491681/TzkyP1UC
 If your shop is running on 1.7.6.x version of PrestaShop, please check the 1.7.6.x branch. The stable version supports latest Ps version. 
 
 ### Change Log
-- #### 2.2.5 product comment api - APIRoutes class
+- 2.2.6 changed cart management API
+- 2.2.5 product comment api - APIRoutes class
 - 2.2.4 cleaning customer info - makes gender optional - adds user info to login api 
 - 2.2.3 adds groups to product details - featured products api refactor 
 - 2.2.2. adds light bootstrap endpoint

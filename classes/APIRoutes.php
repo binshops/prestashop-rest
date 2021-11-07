@@ -68,15 +68,6 @@ class APIRoutes
                     'module' => 'binshopsrest'
                 ]
             ],
-            'module-binshopsrest-cartitems' => [
-                'rule' => 'rest/cartitems',
-                'keywords' => [],
-                'controller' => 'cartitems',
-                'params' => [
-                    'fc' => 'module',
-                    'module' => 'binshopsrest'
-                ]
-            ],
             'module-binshopsrest-productdetail' => [
                 'rule' => 'rest/productdetail',
                 'keywords' => [],
@@ -86,19 +77,10 @@ class APIRoutes
                     'module' => 'binshopsrest'
                 ]
             ],
-            'module-binshopsrest-addtocart' => [
-                'rule' => 'rest/addtocart',
+            'module-binshopsrest-cart' => [
+                'rule' => 'rest/cart',
                 'keywords' => [],
-                'controller' => 'addtocart',
-                'params' => [
-                    'fc' => 'module',
-                    'module' => 'binshopsrest'
-                ]
-            ],
-            'module-binshopsrest-removefromcart' => [
-                'rule' => 'rest/removefromcart',
-                'keywords' => [],
-                'controller' => 'removefromcart',
+                'controller' => 'cart',
                 'params' => [
                     'fc' => 'module',
                     'module' => 'binshopsrest'
