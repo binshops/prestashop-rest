@@ -131,7 +131,12 @@ class BinshopsrestCartModuleFrontController extends AbstractCartRESTController
                 }
             }
         } elseif (!$this->isTokenValid() && Tools::getValue('action') !== 'show' && !Tools::getValue('ajax')) {
-            Tools::redirect('index.php');
+            $this->ajaxRender(json_encode([
+                'code' => 301,
+                'success' => false,
+                'message' => 'cookie is not set',
+            ]));
+            die;
         }
     }
 }
