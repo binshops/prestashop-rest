@@ -248,6 +248,15 @@ class APIRoutes
                     'module' => 'binshopsrest'
                 ]
             ],
+            'module-binshopsrest-checkpayment' => [
+                'rule' => 'rest/checkpayment',
+                'keywords' => [],
+                'controller' => 'checkpayment',
+                'params' => [
+                    'fc' => 'module',
+                    'module' => 'binshopsrest'
+                ]
+            ],
         ];
     }
 }
