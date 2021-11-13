@@ -257,6 +257,15 @@ class APIRoutes
                     'module' => 'binshopsrest'
                 ]
             ],
+            'module-binshopsrest-ps_wirepayment' => [
+                'rule' => 'rest/ps_wirepayment',
+                'keywords' => [],
+                'controller' => 'ps_wirepayment',
+                'params' => [
+                    'fc' => 'module',
+                    'module' => 'binshopsrest'
+                ]
+            ],
         ];
     }
 }
