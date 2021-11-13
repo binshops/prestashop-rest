@@ -63,7 +63,16 @@ abstract class AbstractPaymentRESTController extends ModuleFrontController
             die;
         }
 
-        $this->processRESTPayment();
+        if (Validate::isLoadedObject($this->context->cart) && $this->context->cart->OrderExists() == false){
+            $this->processRESTPayment();
+        }else{
+            $this->ajaxRender(json_encode([
+                'success' => false,
+                'code' => 302,
+                'message' => $this->trans('Cart cannot be loaded or an order has already been placed using this cart', [], 'Admin.Payment.Notification')
+            ]));
+            die;
+        }
 
         $order_presenter = new OrderPresenter();
 

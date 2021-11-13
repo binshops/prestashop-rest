@@ -54,25 +54,16 @@ class BinshopsrestPs_checkpaymentModuleFrontController extends AbstractPaymentRE
 
         $ps_checkpayment = Module::getInstanceByName('ps_checkpayment');
 
-        if (Validate::isLoadedObject($this->context->cart) && $this->context->cart->OrderExists() == false){
-            $ps_checkpayment->validateOrder(
-                (int) $cart->id,
-                (int) Configuration::get('PS_OS_CHEQUE'),
-                $total,
-                $ps_checkpayment->displayName,
-                null,
-                $mailVars,
-                (int) $currency->id,
-                false,
-                $customer->secure_key
-            );
-        }else{
-            $this->ajaxRender(json_encode([
-                'success' => false,
-                'code' => 302,
-                'message' => $this->trans('Cart cannot be loaded or an order has already been placed using this cart', [], 'Admin.Payment.Notification')
-            ]));
-            die;
-        }
+        $ps_checkpayment->validateOrder(
+            (int) $cart->id,
+            (int) Configuration::get('PS_OS_CHEQUE'),
+            $total,
+            $ps_checkpayment->displayName,
+            null,
+            $mailVars,
+            (int) $currency->id,
+            false,
+            $customer->secure_key
+        );
     }
 }
