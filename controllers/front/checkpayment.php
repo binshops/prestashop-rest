@@ -7,26 +7,13 @@
  *
  */
 
-require_once dirname(__FILE__) . '/../AbstractRESTController.php';
+require_once dirname(__FILE__) . '/../AbstractPaymentRESTController.php';
 
-use PrestaShop\PrestaShop\Adapter\Presenter\Order\OrderPresenter;
-
-class BinshopsrestCheckpaymentModuleFrontController extends AbstractRESTController
+class BinshopsrestCheckpaymentModuleFrontController extends AbstractPaymentRESTController
 {
-    protected function processGetRequest()
+    protected function processRESTPayment()
     {
         $cart = $this->context->cart;
-
-        if ($cart->id_customer == 0 || $cart->id_address_delivery == 0 || $cart->id_address_invoice == 0 || !$this->module->active) {
-            Tools::redirect('index.php?controller=order&step=1');
-
-            $this->ajaxRender(json_encode([
-                'success' => false,
-                'code' => 301,
-                'message' => 'payment processing failed'
-            ]));
-            die;
-        }
 
         // Check that this payment option is still available in case the customer changed his address just before the end of the checkout process
         $authorized = false;
@@ -87,47 +74,5 @@ class BinshopsrestCheckpaymentModuleFrontController extends AbstractRESTControll
             ]));
             die;
         }
-
-        $order_presenter = new OrderPresenter();
-
-        $order = new Order(Order::getIdByCartId((int) ($cart->id)));
-        $presentedOrder = $order_presenter->present($order);
-
-        $this->ajaxRender(json_encode([
-            'success' => true,
-            'code' => 200,
-            'message' => 'successful payment',
-            'psdata' => [
-                'order' => $presentedOrder
-            ]
-        ]));
-        die;
-    }
-
-    protected function processPostRequest()
-    {
-        $this->ajaxRender(json_encode([
-            'success' => true,
-            'message' => 'POST not supported on this path'
-        ]));
-        die;
-    }
-
-    protected function processPutRequest()
-    {
-        $this->ajaxRender(json_encode([
-            'success' => true,
-            'message' => 'put not supported on this path'
-        ]));
-        die;
-    }
-
-    protected function processDeleteRequest()
-    {
-        $this->ajaxRender(json_encode([
-            'success' => true,
-            'message' => 'delete not supported on this path'
-        ]));
-        die;
     }
 }
