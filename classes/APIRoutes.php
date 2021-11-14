@@ -77,6 +77,15 @@ class APIRoutes
                     'module' => 'binshopsrest'
                 ]
             ],
+            'module-binshopsrest-orderhistory' => [
+                'rule' => 'rest/orderhistory',
+                'keywords' => [],
+                'controller' => 'orderhistory',
+                'params' => [
+                    'fc' => 'module',
+                    'module' => 'binshopsrest'
+                ]
+            ],
             'module-binshopsrest-cart' => [
                 'rule' => 'rest/cart',
                 'keywords' => [],
