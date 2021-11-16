@@ -12,17 +12,16 @@
 
 require_once dirname(__FILE__) . '/../AbstractAuthRESTController.php';
 
+use PrestaShop\PrestaShop\Adapter\Presenter\Order\OrderPresenter;
+
 class BinshopsrestOrderHistoryModuleFrontController extends AbstractAuthRESTController
 {
-
     protected function processGetRequest()
     {
-
         //proccess single order
         if (Tools::getIsset('id_order')) {
 
             $id_order = Tools::getValue('id_order');
-
             if (Tools::isEmpty($id_order) or !Validate::isUnsignedId($id_order)) {
 
                 $this->ajaxRender(json_encode([
@@ -34,8 +33,8 @@ class BinshopsrestOrderHistoryModuleFrontController extends AbstractAuthRESTCont
             }
 
             //there is a duplication of code but a prevention of new object creation too
-
             $order = new Order($id_order, $this->context->language->id);
+            $order_to_display = (new OrderPresenter())->present($order);
 
             if (Tools::isEmpty($id_order) or !Validate::isLoadedObject($order)) {
 
@@ -50,13 +49,12 @@ class BinshopsrestOrderHistoryModuleFrontController extends AbstractAuthRESTCont
                 $this->ajaxRender(json_encode([
                     'success' => true,
                     'code' => 200,
-                    'psdata' => $order
+                    'psdata' => $order_to_display
                 ]));
                 die;
             }
         }
-
-
+        
         //process all orders
         $customer_orders = Order::getCustomerOrders($this->context->customer->id);
 
