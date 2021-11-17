@@ -10,6 +10,8 @@
  */
 
 require_once dirname(__FILE__) . '/../AbstractRESTController.php';
+require_once dirname(__FILE__) . '/../../classes/RESTProductLazyArray.php';
+
 define('PRICE_REDUCTION_TYPE_PERCENT', 'percentage');
 
 use PrestaShop\PrestaShop\Core\Product\ProductExtraContentFinder;
@@ -57,7 +59,8 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
         } else {
             //this is when you change an attribute, every time a request is sent to get the price and its discount
             if ((boolean)Tools::getValue('refresh', 0)) {
-                $product = $this->getTemplateVarProduct();
+                $product_lazy = $this->getTemplateVarProduct();
+                $product = $product_lazy->getProduct();
                 $product['groups'] = $this->assignAttributesGroups($product);
 
                 $this->ajaxRender(json_encode([
@@ -582,13 +585,19 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
         if ($group_reduction === false) {
             $group_reduction = Group::getReduction((int)$this->context->cookie->id_customer) / 100;
         }
-        $product_full['customer_group_discount'] = $group_reduction;
-        $presenter = $factory->getPresenter();
 
-        return $presenter->present(
+        $product_full['customer_group_discount'] = $group_reduction;
+        $retriever = new \PrestaShop\PrestaShop\Adapter\Image\ImageRetriever(
+            $this->context->link
+        );
+
+        return new RESTProductLazyArray(
             $productSettings,
             $product_full,
-            $this->context->language
+            $this->context->language,
+            new \PrestaShop\PrestaShop\Adapter\Product\PriceFormatter(),
+            $retriever,
+            $this->context->getTranslator()
         );
     }
 
