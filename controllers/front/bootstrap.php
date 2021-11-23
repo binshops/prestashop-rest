@@ -48,10 +48,10 @@ class BinshopsrestBootstrapModuleFrontController extends AbstractRESTController
                     $this->context->language->id
                 );
                 if (Tools::getValue('menu_with_images', 'all') === "single"){
-                    $menuItems[$key]['image']['src'] =$this->context->link->getImageLink(
+                    $menuItems[$key]['image']['src'] =$this->context->link->getCatImageLink(
                         urlencode($item['slug']),
-                        ($category->id . '-' . $category->id_image),
-                        $this->getImageType('large')
+                        ($category->id_image),
+                        'small_default'
                     );
                 }else{
                     $menuItems[$key]['images'] = $retriever->getImage(
