@@ -1,5 +1,5 @@
 <div align="center">
-<img src="https://www.binshops.com/assets/img/logo-medium.png"/>
+<img src="https://www.binshops.com/assets/img/logo-medium.png?v=1.2"/>
 </div>
 
 # PrestaShop REST API Module
