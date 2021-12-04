@@ -1,6 +1,7 @@
 <div align="center">
 <img src="https://www.binshops.com/assets/img/logo-medium.png"/>
 </div>
+
 # PrestaShop REST API Module
 Easily expose REST API endpoints for your Prestashop website. No configuration needed, just install and use it. 
 
