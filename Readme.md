@@ -2,17 +2,19 @@
 Easily expose REST API endpoints for your Prestashop website. No configuration needed, just install and use it. 
 
 ## The products that use this REST API
-<div style="-webkit-column-count: 2; -moz-column-count: 2; column-count: 2;">
-<div class="col-md-6">
+<table>
+<tr>
+<td align="center">
 <a href="https://www.binshops.com/prestashop-pwa" target="_blank">  <img src="https://www.binshops.com/assets/img/prestashop-pwa-github.jpg" alt="PrestaShop PWA" />PrestaShop PWA</a>
-</div>
-<div class="col-md-6">
+</td>
+<td align="center">
 <a href="https://www.binshops.com/prestashop-mobile-application" target="_blank">
   <img src="https://www.binshops.com/assets/img/ps-mobile-app-github.jpg" alt="PrestaShop Mobile Application" />
 PrestaShop Mobile App
 </a>
-</div>
-</div>
+</td>
+</tr>
+</table>
 
 ### Demo Link
 https://rest.binshops.com/rest/bootstrap
