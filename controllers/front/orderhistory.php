@@ -34,22 +34,31 @@ class BinshopsrestOrderHistoryModuleFrontController extends AbstractAuthRESTCont
 
             //there is a duplication of code but a prevention of new object creation too
             $order = new Order($id_order, $this->context->language->id);
-            $order_to_display = (new OrderPresenter())->present($order);
+            if (Validate::isLoadedObject($order) && $order->id_customer == $this->context->customer->id){
+                $order_to_display = (new OrderPresenter())->present($order);
 
-            if (Tools::isEmpty($id_order) or !Validate::isLoadedObject($order)) {
+                if (Tools::isEmpty($id_order) or !Validate::isLoadedObject($order)) {
 
+                    $this->ajaxRender(json_encode([
+                        'success' => true,
+                        'code' => 404,
+                        'message' => 'order not found'
+                    ]));
+                    die;
+                } else {
+
+                    $this->ajaxRender(json_encode([
+                        'success' => true,
+                        'code' => 200,
+                        'psdata' => $order_to_display
+                    ]));
+                    die;
+                }
+            }else{
                 $this->ajaxRender(json_encode([
-                    'success' => true,
+                    'success' => false,
                     'code' => 404,
                     'message' => 'order not found'
-                ]));
-                die;
-            } else {
-
-                $this->ajaxRender(json_encode([
-                    'success' => true,
-                    'code' => 200,
-                    'psdata' => $order_to_display
                 ]));
                 die;
             }
