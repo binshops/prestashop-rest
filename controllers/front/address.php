@@ -138,8 +138,8 @@ class BinshopsrestAddressModuleFrontController extends AbstractAuthRESTControlle
         if ($address->id_customer != $this->context->customer->id) {
             $this->ajaxRender(json_encode([
                 'success' => true,
-                'code' => 305,
-                'message' => "No permission to delete this address"
+                'code' => 301,
+                'message' => "There is not such address"
             ]));
             die;
         }
