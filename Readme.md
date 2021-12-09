@@ -37,6 +37,16 @@ https://documenter.getpostman.com/view/1491681/TzkyP1UC
 If your shop is running on 1.7.6.x version of PrestaShop, please check the 1.7.6.x branch. The stable version supports latest Ps version. 
 
 ### Change Log
+- ### 2.3.0
+  - Adds two payment options 
+  - Cart Management refactoring
+  - Returns cart items on cart update  
+  - Returns newly created address
+  - Returns user info on user login
+  - Removes unnecessary fields from registration  
+  - Product images refactor
+  - Adds attribute groups to product details  
+  - Check permission on address delete and order details
 - 2.2.6 changed cart management API
 - 2.2.5 product comment api - APIRoutes class
 - 2.2.4 cleaning customer info - makes gender optional - adds user info to login api 
