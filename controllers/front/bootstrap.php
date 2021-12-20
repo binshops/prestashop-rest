@@ -63,6 +63,8 @@ class BinshopsrestBootstrapModuleFrontController extends AbstractRESTController
             }
         }
 
+        $id_shop = (int) $this->shop->id;
+
         $psdata = array();
         $psdata['menuItems'] = $menuItems;
         $psdata['featuredProductsList'] = $featuredProductsList['products'];
@@ -71,6 +73,7 @@ class BinshopsrestBootstrapModuleFrontController extends AbstractRESTController
         $psdata['slides'] = $slidesList['homeslider']['slides'];
         $psdata['currencies'] = $this->getCurrencies();
         $psdata['languages'] = $this->getLanguages();
+        $psdata['logo_url'] = _PS_IMG_ .Configuration::get('PS_LOGO', null, null, $id_shop);
 
         $this->ajaxRender(json_encode([
             'success' => true,
