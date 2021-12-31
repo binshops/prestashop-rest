@@ -73,7 +73,7 @@ class BinshopsrestBootstrapModuleFrontController extends AbstractRESTController
         $psdata['slides'] = $slidesList['homeslider']['slides'];
         $psdata['currencies'] = $this->getCurrencies();
         $psdata['languages'] = $this->getLanguages();
-        $psdata['logo_url'] = _PS_IMG_ .Configuration::get('PS_LOGO', null, null, $id_shop);
+        $psdata['logo_url'] = Tools::getHttpHost(true) . _PS_IMG_ .Configuration::get('PS_LOGO', null, null, $id_shop);
 
         $this->ajaxRender(json_encode([
             'success' => true,
