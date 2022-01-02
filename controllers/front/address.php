@@ -57,6 +57,10 @@ class BinshopsrestAddressModuleFrontController extends AbstractAuthRESTControlle
             $this->context->language->id
         );
 
+        if (!Tools::getValue('id_state')) {
+            $address->id_state = 0;
+        }
+
         $deliveryOptionsFinder = new DeliveryOptionsFinder(
             $this->context,
             $this->getTranslator(),
@@ -209,10 +213,6 @@ class BinshopsrestAddressModuleFrontController extends AbstractAuthRESTControlle
         if (!Tools::getValue('country')) {
             $psdata['valid'] = false;
             $psdata['errors'][] = "country-required";
-        }
-        if (!Tools::getValue('id_state')) {
-            $psdata['valid'] = false;
-            $psdata['errors'][] = "id_state-required";
         }
         if (!Tools::getValue('city')) {
             $psdata['valid'] = false;
