@@ -591,6 +591,9 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
             $this->context->link
         );
 
+        $price = $this->product->getPrice(false, $product_full['id_product_attribute']);
+        $product_full['float_price'] = $price;
+
         return new RESTProductLazyArray(
             $productSettings,
             $product_full,
