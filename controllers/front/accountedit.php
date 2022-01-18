@@ -27,7 +27,7 @@ class BinshopsrestAccounteditModuleFrontController extends AbstractRESTControlle
     {
         $_POST = json_decode(Tools::file_get_contents('php://input'), true);
 
-        $psdata = "";
+        $psdata = null; $message = "success";
         $messageCode = 0;
         $success = true;
         $firstName = Tools::getValue('firstName');
@@ -37,27 +37,64 @@ class BinshopsrestAccounteditModuleFrontController extends AbstractRESTControlle
         $gender = Tools::getValue('gender');
         $newsletter = Tools::getValue('newsletter');
 
+        $id_customer = Customer::customerExists($email, true, true);
+        if ($id_customer && $id_customer != $this->context->customer->id) {
+            $this->ajaxRender(json_encode([
+                'success' => false,
+                'code' => 310,
+                'psdata' => null,
+                'message' => 'The email is already used, please choose another one or sign in'
+            ]));
+            die;
+        }
+
+        $birthday = Tools::getValue('birthday');
+        if (!empty($birthday) &&
+            Validate::isBirthDate($birthday, $this->context->language->date_format_lite)
+        ) {
+            $dateBuilt = DateTime::createFromFormat(
+                $this->context->language->date_format_lite,
+                $birthday
+            );
+            $birthday = $dateBuilt->format('Y-m-d');
+        }
+
         if (empty($email)) {
-            $psdata = "An email address required";
+            $success = false;
+            $message = "An email address required";
             $messageCode = 301;
         } elseif (!Validate::isEmail($email)) {
-            $psdata = "Invalid email address";
+            $success = false;
+            $message = "Invalid email address";
             $messageCode = 302;
         } elseif (empty($password)) {
-            $psdata = 'Password is not provided';
+            $success = false;
+            $message = 'Password is not provided';
             $messageCode = 303;
         } elseif (!Validate::isPasswd($password)) {
-            $psdata = "Invalid Password";
+            $success = false;
+            $message = "Invalid Password";
             $messageCode = 304;
         } elseif (empty($firstName)) {
-            $psdata = "First name required";
+            $success = false;
+            $message = "First name required";
             $messageCode = 305;
         } elseif (empty($lastName)) {
-            $psdata = "Last name required";
+            $success = false;
+            $message = "Last name required";
             $messageCode = 306;
         } elseif (empty($gender)) {
-            $psdata = "gender required";
+            $success = false;
+            $message = "gender required";
             $messageCode = 307;
+        } elseif (!Validate::isCustomerName($firstName)){
+            $success = false;
+            $message = "firstname bad format";
+            $messageCode = 311;
+        } elseif (!Validate::isCustomerName($lastName)){
+            $success = false;
+            $message = "lastname bad format";
+            $messageCode = 312;
         } else {
             $guestAllowedCheckout = Configuration::get('PS_GUEST_CHECKOUT_ENABLED');
             $cp = new CustomerPersister(
@@ -75,6 +112,10 @@ class BinshopsrestAccounteditModuleFrontController extends AbstractRESTControlle
                 $customer->id_shop = (int)$this->context->shop->id;
                 $customer->newsletter = $newsletter;
 
+                if (!empty($birthday)){
+                    $customer->birthday = $birthday;
+                }
+
                 $clearTextPassword = Tools::getValue('password');
                 $newPassword = Tools::getValue('new_password');
 
@@ -86,6 +127,8 @@ class BinshopsrestAccounteditModuleFrontController extends AbstractRESTControlle
                 );
 
                 if ($status) {
+                    $messageCode = 200;
+                    $message = 'User updated successfully';
                     $psdata = array(
                         'registered' => $status,
                         'message' => 'User updated successfully',
@@ -93,6 +136,9 @@ class BinshopsrestAccounteditModuleFrontController extends AbstractRESTControlle
                         'session_data' => (int)$this->context->cart->id
                     );
                 } else {
+                    $success = false;
+                    $messageCode = 350;
+                    $message = 'could not update customer';
                     $psdata = array(
                         'registered' => $status,
                         'message' => 'password incorrect',
@@ -102,7 +148,7 @@ class BinshopsrestAccounteditModuleFrontController extends AbstractRESTControlle
                 }
             } catch (Exception $exception) {
                 $messageCode = 300;
-                $psdata = $exception->getMessage();
+                $message = $exception->getMessage();
                 $success = false;
             }
         }
@@ -110,7 +156,8 @@ class BinshopsrestAccounteditModuleFrontController extends AbstractRESTControlle
         $this->ajaxRender(json_encode([
             'success' => $success,
             'code' => $messageCode,
-            'psdata' => $psdata
+            'psdata' => $psdata,
+            'message' => $message
         ]));
         die;
     }
