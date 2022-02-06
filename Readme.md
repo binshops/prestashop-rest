@@ -37,7 +37,7 @@ https://documenter.getpostman.com/view/1491681/TzkyP1UC
 If your shop is running on 1.7.6.x version of PrestaShop, please check the 1.7.6.x branch. The stable version supports latest Ps version. 
 
 ### Required Modules
-These native modules, which are already included in PrestaShop out of the box, are required to work with this REST API.
+These native modules, which are already included in PrestaShop out of the box, are required to work with some endpoints.
 
 - ps_mainmenu (Native Ps Menu module)
 - ps_featuredproducts (Native Ps Featured Products module)
