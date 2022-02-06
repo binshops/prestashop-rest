@@ -63,7 +63,7 @@ class BinshopsrestBootstrapModuleFrontController extends AbstractRESTController
             }
         }
 
-        $id_shop = (int) $this->shop->id;
+        $id_shop = (int) $this->context->shop->id;
 
         $psdata = array();
         $psdata['menuItems'] = $menuItems;
