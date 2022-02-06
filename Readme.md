@@ -36,6 +36,20 @@ https://documenter.getpostman.com/view/1491681/TzkyP1UC
 ### Backward Compatibility
 If your shop is running on 1.7.6.x version of PrestaShop, please check the 1.7.6.x branch. The stable version supports latest Ps version. 
 
+### Required Modules
+These native modules are required to work with this REST API.
+
+- ps_mainmenu (Native Ps Menu module)
+- ps_featuredproducts (Native Ps Featured Products module)
+- ps_facetedsearch (Native Ps Faceted Search module)
+- productcomments (Native Ps Product Comments module)
+- ps_banner (Native Ps Banner module)
+- ps_imageslider (Native Ps Image slider module)
+- ps_wirepayment (Native Ps Bankwire module)
+- ps_checkpayment (Native Ps Pay by Check module)
+
+Request your custom API implementation on Binshops panel - [Your Assistant - Create a Ticket](https://www.binshops.com/panel) 
+
 ### Change Log
 - 2.2.6 changed cart management API
 - 2.2.5 product comment api - APIRoutes class
