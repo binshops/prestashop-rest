@@ -65,8 +65,8 @@ class BinshopsrestProductsearchModuleFrontController extends AbstractProductList
             $productList[$key] = $lazy_product->getProduct();
         }
 
+        $facets = array();
         if ($variables['facets']) {
-            $facets = array();
             foreach ($variables['facets']['filters']->getFacets() as $facet) {
                 array_push($facets, $facet->toArray());
             }
@@ -79,7 +79,7 @@ class BinshopsrestProductsearchModuleFrontController extends AbstractProductList
             'sort_selected' => $variables['sort_selected'],
             'pagination' => $variables['pagination'],
             'facets' => $facets,
-            'active_filter' => $variables['facets']['activeFilters']
+            'active_filter' => isset($variables['facets']['activeFilters'])?$variables['facets']['activeFilters']:[]
         ];
 
         $this->ajaxRender(json_encode([
