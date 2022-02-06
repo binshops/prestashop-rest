@@ -37,7 +37,7 @@ https://documenter.getpostman.com/view/1491681/TzkyP1UC
 If your shop is running on 1.7.6.x version of PrestaShop, please check the 1.7.6.x branch. The stable version supports latest Ps version. 
 
 ### Required Modules
-These native modules are required to work with this REST API.
+These native modules, which are already included in PrestaShop out of the box, are required to work with this REST API.
 
 - ps_mainmenu (Native Ps Menu module)
 - ps_featuredproducts (Native Ps Featured Products module)
@@ -48,7 +48,7 @@ These native modules are required to work with this REST API.
 - ps_wirepayment (Native Ps Bankwire module)
 - ps_checkpayment (Native Ps Pay by Check module)
 
-Request your custom API implementation on Binshops panel - [Your Assistant - Create a Ticket](https://www.binshops.com/panel) 
+You can request your custom API implementation on Binshops panel - [Your Assistant - Create a Ticket](https://www.binshops.com/panel) 
 
 ### Change Log
 - 2.2.6 changed cart management API
