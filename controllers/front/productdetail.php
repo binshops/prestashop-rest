@@ -840,7 +840,6 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
     {
         $colors = [];
         $groups = [];
-        $this->combinations = [];
 
         /** @todo (RM) should only get groups and not all declination ? */
         $attributes_groups = $this->product->getAttributesGroups($this->context->language->id);
@@ -882,79 +881,12 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
                 }
                 $groups[$row['id_attribute_group']]['attributes_quantity'][$row['id_attribute']] += (int) $row['quantity'];
 
-                $this->combinations[$row['id_product_attribute']]['attributes_values'][$row['id_attribute_group']] = $row['attribute_name'];
-                $this->combinations[$row['id_product_attribute']]['attributes'][] = (int) $row['id_attribute'];
-                $this->combinations[$row['id_product_attribute']]['price'] = (float) $row['price'];
 
                 // Call getPriceStatic in order to set $combination_specific_price
                 if (!isset($combination_prices_set[(int) $row['id_product_attribute']])) {
                     $combination_specific_price = null;
                     Product::getPriceStatic((int) $this->product->id, false, $row['id_product_attribute'], 6, null, false, true, 1, false, null, null, null, $combination_specific_price);
                     $combination_prices_set[(int) $row['id_product_attribute']] = true;
-                    $this->combinations[$row['id_product_attribute']]['specific_price'] = $combination_specific_price;
-                }
-                $this->combinations[$row['id_product_attribute']]['ecotax'] = (float) $row['ecotax'];
-                $this->combinations[$row['id_product_attribute']]['weight'] = (float) $row['weight'];
-                $this->combinations[$row['id_product_attribute']]['quantity'] = (int) $row['quantity'];
-                $this->combinations[$row['id_product_attribute']]['reference'] = $row['reference'];
-                $this->combinations[$row['id_product_attribute']]['unit_impact'] = $row['unit_price_impact'];
-                $this->combinations[$row['id_product_attribute']]['minimal_quantity'] = $row['minimal_quantity'];
-                if ($row['available_date'] != '0000-00-00' && Validate::isDate($row['available_date'])) {
-                    $this->combinations[$row['id_product_attribute']]['available_date'] = $row['available_date'];
-                    $this->combinations[$row['id_product_attribute']]['date_formatted'] = Tools::displayDate($row['available_date']);
-                } else {
-                    $this->combinations[$row['id_product_attribute']]['available_date'] = $this->combinations[$row['id_product_attribute']]['date_formatted'] = '';
-                }
-
-                if (!isset($combination_images[$row['id_product_attribute']][0]['id_image'])) {
-                    $this->combinations[$row['id_product_attribute']]['id_image'] = -1;
-                } else {
-                    $this->combinations[$row['id_product_attribute']]['id_image'] = $id_image = (int) $combination_images[$row['id_product_attribute']][0]['id_image'];
-                    if ($row['default_on']) {
-                        foreach ($this->context->smarty->tpl_vars['product']->value['images'] as $image) {
-                            if ($image['cover'] == 1) {
-                                $current_cover = $image;
-                            }
-                        }
-                        if (!isset($current_cover)) {
-                            $current_cover = array_values($this->context->smarty->tpl_vars['product']->value['images'])[0];
-                        }
-
-                        if (is_array($combination_images[$row['id_product_attribute']])) {
-                            foreach ($combination_images[$row['id_product_attribute']] as $tmp) {
-                                if ($tmp['id_image'] == $current_cover['id_image']) {
-                                    $this->combinations[$row['id_product_attribute']]['id_image'] = $id_image = (int) $tmp['id_image'];
-
-                                    break;
-                                }
-                            }
-                        }
-
-                        if ($id_image > 0) {
-                            if (isset($this->context->smarty->tpl_vars['images']->value)) {
-                                $product_images = $this->context->smarty->tpl_vars['images']->value;
-                            }
-                            if (isset($product_images) && is_array($product_images) && isset($product_images[$id_image])) {
-                                $product_images[$id_image]['cover'] = 1;
-                                $this->context->smarty->assign('mainImage', $product_images[$id_image]);
-                                if (count($product_images)) {
-                                    $this->context->smarty->assign('images', $product_images);
-                                }
-                            }
-
-                            $cover = $current_cover;
-
-                            if (isset($cover) && is_array($cover) && isset($product_images) && is_array($product_images)) {
-                                $product_images[$cover['id_image']]['cover'] = 0;
-                                if (isset($product_images[$id_image])) {
-                                    $cover = $product_images[$id_image];
-                                }
-                                $cover['id_image'] = (Configuration::get('PS_LEGACY_IMAGES') ? ($this->product->id . '-' . $id_image) : (int) $id_image);
-                                $cover['id_image_only'] = (int) $id_image;
-                                $this->context->smarty->assign('cover', $cover);
-                            }
-                        }
-                    }
                 }
             }
 
@@ -1025,14 +957,6 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
                         unset($colors[$key]);
                     }
                 }
-            }
-            foreach ($this->combinations as $id_product_attribute => $comb) {
-                $attribute_list = '';
-                foreach ($comb['attributes'] as $id_attribute) {
-                    $attribute_list .= '\'' . (int) $id_attribute . '\',';
-                }
-                $attribute_list = rtrim($attribute_list, ',');
-                $this->combinations[$id_product_attribute]['list'] = $attribute_list;
             }
 
             return $groups;
