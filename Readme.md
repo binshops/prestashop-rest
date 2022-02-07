@@ -9,11 +9,11 @@ Easily expose REST API endpoints for your Prestashop website. No configuration n
 <table>
 <tr>
 <td align="center">
-<a href="https://www.binshops.com/prestashop-pwa" target="_blank">  <img src="https://www.binshops.com/assets/img/prestashop-pwa-github.jpg" alt="PrestaShop PWA" />PrestaShop PWA</a>
+<a href="https://www.binshops.com/prestashop-pwa" target="_blank">  <img src="https://www.binshops.com/assets/img/vue-storefront2.jpg" alt="PrestaShop PWA" />PrestaShop PWA</a>
 </td>
 <td align="center">
 <a href="https://www.binshops.com/prestashop-mobile-application" target="_blank">
-  <img src="https://www.binshops.com/assets/img/ps-mobile-app-github.jpg" alt="PrestaShop Mobile Application" />
+  <img src="https://www.binshops.com/assets/img/ps-mobile-app2.jpg" alt="PrestaShop Mobile Application" />
 PrestaShop Mobile App
 </a>
 </td>
