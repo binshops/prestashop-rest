@@ -7,10 +7,10 @@
  *}
 
 <div class="panel">
-    <h3><i class="icon icon-credit-card"></i> {l s='Binshops REST' mod='binshopsrest'}</h3>
+    <h3><i class="icon icon-credit-card"></i> {l s='PrestaShop REST API' mod='binshopsrest'}</h3>
     <p>
-        <strong>{l s='Now you can access your Prestashop REST endpoints.' mod='binshopsrest'}</strong><br/>
-        {l s='This module works completely without need for any configuration out-of-box. Your endpoint: https://mywebsite.com/rest/' mod='binshopsrest'}
+        <strong>{l s='Your endpoints are ready!' mod='binshopsrest'}</strong><br/>
+        {l s='There is no configuration required for this module out of the box. Your endpoint: https://example.com/rest/{endpoint}' mod='binshopsrest'}
     </p>
     <br/>
 </div>
@@ -73,6 +73,10 @@
                 <li>List All Carriers</li>
                 <li>Set Carrier</li>
                 <li>Payment Options</li>
+                <ul>
+                    <li>Bankwire</li>
+                    <li>Pay by check</li>
+                </ul>
             </ul>
         </li>
     </ul>
