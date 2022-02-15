@@ -34,7 +34,6 @@ class BinshopsrestAddressModuleFrontController extends AbstractAuthRESTControlle
     protected function processPostRequest()
     {
         $_POST = json_decode(Tools::file_get_contents('php://input'), true);
-        $msg = "";
         $validate_obj = $this->validatePost();
 
         if (!$validate_obj['valid']) {
@@ -44,6 +43,30 @@ class BinshopsrestAddressModuleFrontController extends AbstractAuthRESTControlle
                 'psdata' => $validate_obj['errors']
             ]));
             die;
+        }
+
+        $availableCountries = Country::getCountries($this->context->language->id, true);
+        $formatter = new CustomerAddressFormatter(
+            $this->context->country,
+            $this->getTranslator(),
+            $availableCountries
+        );
+
+        $country = $formatter->getCountry();
+        if ($country->need_zip_code){
+            if (!$country->checkZipCode(Tools::getValue('postcode'))) {
+                $this->ajaxRender(json_encode([
+                    'success' => false,
+                    'code' => 303,
+                    'psdata' => [],
+                    'message' => $this->translator->trans(
+                        'Invalid postcode - should look like "%zipcode%"',
+                        ['%zipcode%' => $country->zip_code_format],
+                        'Shop.Forms.Errors'
+                    )
+                ]));
+                die;
+            }
         }
 
         if (Tools::getValue('id_address')) {
