@@ -37,6 +37,9 @@ class BinshopsrestWishlistModuleFrontController extends AbstractProductListingRE
             case 'viewWishlist':
                 $this->viewWishlist();
                 break;
+            case 'deleteProductFromWishList':
+                $this->deleteProductFromWishList();
+                break;
         }
     }
 
@@ -250,6 +253,63 @@ class BinshopsrestWishlistModuleFrontController extends AbstractProductListingRE
             'message' => 'success'
         ]));
         die;
+    }
+
+    private function deleteProductFromWishList(){
+        $id_product = Tools::getValue('id_product');
+        $idWishList = Tools::getValue('idWishList');
+        $id_product_attribute = Tools::getValue('id_product_attribute');
+        $product = new Product($id_product);
+
+        if (!$id_product){
+            $this->ajaxRender(json_encode([
+                'success' => false,
+                'code' => 310,
+                'message' => $this->trans('Id product is not set', [], 'Modules.Blockwishlist.Shop')
+            ]));
+            die;
+        }
+
+        if (!$id_product_attribute){
+            $id_product_attribute = $product->getDefaultIdProductAttribute();
+        }
+
+        if (!$idWishList){
+            $infos = WishList::getAllWishListsByIdCustomer($this->context->customer->id);
+            if (empty($infos)) {
+                $wishlist = new WishList();
+                $wishlist->id_shop = $this->context->shop->id;
+                $wishlist->id_shop_group = $this->context->shop->id_shop_group;
+                $wishlist->id_customer = $this->context->customer->id;
+                $wishlist->name = Configuration::get('blockwishlist_WishlistDefaultTitle', $this->context->language->id);
+                $wishlist->default = 1;
+                $wishlist->add();
+
+                $infos = WishList::getAllWishListsByIdCustomer($this->context->customer->id);
+            }
+            $wishlist = $infos[0];
+            $idWishList = new WishList($wishlist['id_wishlist']);
+        }
+
+        $wishlist = new WishList($idWishList);
+
+        $this->assertWriteAccess($wishlist);
+
+        $isDeleted = WishList::removeProduct(
+            $idWishList,
+            $this->context->customer->id,
+            $id_product,
+            $id_product_attribute
+        );
+
+        if ($isDeleted) {
+            $this->ajaxRender(json_encode([
+                'success' => true,
+                'code' => 200,
+                'message' => $this->trans('Product successfully removed', [], 'Modules.Blockwishlist.Shop')
+            ]));
+            die;
+        }
     }
 
     /**
