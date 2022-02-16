@@ -46,6 +46,9 @@ class BinshopsrestWishlistModuleFrontController extends AbstractProductListingRE
             case 'deleteWishlist':
                 $this->deleteWishlist();
                 break;
+            case 'renameWishlist':
+                $this->renameWishlist();
+                break;
         }
     }
 
@@ -369,6 +372,42 @@ class BinshopsrestWishlistModuleFrontController extends AbstractProductListingRE
                 'success' => true,
                 'code' => 200,
                 'message' => $this->trans('List has been removed', [], 'Modules.Blockwishlist.Shop')
+            ]));
+            die;
+        }
+    }
+
+    private function renameWishlist(){
+        $wishlistName = Tools::getValue('name');
+        $idWishList = Tools::getValue('idWishList');
+
+        if (!$idWishList){
+            $this->ajaxRender(json_encode([
+                'success' => false,
+                'code' => 310,
+                'message' => $this->trans('Wishlist id required', [], 'Modules.Blockwishlist.Shop')
+            ]));
+            die;
+        }elseif(!$wishlistName){
+            $this->ajaxRender(json_encode([
+                'success' => false,
+                'code' => 320,
+                'message' => $this->trans('Wishlist name required', [], 'Modules.Blockwishlist.Shop')
+            ]));
+            die;
+        }
+
+        $wishlist = new WishList($idWishList);
+        // Exit if not owner of the wishlist
+        $this->assertWriteAccess($wishlist);
+
+        $wishlist->name = $wishlistName;
+
+        if ($wishlist->save()) {
+            $this->ajaxRender(json_encode([
+                'success' => false,
+                'code' => 200,
+                'message' => $this->trans('List has been renamed', [], 'Modules.Blockwishlist.Shop')
             ]));
             die;
         }
