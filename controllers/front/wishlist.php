@@ -31,6 +31,12 @@ class BinshopsrestWishlistModuleFrontController extends AbstractProductListingRE
             case 'list':
                 $this->listWishlists();
                 break;
+            case 'addProductToWishlist':
+                $this->addToWishlist();
+                break;
+            case 'viewWishlist':
+                $this->viewWishlist();
+                break;
         }
     }
 
@@ -64,7 +70,7 @@ class BinshopsrestWishlistModuleFrontController extends AbstractProductListingRE
     /**
      * Action Methods
      * **********************************************************************
-    */
+     */
 
     private function listWishlists(){
         $infos = WishList::getAllWishListsByIdCustomer($this->context->customer->id);
@@ -91,10 +97,176 @@ class BinshopsrestWishlistModuleFrontController extends AbstractProductListingRE
         }
     }
 
+    private function addToWishlist(){
+        $id_product = Tools::getValue('id_product');
+        $product = new Product($id_product);
+        if (!Validate::isLoadedObject($product)) {
+            $this->ajaxRender(json_encode([
+                'success' => false,
+                'code' => 310,
+                'message' => $this->trans('There was an error adding the product', [], 'Modules.Blockwishlist.Shop')
+            ]));
+            die;
+        }
+
+        $idWishList = Tools::getValue('idWishList');
+
+        $id_product_attribute = Tools::getValue('id_product_attribute');
+        if (!$id_product_attribute){
+            $id_product_attribute = $product->getDefaultIdProductAttribute();
+        }
+
+        $quantity = Tools::getValue('quantity');
+        if (0 === $quantity) {
+            $quantity = $product->minimal_quantity;
+        }
+
+        if (false === $this->assertProductAttributeExists($id_product, $id_product_attribute) && $id_product_attribute !== 0) {
+
+            $this->ajaxRender(json_encode([
+                'success' => false,
+                'code' => 320,
+                'message' => $this->trans('There was an error while adding the product attributes', [], 'Modules.Blockwishlist.Shop')
+            ]));
+            die;
+        }
+
+        if (!$idWishList){
+            $infos = WishList::getAllWishListsByIdCustomer($this->context->customer->id);
+            if (empty($infos)) {
+                $wishlist = new WishList();
+                $wishlist->id_shop = $this->context->shop->id;
+                $wishlist->id_shop_group = $this->context->shop->id_shop_group;
+                $wishlist->id_customer = $this->context->customer->id;
+                $wishlist->name = Configuration::get('blockwishlist_WishlistDefaultTitle', $this->context->language->id);
+                $wishlist->default = 1;
+                $wishlist->add();
+
+                $infos = WishList::getAllWishListsByIdCustomer($this->context->customer->id);
+            }
+            $wishlist = $infos[0];
+            $idWishList = new WishList($wishlist['id_wishlist']);
+        }
+
+        $wishlist = new WishList($idWishList);
+        // Exit if not owner of the wishlist
+        $this->assertWriteAccess($wishlist);
+
+        $productIsAdded = $wishlist->addProduct(
+            $idWishList,
+            $this->context->customer->id,
+            $id_product,
+            $id_product_attribute,
+            $quantity
+        );
+
+        $newStat = new Statistics();
+        $newStat->id_product = $id_product;
+        $newStat->id_product_attribute = $id_product_attribute;
+        $newStat->id_shop = $this->context->shop->id;
+        $newStat->save();
+
+        if (false === $productIsAdded) {
+            $this->ajaxRender(json_encode([
+                'success' => false,
+                'code' => 330,
+                'message' => $this->trans('There was an error adding the product', [], 'Modules.Blockwishlist.Shop')
+            ]));
+            die;
+        }
+
+        Hook::exec('actionWishlistAddProduct', [
+            'idWishlist' => $idWishList,
+            'customerId' => $this->context->customer->id,
+            'idProduct' => $id_product,
+            'idProductAttribute' => $id_product_attribute,
+        ]);
+
+        $this->ajaxRender(json_encode([
+            'success' => true,
+            'code' => 200,
+            'message' => $this->trans('Product added', [], 'Modules.Blockwishlist.Shop')
+        ]));
+        die;
+    }
+
+    private function viewWishlist(){
+        $idWishList = Tools::getValue('id_wishlist');
+        if (!$idWishList){
+            $infos = WishList::getAllWishListsByIdCustomer($this->context->customer->id);
+            if (empty($infos)) {
+                $wishlist = new WishList();
+                $wishlist->id_shop = $this->context->shop->id;
+                $wishlist->id_shop_group = $this->context->shop->id_shop_group;
+                $wishlist->id_customer = $this->context->customer->id;
+                $wishlist->name = Configuration::get('blockwishlist_WishlistDefaultTitle', $this->context->language->id);
+                $wishlist->default = 1;
+                $wishlist->add();
+
+                $infos = WishList::getAllWishListsByIdCustomer($this->context->customer->id);
+            }
+            $wishlist = $infos[0];
+            $idWishList = new WishList($wishlist['id_wishlist']);
+        }
+
+        $this->wishlist = new WishList($idWishList);
+
+        $this->assertReadAccess($this->wishlist);
+
+        $variables = $this->getProductSearchVariables();
+        $productList = $variables['products'];
+        $retriever = new \PrestaShop\PrestaShop\Adapter\Image\ImageRetriever(
+            $this->context->link
+        );
+
+        $settings = $this->getProductPresentationSettings();
+
+        foreach ($productList as $key => $product) {
+            $populated_product = (new ProductAssembler($this->context))
+                ->assembleProduct($product);
+
+            $lazy_product = new RESTProductLazyArray(
+                $settings,
+                $populated_product,
+                $this->context->language,
+                new \PrestaShop\PrestaShop\Adapter\Product\PriceFormatter(),
+                $retriever,
+                $this->context->getTranslator()
+            );
+
+            $productList[$key] = $lazy_product->getProduct();
+        }
+
+        $psdata = [
+            'wishlistName' => $this->wishlist->name,
+            'label' => $variables['label'],
+            'products' => $productList,
+        ];
+
+        $this->ajaxRender(json_encode([
+            'code' => 200,
+            'success' => true,
+            'psdata' => $psdata,
+            'message' => 'success'
+        ]));
+        die;
+    }
+
     /**
      * Helper methods
      * **********************************************************************
-    */
+     */
+
+    private function assertProductAttributeExists($id_product, $id_product_attribute)
+    {
+        return Db::getInstance()->getValue(
+            'SELECT pas.`id_product_attribute` ' .
+            'FROM `' . _DB_PREFIX_ . 'product_attribute` pa ' .
+            'INNER JOIN `' . _DB_PREFIX_ . 'product_attribute_shop` pas ON (pas.id_product_attribute = pa.id_product_attribute) ' .
+            'WHERE pas.id_shop =' . (int) $this->context->shop->id . ' AND pa.`id_product` = ' . (int) $id_product . ' ' .
+            'AND pas.id_product_attribute = ' . (int) $id_product_attribute
+        );
+    }
 
     private function assertWriteAccess(WishList $wishlist)
     {
@@ -108,6 +280,11 @@ class BinshopsrestWishlistModuleFrontController extends AbstractProductListingRE
             'message' => $this->trans('You\'re not allowed to manage this list.', [], 'Modules.Blockwishlist.Shop')
         ]));
         die;
+    }
+
+    public function assertReadAccess(WishList $wishlist)
+    {
+        $this->assertWriteAccess($wishlist);
     }
 
     public function getListingLabel()
