@@ -43,6 +43,9 @@ class BinshopsrestWishlistModuleFrontController extends AbstractProductListingRE
             case 'createWishlist':
                 $this->createWishlist();
                 break;
+            case 'deleteWishlist':
+                $this->deleteWishlist();
+                break;
         }
     }
 
@@ -343,6 +346,29 @@ class BinshopsrestWishlistModuleFrontController extends AbstractProductListingRE
                     'id_wishlist' => $wishlist->id,
                 ],
                 'message' => $this->trans('The list has been properly created', [], 'Modules.Blockwishlist.Shop')
+            ]));
+            die;
+        }
+    }
+
+    private function deleteWishlist(){
+        if (!Tools::getValue('idWishList')){
+            $this->ajaxRender(json_encode([
+                'success' => false,
+                'code' => 310,
+                'message' => $this->trans('Wishlist id required', [], 'Modules.Blockwishlist.Shop')
+            ]));
+            die;
+        }
+        $wishlist = new WishList(Tools::getValue('idWishList'));
+
+        $this->assertWriteAccess($wishlist);
+
+        if (true === (bool) $wishlist->delete()) {
+            $this->ajaxRender(json_encode([
+                'success' => true,
+                'code' => 200,
+                'message' => $this->trans('List has been removed', [], 'Modules.Blockwishlist.Shop')
             ]));
             die;
         }
