@@ -275,6 +275,15 @@ class APIRoutes
                     'module' => 'binshopsrest'
                 ]
             ],
+            'module-binshopsrest-wishlist' => [
+                'rule' => 'rest/wishlist',
+                'keywords' => [],
+                'controller' => 'wishlist',
+                'params' => [
+                    'fc' => 'module',
+                    'module' => 'binshopsrest'
+                ]
+            ],
         ];
     }
 }
