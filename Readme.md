@@ -49,6 +49,7 @@ These native modules, which are already included in PrestaShop out of the box, a
 - ps_imageslider (Native Ps Image slider module)
 - ps_wirepayment (Native Ps Bankwire module)
 - ps_checkpayment (Native Ps Pay by Check module)
+- blockwishlist (Native Ps Wishlist module)
 
 You can request your custom API implementation on Binshops panel - [Your Assistant - Create a Ticket](https://www.binshops.com/panel) 
 
