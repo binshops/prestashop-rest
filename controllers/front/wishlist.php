@@ -40,6 +40,9 @@ class BinshopsrestWishlistModuleFrontController extends AbstractProductListingRE
             case 'deleteProductFromWishList':
                 $this->deleteProductFromWishList();
                 break;
+            case 'createWishlist':
+                $this->createWishlist();
+                break;
         }
     }
 
@@ -312,10 +315,48 @@ class BinshopsrestWishlistModuleFrontController extends AbstractProductListingRE
         }
     }
 
+    private function createWishlist(){
+        $wishlistName = Tools::getValue('name');
+
+        if (!$wishlistName){
+            $this->ajaxRender(json_encode([
+                'success' => false,
+                'code' => 310,
+                'message' => $this->trans('Wishlist name required', [], 'Modules.Blockwishlist.Shop')
+            ]));
+            die;
+        }
+
+        $wishlist = new WishList();
+        $wishlist->name = $wishlistName;
+        $wishlist->id_shop_group = $this->context->shop->id_shop_group;
+        $wishlist->id_customer = $this->context->customer->id;
+        $wishlist->id_shop = $this->context->shop->id;
+        $wishlist->token = $this->generateWishListToken();
+
+        if ($wishlist->save()) {
+            $this->ajaxRender(json_encode([
+                'success' => true,
+                'code' => 200,
+                'psdata' => [
+                    'name' => $wishlist->name,
+                    'id_wishlist' => $wishlist->id,
+                ],
+                'message' => $this->trans('The list has been properly created', [], 'Modules.Blockwishlist.Shop')
+            ]));
+            die;
+        }
+    }
+
     /**
      * Helper methods
      * **********************************************************************
      */
+
+    private function generateWishListToken()
+    {
+        return strtoupper(substr(sha1(uniqid((string) rand(), true) . _COOKIE_KEY_ . $this->context->customer->id), 0, 16));
+    }
 
     private function assertProductAttributeExists($id_product, $id_product_attribute)
     {
