@@ -284,6 +284,15 @@ class APIRoutes
                     'module' => 'binshopsrest'
                 ]
             ],
+            'module-binshopsrest-emailsubscription' => [
+                'rule' => 'rest/emailsubscription',
+                'keywords' => [],
+                'controller' => 'emailsubscription',
+                'params' => [
+                    'fc' => 'module',
+                    'module' => 'binshopsrest'
+                ]
+            ],
         ];
     }
 }
