@@ -103,6 +103,13 @@ class BinshopsrestCategoryproductsModuleFrontController extends AbstractProductL
             'facets' => $facets
         ];
 
+        if (Tools::getValue('with_category_tree')){
+            $this->context->cookie->last_visited_category = $id_category;
+            $categoryTreeModule = Module::getInstanceByName('ps_categorytree');
+            $categoryTreeVariables = $categoryTreeModule->getWidgetVariables();
+            $psdata['categories'] = $categoryTreeVariables['categories'];
+        }
+
         $this->ajaxRender(json_encode([
             'code' => 200,
             'success' => true,
