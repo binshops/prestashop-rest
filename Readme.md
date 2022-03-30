@@ -54,8 +54,13 @@ These native modules, which are already included in PrestaShop out of the box, a
 You can request your custom API implementation on Binshops panel - [Your Assistant - Create a Ticket](https://www.binshops.com/panel) 
 
 ### Change Log
-- ### 2.4.0
-  - Adds Wishlist endpoints
+- ### 2.4.x Latest Version
+- 2.4.2
+  - Added attributes array in cart
+- 2.4.1
+  - Added email subscription 
+- 2.4.0
+  - Added Wishlist endpoints
   - Added Zipcode validation
   - Added currencies to bootstrap/lightbootstrap API
   - Added languages to bootstrap/lightbootstrap API
