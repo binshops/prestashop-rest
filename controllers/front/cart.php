@@ -42,6 +42,8 @@ class BinshopsrestCartModuleFrontController extends AbstractCartRESTController
 
         foreach ($products as $key => $product) {
             $products[$key]['image_url'] = $link->getImageLink($product['link_rewrite'], $product['id_image'], Tools::getValue('image_size', ImageType::getFormattedName('small')));
+
+            $products[$key]['attributes_array'] = $presented_cart['products'][$key]['attributes'];
         }
 
         $presented_cart['products'] = $products;
