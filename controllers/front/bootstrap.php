@@ -75,6 +75,13 @@ class BinshopsrestBootstrapModuleFrontController extends AbstractRESTController
         $psdata['languages'] = $this->getLanguages();
         $psdata['logo_url'] = Tools::getHttpHost(true) . _PS_IMG_ .Configuration::get('PS_LOGO', null, null, $id_shop);
 
+        if (file_exists(_PS_IMG_DIR_.Configuration::get('PS_LOGO'))) {
+            $size = getimagesize(_PS_IMG_DIR_.Configuration::get('PS_LOGO'));
+        }
+
+        $psdata['logo_width'] = isset($size[0]) ? $size[0] : '100';
+        $psdata['logo_height'] = isset($size[1]) ? $size[1] : '28';
+
         $this->ajaxRender(json_encode([
             'success' => true,
             'code' => $messageCode,
