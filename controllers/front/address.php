@@ -143,15 +143,6 @@ class BinshopsrestAddressModuleFrontController extends AbstractAuthRESTControlle
         die;
     }
 
-    protected function processPutRequest()
-    {
-        $this->ajaxRender(json_encode([
-            'success' => true,
-            'message' => 'put not supported on this path'
-        ]));
-        die;
-    }
-
     protected function processDeleteRequest()
     {
         $_POST = json_decode(Tools::file_get_contents('php://input'), true);

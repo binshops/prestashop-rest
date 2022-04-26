@@ -15,16 +15,6 @@ use PrestaShop\PrestaShop\Adapter\Product\PriceFormatter;
 
 class BinshopsrestSetaddresscheckoutModuleFrontController extends AbstractAuthRESTController
 {
-
-    protected function processGetRequest()
-    {
-        $this->ajaxRender(json_encode([
-            'success' => true,
-            'message' => 'GET not supported on this path'
-        ]));
-        die;
-    }
-
     protected function processPostRequest()
     {
         $_POST = json_decode(Tools::file_get_contents('php://input'), true);
@@ -55,24 +45,6 @@ class BinshopsrestSetaddresscheckoutModuleFrontController extends AbstractAuthRE
             'success' => true,
             'code' => 200,
             'psdata' => "id address has been successfully set"
-        ]));
-        die;
-    }
-
-    protected function processPutRequest()
-    {
-        $this->ajaxRender(json_encode([
-            'success' => true,
-            'message' => 'put not supported on this path'
-        ]));
-        die;
-    }
-
-    protected function processDeleteRequest()
-    {
-        $this->ajaxRender(json_encode([
-            'success' => true,
-            'message' => 'delete not supported on this path'
         ]));
         die;
     }

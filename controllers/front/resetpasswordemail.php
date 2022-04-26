@@ -13,16 +13,6 @@ require_once dirname(__FILE__) . '/../AbstractRESTController.php';
 
 class BinshopsrestResetpasswordemailModuleFrontController extends AbstractRESTController
 {
-
-    protected function processGetRequest()
-    {
-        $this->ajaxRender(json_encode([
-            'success' => true,
-            'message' => 'Hello Binshops API!'
-        ]));
-        die;
-    }
-
     protected function processPostRequest()
     {
         $_POST = json_decode(Tools::file_get_contents('php://input'), true);
@@ -32,24 +22,6 @@ class BinshopsrestResetpasswordemailModuleFrontController extends AbstractRESTCo
         $this->ajaxRender(json_encode([
             'success' => "Successfully send rest-code",
             'code' => 200
-        ]));
-        die;
-    }
-
-    protected function processPutRequest()
-    {
-        $this->ajaxRender(json_encode([
-            'success' => true,
-            'message' => 'put not supported on this path'
-        ]));
-        die;
-    }
-
-    protected function processDeleteRequest()
-    {
-        $this->ajaxRender(json_encode([
-            'success' => true,
-            'message' => 'delete not supported on this path'
         ]));
         die;
     }
