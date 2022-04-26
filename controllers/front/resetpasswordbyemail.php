@@ -18,7 +18,7 @@ class BinshopsrestResetpasswordbyemailModuleFrontController extends AbstractREST
     protected function processPostRequest()
     {
         $_POST = json_decode(Tools::file_get_contents('php://input'), true);
-        $this->psdata = "pass reset mail successfully sent";
+        $this->psdata = $this->trans("pass reset mail successfully sent", [], 'Modules.Binshopsrest.Auth');
 
         $this->sendRenewPasswordLink();
 

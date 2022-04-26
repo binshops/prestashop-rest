@@ -36,7 +36,7 @@ class BinshopsrestSetaddresscheckoutModuleFrontController extends AbstractAuthRE
             $this->ajaxRender(json_encode([
                 'success' => true,
                 'code' => 301,
-                'psdata' => "id_address-required"
+                'psdata' => $this->trans("id_address-required", [], 'Modules.Binshopsrest.Checkout')
             ]));
             die;
         }
@@ -44,7 +44,7 @@ class BinshopsrestSetaddresscheckoutModuleFrontController extends AbstractAuthRE
         $this->ajaxRender(json_encode([
             'success' => true,
             'code' => 200,
-            'psdata' => "id address has been successfully set"
+            'psdata' => $this->trans("id address has been successfully set", [], 'Modules.Binshopsrest.Checkout')
         ]));
         die;
     }

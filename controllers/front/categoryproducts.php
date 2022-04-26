@@ -37,7 +37,7 @@ class BinshopsrestCategoryproductsModuleFrontController extends AbstractProductL
                 $this->ajaxRender(json_encode([
                     'code' => 302,
                     'success' => false,
-                    'message' => 'There is not a category with this slug'
+                    'message' => $this->trans('There is not a category with this slug', [], 'Modules.Binshopsrest.Category')
                 ]));
                 die;
             }else{
@@ -49,7 +49,7 @@ class BinshopsrestCategoryproductsModuleFrontController extends AbstractProductL
             $this->ajaxRender(json_encode([
                 'code' => 301,
                 'success' => false,
-                'message' => 'id category or slug not specified'
+                'message' => $this->trans('Id category or slug not specified', [], 'Modules.Binshopsrest.Category')
             ]));
             die;
         }

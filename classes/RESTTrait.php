@@ -5,7 +5,7 @@ trait RESTTrait
     protected function processGetRequest(){
         $this->ajaxRender(json_encode([
             'success' => true,
-            'message' => 'GET not supported on this path'
+            'message' => $this->trans('GET not supported on this path', [], 'Modules.Binshopsrest.Admin')
         ]));
         die;
     }
@@ -13,7 +13,7 @@ trait RESTTrait
     protected function processPostRequest(){
         $this->ajaxRender(json_encode([
             'success' => true,
-            'message' => 'POST not supported on this path'
+            'message' => $this->trans('POST not supported on this path', [], 'Modules.Binshopsrest.Admin')
         ]));
         die;
     }
@@ -21,7 +21,7 @@ trait RESTTrait
     protected function processPutRequest(){
         $this->ajaxRender(json_encode([
             'success' => true,
-            'message' => 'PUT not supported on this path'
+            'message' => $this->trans('PUT not supported on this path', [], 'Modules.Binshopsrest.Admin')
         ]));
         die;
     }
@@ -29,7 +29,7 @@ trait RESTTrait
     protected function processDeleteRequest(){
         $this->ajaxRender(json_encode([
             'success' => true,
-            'message' => 'DELETE not supported on this path'
+            'message' => $this->trans('DELETE not supported on this path', [], 'Modules.Binshopsrest.Admin')
         ]));
         die;
     }

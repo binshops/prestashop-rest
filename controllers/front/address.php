@@ -157,7 +157,7 @@ class BinshopsrestAddressModuleFrontController extends AbstractAuthRESTControlle
             $this->ajaxRender(json_encode([
                 'success' => true,
                 'code' => 301,
-                'message' => "There is not such address"
+                'message' => $this->trans("Address is not available", [], 'Modules.Binshopsrest.Address')
             ]));
             die;
         }
@@ -180,7 +180,7 @@ class BinshopsrestAddressModuleFrontController extends AbstractAuthRESTControlle
                 $this->ajaxRender(json_encode([
                     'success' => true,
                     'code' => 202,
-                    'message' => "Address was already deleted"
+                    'message' => $this->trans("Address was already deleted", [], 'Modules.Binshopsrest.Address')
                 ]));
                 die;
             }
@@ -188,7 +188,7 @@ class BinshopsrestAddressModuleFrontController extends AbstractAuthRESTControlle
             $this->ajaxRender(json_encode([
                 'success' => true,
                 'code' => 301,
-                'message' => "There is not such address"
+                'message' => $this->trans("Address is not available", [], 'Modules.Binshopsrest.Address')
             ]));
             die;
         }
@@ -197,7 +197,7 @@ class BinshopsrestAddressModuleFrontController extends AbstractAuthRESTControlle
             'success' => true,
             'code' => 200,
             'psdata' => $saved,
-            'message' => "Address successfully deleted"
+            'message' => $this->trans("Address successfully deleted", [], 'Modules.Binshopsrest.Address')
         ]));
         die;
     }

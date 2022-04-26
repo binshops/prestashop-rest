@@ -26,25 +26,25 @@ class BinshopsrestRegisterModuleFrontController extends AbstractRESTController
         $newsletter = Tools::getValue('newsletter');
 
         if (empty($email)) {
-            $psdata = "An email address required";
+            $psdata = $this->trans("An email address required", [], 'Modules.Binshopsrest.Auth');
             $messageCode = 301;
         } elseif (!Validate::isEmail($email)) {
-            $psdata = "Invalid email address";
+            $psdata = $this->trans("Invalid email address", [], 'Modules.Binshopsrest.Auth');
             $messageCode = 302;
         } elseif (empty($password)) {
-            $psdata = 'Password is not provided';
+            $psdata = $this->trans('Password is not provided', [], 'Modules.Binshopsrest.Auth');
             $messageCode = 303;
         } elseif (!Validate::isPasswd($password)) {
-            $psdata = "Invalid Password";
+            $psdata = $this->trans("Invalid Password", [], 'Modules.Binshopsrest.Auth');
             $messageCode = 304;
         } elseif (empty($firstName)) {
-            $psdata = "First name required";
+            $psdata = $this->trans("First name required", [], 'Modules.Binshopsrest.Auth');
             $messageCode = 305;
         } elseif (empty($lastName)) {
-            $psdata = "Last name required";
+            $psdata = $this->trans("Last name required", [], 'Modules.Binshopsrest.Auth');
             $messageCode = 306;
         } elseif (Customer::customerExists($email, false, true)) {
-            $psdata = "User already exists - checked by email";
+            $psdata = $this->trans("User already exists - checked by email", [], 'Modules.Binshopsrest.Auth');
             $messageCode = 308;
         } else {
             $guestAllowedCheckout = Configuration::get('PS_GUEST_CHECKOUT_ENABLED');
@@ -68,7 +68,7 @@ class BinshopsrestRegisterModuleFrontController extends AbstractRESTController
                 $messageCode = 200;
                 $psdata = array(
                     'registered' => $status,
-                    'message' => 'User registered successfully',
+                    'message' => $this->trans('User registered successfully', [], 'Modules.Binshopsrest.Auth'),
                     'customer_id' => $customer->id,
                     'session_data' => (int)$this->context->cart->id
                 );

@@ -38,7 +38,7 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
         if (!(int)Tools::getValue('product_id', 0)) {
             $this->ajaxRender(json_encode([
                 'code' => 301,
-                'message' => 'product id not specified'
+                'message' => $this->trans('product id not specified', [], 'Modules.Binshopsrest.Product')
             ]));
             die;
         }
@@ -53,7 +53,7 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
         if (!Validate::isLoadedObject($this->product)) {
             $this->ajaxRender(json_encode([
                 'code' => 302,
-                'message' => 'product not found'
+                'message' => $this->trans('product not found', [], 'Modules.Binshopsrest.Product')
             ]));
             die;
         } else {

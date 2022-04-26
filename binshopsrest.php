@@ -43,6 +43,11 @@ class Binshopsrest extends Module
         $this->module_key = 'b3c3c0c41d0223b9ff10c87b8acb65f5';
     }
 
+    public function isUsingNewTranslationSystem()
+    {
+        return true;
+    }
+
     /**
      * Don't forget to create update methods if needed:
      * http://doc.prestashop.com/display/PS16/Enabling+the+Auto-Update
