@@ -63,7 +63,7 @@ class BinshopsrestOrderHistoryModuleFrontController extends AbstractAuthRESTCont
                 die;
             }
         }
-        
+
         //process all orders
         $customer_orders = Order::getCustomerOrders($this->context->customer->id);
 
@@ -71,33 +71,6 @@ class BinshopsrestOrderHistoryModuleFrontController extends AbstractAuthRESTCont
             'success' => true,
             'code' => 200,
             'psdata' => $customer_orders
-        ]));
-        die;
-    }
-
-    protected function processPostRequest()
-    {
-        $this->ajaxRender(json_encode([
-            'success' => true,
-            'message' => 'POST not supported on this path'
-        ]));
-        die;
-    }
-
-    protected function processPutRequest()
-    {
-        $this->ajaxRender(json_encode([
-            'success' => true,
-            'message' => 'put not supported on this path'
-        ]));
-        die;
-    }
-
-    protected function processDeleteRequest()
-    {
-        $this->ajaxRender(json_encode([
-            'success' => true,
-            'message' => 'delete not supported on this path'
         ]));
         die;
     }

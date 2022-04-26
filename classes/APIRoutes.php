@@ -113,15 +113,6 @@ class APIRoutes
                     'module' => 'binshopsrest'
                 ]
             ],
-            'module-binshopsrest-checkout' => [
-                'rule' => 'rest/checkout',
-                'keywords' => [],
-                'controller' => 'checkout',
-                'params' => [
-                    'fc' => 'module',
-                    'module' => 'binshopsrest'
-                ]
-            ],
             'module-binshopsrest-featuredproducts' => [
                 'rule' => 'rest/featuredproducts',
                 'keywords' => [],

@@ -59,24 +59,6 @@ class BinshopsrestEmailsubscriptionModuleFrontController extends AbstractRESTCon
         }
     }
 
-    protected function processPutRequest()
-    {
-        $this->ajaxRender(json_encode([
-            'success' => true,
-            'message' => 'put not supported on this path'
-        ]));
-        die;
-    }
-
-    protected function processDeleteRequest()
-    {
-        $this->ajaxRender(json_encode([
-            'success' => true,
-            'message' => 'delete not supported on this path'
-        ]));
-        die;
-    }
-
     protected function registerGuest($email, $active = true)
     {
         $sql = 'INSERT INTO ' . _DB_PREFIX_ . 'emailsubscription (id_shop, id_shop_group, email, newsletter_date_add, ip_registration_newsletter, http_referer, active, id_lang)

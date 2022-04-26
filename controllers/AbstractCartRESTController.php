@@ -1,6 +1,10 @@
 <?php
 
+require_once dirname(__FILE__) . '/../classes/RESTTrait.php';
+
 abstract class AbstractCartRESTController extends CartControllerCore {
+    use RESTTrait;
+
     public function init()
     {
         header('Content-Type: ' . "application/json");
@@ -23,14 +27,6 @@ abstract class AbstractCartRESTController extends CartControllerCore {
                 // throw some error or whatever
         }
     }
-
-    abstract protected function processGetRequest();
-
-    abstract protected function processPostRequest();
-
-    abstract protected function processPutRequest();
-
-    abstract protected function processDeleteRequest();
 
     protected function checkCartProductsMinimalQuantities()
     {

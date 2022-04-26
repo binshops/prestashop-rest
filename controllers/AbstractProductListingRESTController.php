@@ -9,6 +9,8 @@
  *
  */
 
+require_once dirname(__FILE__) . '/../classes/RESTTrait.php';
+
 use PrestaShop\PrestaShop\Adapter\Image\ImageRetriever;
 use PrestaShop\PrestaShop\Core\Product\Search\ProductSearchQuery;
 use PrestaShop\PrestaShop\Core\Product\Search\SortOrder;
@@ -20,6 +22,8 @@ use PrestaShop\PrestaShop\Core\Product\Search\ProductSearchResult;
  */
 abstract class AbstractProductListingRESTController extends ProductListingFrontController
 {
+    use RESTTrait;
+
     protected $category;
 
     public function init()
@@ -44,14 +48,6 @@ abstract class AbstractProductListingRESTController extends ProductListingFrontC
                 // throw some error or whatever
         }
     }
-
-    abstract protected function processGetRequest();
-
-    abstract protected function processPostRequest();
-
-    abstract protected function processPutRequest();
-
-    abstract protected function processDeleteRequest();
 
     protected function getImage($object, $id_image)
     {

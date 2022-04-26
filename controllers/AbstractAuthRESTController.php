@@ -12,7 +12,7 @@
 require_once dirname(__FILE__) . '/AbstractRESTController.php';
 
 /**
- * Any REST request which needs authentication must extend this class
+ * Protected REST endpoints should extend this class
  */
 abstract class AbstractAuthRESTController extends AbstractRESTController
 {

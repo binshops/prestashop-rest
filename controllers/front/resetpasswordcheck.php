@@ -13,16 +13,6 @@ require_once dirname(__FILE__) . '/../AbstractRESTController.php';
 
 class BinshopsrestResetpasswordcheckModuleFrontController extends AbstractRESTController
 {
-
-    protected function processGetRequest()
-    {
-        $this->ajaxRender(json_encode([
-            'success' => true,
-            'message' => 'GET not supported on this path'
-        ]));
-        die;
-    }
-
     protected function processPostRequest()
     {
         $_POST = json_decode(Tools::file_get_contents('php://input'), true);
@@ -71,23 +61,5 @@ class BinshopsrestResetpasswordcheckModuleFrontController extends AbstractRESTCo
             ]));
             die;
         }
-    }
-
-    protected function processPutRequest()
-    {
-        $this->ajaxRender(json_encode([
-            'success' => true,
-            'message' => 'put not supported on this path'
-        ]));
-        die;
-    }
-
-    protected function processDeleteRequest()
-    {
-        $this->ajaxRender(json_encode([
-            'success' => true,
-            'message' => 'delete not supported on this path'
-        ]));
-        die;
     }
 }
