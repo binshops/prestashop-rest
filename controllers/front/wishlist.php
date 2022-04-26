@@ -52,33 +52,6 @@ class BinshopsrestWishlistModuleFrontController extends AbstractProductListingRE
         }
     }
 
-    protected function processPostRequest()
-    {
-        $this->ajaxRender(json_encode([
-            'success' => true,
-            'message' => 'POST not supported on this path'
-        ]));
-        die;
-    }
-
-    protected function processPutRequest()
-    {
-        $this->ajaxRender(json_encode([
-            'success' => true,
-            'message' => 'put not supported on this path'
-        ]));
-        die;
-    }
-
-    protected function processDeleteRequest()
-    {
-        $this->ajaxRender(json_encode([
-            'success' => true,
-            'message' => 'delete not supported on this path'
-        ]));
-        die;
-    }
-
     /**
      * Action Methods
      * **********************************************************************
@@ -103,7 +76,7 @@ class BinshopsrestWishlistModuleFrontController extends AbstractProductListingRE
                 'success' => true,
                 'code' => 200,
                 'psdata' => $infos,
-                'message' => 'success'
+                'message' => $this->trans('success', [], 'Modules.Binshopsrest.Wishlist')
             ]));
             die;
         }
@@ -259,7 +232,7 @@ class BinshopsrestWishlistModuleFrontController extends AbstractProductListingRE
             'code' => 200,
             'success' => true,
             'psdata' => $psdata,
-            'message' => 'success'
+            'message' => $this->trans('success', [], 'Modules.Binshopsrest.Wishlist')
         ]));
         die;
     }

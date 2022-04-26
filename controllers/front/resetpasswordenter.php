@@ -15,15 +15,6 @@ class BinshopsrestResetpasswordenterModuleFrontController extends AbstractRESTCo
 {
     private $psdata;
 
-    protected function processGetRequest()
-    {
-        $this->ajaxRender(json_encode([
-            'success' => true,
-            'message' => 'GET not supported on this path'
-        ]));
-        die;
-    }
-
     protected function processPostRequest()
     {
         $_POST = json_decode(Tools::file_get_contents('php://input'), true);
@@ -34,24 +25,6 @@ class BinshopsrestResetpasswordenterModuleFrontController extends AbstractRESTCo
             'success' => false,
             'code' => 200,
             'psdata' => "password reset successfully"
-        ]));
-        die;
-    }
-
-    protected function processPutRequest()
-    {
-        $this->ajaxRender(json_encode([
-            'success' => true,
-            'message' => 'put not supported on this path'
-        ]));
-        die;
-    }
-
-    protected function processDeleteRequest()
-    {
-        $this->ajaxRender(json_encode([
-            'success' => true,
-            'message' => 'delete not supported on this path'
         ]));
         die;
     }
@@ -73,14 +46,14 @@ class BinshopsrestResetpasswordenterModuleFrontController extends AbstractRESTCo
             $this->ajaxRender(json_encode([
                 'success' => true,
                 'code' => 200,
-                'psdata' => "this state is not expected"
+                'psdata' => $this->trans("this state is not expected", [], 'Modules.Binshopsrest.Auth')
             ]));
             die;
         } elseif (strtotime(end($result)['reset_password_validity']) < time()) {
             $this->ajaxRender(json_encode([
                 'success' => true,
                 'code' => 200,
-                'psdata' => "expired"
+                'psdata' => $this->trans("expired", [], 'Modules.Binshopsrest.Auth')
             ]));
             die;
         }
@@ -148,7 +121,7 @@ class BinshopsrestResetpasswordenterModuleFrontController extends AbstractRESTCo
             $this->ajaxRender(json_encode([
                 'success' => false,
                 'code' => 301,
-                'psdata' => "code not matched"
+                'psdata' => $this->trans("code not matched", [], 'Modules.Binshopsrest.Auth')
             ]));
             die;
         }

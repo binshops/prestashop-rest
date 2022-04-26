@@ -13,16 +13,6 @@ require_once dirname(__FILE__) . '/../AbstractRESTController.php';
 
 class BinshopsrestAccounteditModuleFrontController extends AbstractRESTController
 {
-
-    protected function processGetRequest()
-    {
-        $this->ajaxRender(json_encode([
-            'success' => true,
-            'message' => 'GET not supported on this path'
-        ]));
-        die;
-    }
-
     protected function processPostRequest()
     {
         $_POST = json_decode(Tools::file_get_contents('php://input'), true);
@@ -43,7 +33,7 @@ class BinshopsrestAccounteditModuleFrontController extends AbstractRESTControlle
                 'success' => false,
                 'code' => 310,
                 'psdata' => null,
-                'message' => 'The email is already used, please choose another one or sign in'
+                'message' => $this->trans('The email is already used, please choose another one or sign in', [], 'Modules.Binshopsrest.Account')
             ]));
             die;
         }
@@ -131,7 +121,7 @@ class BinshopsrestAccounteditModuleFrontController extends AbstractRESTControlle
                     $message = 'User updated successfully';
                     $psdata = array(
                         'registered' => $status,
-                        'message' => 'User updated successfully',
+                        'message' => $this->trans('User updated successfully', [], 'Modules.Binshopsrest.Account'),
                         'customer_id' => $customer->id,
                         'session_data' => (int)$this->context->cart->id
                     );
@@ -141,7 +131,7 @@ class BinshopsrestAccounteditModuleFrontController extends AbstractRESTControlle
                     $message = 'could not update customer';
                     $psdata = array(
                         'registered' => $status,
-                        'message' => 'password incorrect',
+                        'message' => $this->trans('Password Incorrect', [], 'Modules.Binshopsrest.Account'),
                         'customer_id' => $customer->id,
                         'session_data' => (int)$this->context->cart->id
                     );
@@ -158,24 +148,6 @@ class BinshopsrestAccounteditModuleFrontController extends AbstractRESTControlle
             'code' => $messageCode,
             'psdata' => $psdata,
             'message' => $message
-        ]));
-        die;
-    }
-
-    protected function processPutRequest()
-    {
-        $this->ajaxRender(json_encode([
-            'success' => true,
-            'message' => 'put not supported on this path'
-        ]));
-        die;
-    }
-
-    protected function processDeleteRequest()
-    {
-        $this->ajaxRender(json_encode([
-            'success' => true,
-            'message' => 'delete not supported on this path'
         ]));
         die;
     }

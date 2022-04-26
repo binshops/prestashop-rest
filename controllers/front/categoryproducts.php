@@ -37,7 +37,7 @@ class BinshopsrestCategoryproductsModuleFrontController extends AbstractProductL
                 $this->ajaxRender(json_encode([
                     'code' => 302,
                     'success' => false,
-                    'message' => 'There is not a category with this slug'
+                    'message' => $this->trans('There is not a category with this slug', [], 'Modules.Binshopsrest.Category')
                 ]));
                 die;
             }else{
@@ -49,7 +49,7 @@ class BinshopsrestCategoryproductsModuleFrontController extends AbstractProductL
             $this->ajaxRender(json_encode([
                 'code' => 301,
                 'success' => false,
-                'message' => 'id category or slug not specified'
+                'message' => $this->trans('Id category or slug not specified', [], 'Modules.Binshopsrest.Category')
             ]));
             die;
         }
@@ -114,33 +114,6 @@ class BinshopsrestCategoryproductsModuleFrontController extends AbstractProductL
             'code' => 200,
             'success' => true,
             'psdata' => $psdata
-        ]));
-        die;
-    }
-
-    protected function processPostRequest()
-    {
-        $this->ajaxRender(json_encode([
-            'success' => true,
-            'message' => 'POST not supported on this path'
-        ]));
-        die;
-    }
-
-    protected function processPutRequest()
-    {
-        $this->ajaxRender(json_encode([
-            'success' => true,
-            'message' => 'put not supported on this path'
-        ]));
-        die;
-    }
-
-    protected function processDeleteRequest()
-    {
-        $this->ajaxRender(json_encode([
-            'success' => true,
-            'message' => 'delete not supported on this path'
         ]));
         die;
     }

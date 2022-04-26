@@ -12,7 +12,7 @@
 require_once dirname(__FILE__) . '/AbstractRESTController.php';
 
 /**
- * Any REST request which needs authentication must extend this class
+ * Protected REST endpoints should extend this class
  */
 abstract class AbstractAuthRESTController extends AbstractRESTController
 {
@@ -26,7 +26,7 @@ abstract class AbstractAuthRESTController extends AbstractRESTController
             $this->ajaxRender(json_encode([
                 'code' => 410,
                 'success' => false,
-                'message' => 'User not authenticated'
+                'message' => $this->trans('User Not Authenticated', [], 'Modules.Binshopsrest.Admin')
             ]));
             die;
         }

@@ -10,7 +10,7 @@
 use PrestaShop\PrestaShop\Adapter\Presenter\Order\OrderPresenter;
 
 /**
- * Payment Controllers which process payments must extend this class
+ * REST Payment Controllers should extend this class for payment processing
  */
 abstract class AbstractPaymentRESTController extends ModuleFrontController
 {
@@ -24,7 +24,7 @@ abstract class AbstractPaymentRESTController extends ModuleFrontController
             $this->ajaxRender(json_encode([
                 'code' => 410,
                 'success' => false,
-                'message' => 'User not authenticated'
+                'message' => $this->trans('User Not Authenticated', [], 'Modules.Binshopsrest.Admin')
             ]));
             die;
         }
@@ -58,7 +58,7 @@ abstract class AbstractPaymentRESTController extends ModuleFrontController
             $this->ajaxRender(json_encode([
                 'success' => false,
                 'code' => 301,
-                'message' => 'payment processing failed'
+                'message' => $this->trans('Payment processing failed', [], 'Modules.Binshopsrest.Payment')
             ]));
             die;
         }

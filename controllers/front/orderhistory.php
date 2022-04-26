@@ -20,14 +20,13 @@ class BinshopsrestOrderHistoryModuleFrontController extends AbstractAuthRESTCont
     {
         //proccess single order
         if (Tools::getIsset('id_order')) {
-
             $id_order = Tools::getValue('id_order');
             if (Tools::isEmpty($id_order) or !Validate::isUnsignedId($id_order)) {
 
                 $this->ajaxRender(json_encode([
                     'success' => false,
                     'code' => 404,
-                    'message' => 'order not found'
+                    'message' => $this->trans('order not found', [], 'Modules.Binshopsrest.Order')
                 ]));
                 die;
             }
@@ -42,7 +41,7 @@ class BinshopsrestOrderHistoryModuleFrontController extends AbstractAuthRESTCont
                     $this->ajaxRender(json_encode([
                         'success' => true,
                         'code' => 404,
-                        'message' => 'order not found'
+                        'message' => $this->trans('order not found', [], 'Modules.Binshopsrest.Order')
                     ]));
                     die;
                 } else {
@@ -58,12 +57,12 @@ class BinshopsrestOrderHistoryModuleFrontController extends AbstractAuthRESTCont
                 $this->ajaxRender(json_encode([
                     'success' => false,
                     'code' => 404,
-                    'message' => 'order not found'
+                    'message' => $this->trans('order not found', [], 'Modules.Binshopsrest.Order')
                 ]));
                 die;
             }
         }
-        
+
         //process all orders
         $customer_orders = Order::getCustomerOrders($this->context->customer->id);
 
@@ -71,33 +70,6 @@ class BinshopsrestOrderHistoryModuleFrontController extends AbstractAuthRESTCont
             'success' => true,
             'code' => 200,
             'psdata' => $customer_orders
-        ]));
-        die;
-    }
-
-    protected function processPostRequest()
-    {
-        $this->ajaxRender(json_encode([
-            'success' => true,
-            'message' => 'POST not supported on this path'
-        ]));
-        die;
-    }
-
-    protected function processPutRequest()
-    {
-        $this->ajaxRender(json_encode([
-            'success' => true,
-            'message' => 'put not supported on this path'
-        ]));
-        die;
-    }
-
-    protected function processDeleteRequest()
-    {
-        $this->ajaxRender(json_encode([
-            'success' => true,
-            'message' => 'delete not supported on this path'
         ]));
         die;
     }

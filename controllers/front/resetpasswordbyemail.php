@@ -15,19 +15,10 @@ class BinshopsrestResetpasswordbyemailModuleFrontController extends AbstractREST
 {
     private $psdata;
 
-    protected function processGetRequest()
-    {
-        $this->ajaxRender(json_encode([
-            'success' => true,
-            'message' => 'GET not supported on this path'
-        ]));
-        die;
-    }
-
     protected function processPostRequest()
     {
         $_POST = json_decode(Tools::file_get_contents('php://input'), true);
-        $this->psdata = "pass reset mail successfully sent";
+        $this->psdata = $this->trans("pass reset mail successfully sent", [], 'Modules.Binshopsrest.Auth');
 
         $this->sendRenewPasswordLink();
 
@@ -35,24 +26,6 @@ class BinshopsrestResetpasswordbyemailModuleFrontController extends AbstractREST
             'success' => false,
             'code' => 200,
             'psdata' => $this->psdata
-        ]));
-        die;
-    }
-
-    protected function processPutRequest()
-    {
-        $this->ajaxRender(json_encode([
-            'success' => true,
-            'message' => 'put not supported on this path'
-        ]));
-        die;
-    }
-
-    protected function processDeleteRequest()
-    {
-        $this->ajaxRender(json_encode([
-            'success' => true,
-            'message' => 'delete not supported on this path'
         ]));
         die;
     }

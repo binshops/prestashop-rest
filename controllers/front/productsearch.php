@@ -34,7 +34,7 @@ class BinshopsrestProductsearchModuleFrontController extends AbstractProductList
             $this->ajaxRender(json_encode([
                 'code' => 301,
                 'success' => false,
-                'message' => 'query string is not specified'
+                'message' => $this->trans('query string is not specified', [], 'Modules.Binshopsrest.Search')
             ]));
             die;
         }
@@ -89,34 +89,6 @@ class BinshopsrestProductsearchModuleFrontController extends AbstractProductList
         ]));
         die;
     }
-
-    protected function processPostRequest()
-    {
-        $this->ajaxRender(json_encode([
-            'success' => true,
-            'message' => 'POST not supported on this path'
-        ]));
-        die;
-    }
-
-    protected function processPutRequest()
-    {
-        $this->ajaxRender(json_encode([
-            'success' => true,
-            'message' => 'put not supported on this path'
-        ]));
-        die;
-    }
-
-    protected function processDeleteRequest()
-    {
-        $this->ajaxRender(json_encode([
-            'success' => true,
-            'message' => 'delete not supported on this path'
-        ]));
-        die;
-    }
-
 
     public function getListingLabel()
     {

@@ -22,7 +22,7 @@ class BinshopsrestEmailsubscriptionModuleFrontController extends AbstractRESTCon
             'success' => true,
             'code' => 200,
             'psdata' => $conditions,
-            'message' => 'success'
+            'message' => $this->trans('Success', [], 'Modules.Binshopsrest.Subscription')
         ]));
         die;
     }
@@ -36,7 +36,7 @@ class BinshopsrestEmailsubscriptionModuleFrontController extends AbstractRESTCon
             $this->ajaxRender(json_encode([
                 'success' => false,
                 'code' => 301,
-                'message' => 'This email is already registered'
+                'message' => $this->trans('This email is already registered', [], 'Modules.Binshopsrest.Subscription')
             ]));
             die;
         }
@@ -45,7 +45,7 @@ class BinshopsrestEmailsubscriptionModuleFrontController extends AbstractRESTCon
             $this->ajaxRender(json_encode([
                 'success' => true,
                 'code' => 200,
-                'message' => 'success'
+                'message' => $this->trans('Success', [], 'Modules.Binshopsrest.Subscription')
             ]));
             die;
 
@@ -53,28 +53,10 @@ class BinshopsrestEmailsubscriptionModuleFrontController extends AbstractRESTCon
             $this->ajaxRender(json_encode([
                 'success' => false,
                 'code' => 300,
-                'message' => 'failure'
+                'message' => $this->trans('Failure', [], 'Modules.Binshopsrest.Subscription')
             ]));
             die;
         }
-    }
-
-    protected function processPutRequest()
-    {
-        $this->ajaxRender(json_encode([
-            'success' => true,
-            'message' => 'put not supported on this path'
-        ]));
-        die;
-    }
-
-    protected function processDeleteRequest()
-    {
-        $this->ajaxRender(json_encode([
-            'success' => true,
-            'message' => 'delete not supported on this path'
-        ]));
-        die;
     }
 
     protected function registerGuest($email, $active = true)

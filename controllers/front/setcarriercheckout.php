@@ -15,16 +15,6 @@ use PrestaShop\PrestaShop\Adapter\Product\PriceFormatter;
 
 class BinshopsrestSetcarriercheckoutModuleFrontController extends AbstractAuthRESTController
 {
-
-    protected function processGetRequest()
-    {
-        $this->ajaxRender(json_encode([
-            'success' => true,
-            'message' => 'GET not supported on this path'
-        ]));
-        die;
-    }
-
     protected function processPostRequest()
     {
         $_POST = json_decode(Tools::file_get_contents('php://input'), true);
@@ -51,7 +41,7 @@ class BinshopsrestSetcarriercheckoutModuleFrontController extends AbstractAuthRE
             $this->ajaxRender(json_encode([
                 'success' => true,
                 'code' => 301,
-                'psdata' => "id_carrier-required"
+                'psdata' => $this->trans("id_carrier-required", [], 'Modules.Binshopsrest.Checkout')
             ]));
             die;
         }
@@ -59,25 +49,7 @@ class BinshopsrestSetcarriercheckoutModuleFrontController extends AbstractAuthRE
         $this->ajaxRender(json_encode([
             'success' => true,
             'code' => 200,
-            'psdata' => "id carrier has been successfully set"
-        ]));
-        die;
-    }
-
-    protected function processPutRequest()
-    {
-        $this->ajaxRender(json_encode([
-            'success' => true,
-            'message' => 'put not supported on this path'
-        ]));
-        die;
-    }
-
-    protected function processDeleteRequest()
-    {
-        $this->ajaxRender(json_encode([
-            'success' => true,
-            'message' => 'delete not supported on this path'
+            'psdata' => $this->trans("id carrier has been successfully set", [], 'Modules.Binshopsrest.Checkout')
         ]));
         die;
     }
