@@ -26,7 +26,7 @@ class BinshopsrestCartModuleFrontController extends AbstractCartRESTController
             $this->ajaxRender(json_encode([
                 'code' => 200,
                 'success' => true,
-                'message' => 'Just show - catalog mode is enabled and the action is show',
+                'message' => $this->trans('Just show - catalog mode is enabled and the action is show', [], 'Modules.Binshopsrest.Cart'),
             ]));
             die;
         }
@@ -61,7 +61,7 @@ class BinshopsrestCartModuleFrontController extends AbstractCartRESTController
         $this->ajaxRender(json_encode([
             'code' => 200,
             'success' => true,
-            'message' => 'cart operation successfully done',
+            'message' => $this->trans('cart operation successfully done', [], 'Modules.Binshopsrest.Cart'),
             'psdata' => $presented_cart,
             'errors' => $this->errors
         ]));
@@ -120,7 +120,7 @@ class BinshopsrestCartModuleFrontController extends AbstractCartRESTController
             $this->ajaxRender(json_encode([
                 'code' => 301,
                 'success' => false,
-                'message' => 'cookie is not set',
+                'message' => $this->trans('Cookie is not set', [], 'Modules.Binshopsrest.Cart'),
             ]));
             die;
         }

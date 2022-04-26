@@ -20,7 +20,7 @@ class BinshopsrestLogoutModuleFrontController extends AbstractRESTController
         $this->ajaxRender(json_encode([
             'code' => 200,
             'success' => true,
-            'message' => 'Customer logged out successfully'
+            'message' => $this->trans('Customer logged out successfully', [], 'Modules.Binshopsrest.Auth')
         ]));
         die;
     }

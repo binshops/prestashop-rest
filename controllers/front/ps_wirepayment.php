@@ -26,7 +26,7 @@ class BinshopsrestPs_wirepaymentModuleFrontController extends AbstractPaymentRES
             $this->ajaxRender(json_encode([
                 'success' => false,
                 'code' => 303,
-                'message' => 'This payment method is not available.'
+                'message' => $this->trans('This payment method is not available.', [], 'Modules.Binshopsrest.Payment')
             ]));
             die;
         }
@@ -36,7 +36,7 @@ class BinshopsrestPs_wirepaymentModuleFrontController extends AbstractPaymentRES
             $this->ajaxRender(json_encode([
                 'success' => false,
                 'code' => 301,
-                'message' => 'payment processing failed'
+                'message' => $this->trans('payment processing failed', [], 'Modules.Binshopsrest.Payment')
             ]));
             die;
         }

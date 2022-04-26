@@ -26,7 +26,7 @@ abstract class AbstractAuthRESTController extends AbstractRESTController
             $this->ajaxRender(json_encode([
                 'code' => 410,
                 'success' => false,
-                'message' => 'User not authenticated'
+                'message' => $this->trans('User Not Authenticated', [], 'Modules.Binshopsrest.Admin')
             ]));
             die;
         }

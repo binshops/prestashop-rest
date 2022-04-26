@@ -41,7 +41,7 @@ class BinshopsrestSetcarriercheckoutModuleFrontController extends AbstractAuthRE
             $this->ajaxRender(json_encode([
                 'success' => true,
                 'code' => 301,
-                'psdata' => "id_carrier-required"
+                'psdata' => $this->trans("id_carrier-required", [], 'Modules.Binshopsrest.Checkout')
             ]));
             die;
         }
@@ -49,7 +49,7 @@ class BinshopsrestSetcarriercheckoutModuleFrontController extends AbstractAuthRE
         $this->ajaxRender(json_encode([
             'success' => true,
             'code' => 200,
-            'psdata' => "id carrier has been successfully set"
+            'psdata' => $this->trans("id carrier has been successfully set", [], 'Modules.Binshopsrest.Checkout')
         ]));
         die;
     }

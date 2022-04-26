@@ -34,7 +34,7 @@ class BinshopsrestProductsearchModuleFrontController extends AbstractProductList
             $this->ajaxRender(json_encode([
                 'code' => 301,
                 'success' => false,
-                'message' => 'query string is not specified'
+                'message' => $this->trans('query string is not specified', [], 'Modules.Binshopsrest.Search')
             ]));
             die;
         }

@@ -76,7 +76,7 @@ class BinshopsrestWishlistModuleFrontController extends AbstractProductListingRE
                 'success' => true,
                 'code' => 200,
                 'psdata' => $infos,
-                'message' => 'success'
+                'message' => $this->trans('success', [], 'Modules.Binshopsrest.Wishlist')
             ]));
             die;
         }
@@ -232,7 +232,7 @@ class BinshopsrestWishlistModuleFrontController extends AbstractProductListingRE
             'code' => 200,
             'success' => true,
             'psdata' => $psdata,
-            'message' => 'success'
+            'message' => $this->trans('success', [], 'Modules.Binshopsrest.Wishlist')
         ]));
         die;
     }

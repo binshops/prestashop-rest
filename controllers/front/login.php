@@ -30,16 +30,16 @@ class BinshopsrestLoginModuleFrontController extends AbstractRESTController
         }
 
         if (empty($email)) {
-            $psdata = "An email address required";
+            $psdata = $this->trans("An email address required", [], 'Modules.Binshopsrest.Auth');
             $messageCode = 301;
         } elseif (!Validate::isEmail($email)) {
-            $psdata = "Invalid email address";
+            $psdata = $this->trans("Invalid email address", [], 'Modules.Binshopsrest.Auth');
             $messageCode = 302;
         } elseif (empty($password)) {
-            $psdata = 'Password is not provided';
+            $psdata = $this->trans('Password is not provided', [], 'Modules.Binshopsrest.Auth');
             $messageCode = 303;
         } elseif (!Validate::isPasswd($password)) {
-            $psdata = "Invalid Password";
+            $psdata = $this->trans("Invalid Password", [], 'Modules.Binshopsrest.Auth');
             $messageCode = 304;
         } else {
             Hook::exec('actionAuthenticationBefore');
@@ -50,10 +50,10 @@ class BinshopsrestLoginModuleFrontController extends AbstractRESTController
             );
 
             if (isset($authentication->active) && !$authentication->active) {
-                $psdata = 'Your account isn\'t available at this time.';
+                $psdata = $this->trans('Your account isn\'t available at this time.', [], 'Modules.Binshopsrest.Auth');
                 $messageCode = 305;
             } elseif (!$authentication || !$customer->id || $customer->is_guest) {
-                $psdata = "Authentication failed";
+                $psdata = $this->trans("Authentication failed", [], 'Modules.Binshopsrest.Auth');
                 $messageCode = 306;
             } else {
                 $this->context->updateCustomer($customer);
@@ -70,7 +70,7 @@ class BinshopsrestLoginModuleFrontController extends AbstractRESTController
 
                 $psdata = array(
                     'status' => 'success',
-                    'message' => 'User login successfully',
+                    'message' => $this->trans('User login successfully', [], 'Modules.Binshopsrest.Auth'),
                     'customer_id' => $customer->id,
                     'session_data' => (int)$this->context->cart->id,
                     'cart_count' => Cart::getNbProducts($this->context->cookie->id_cart),

@@ -20,7 +20,7 @@ class BinshopsrestResetpasswordemailModuleFrontController extends AbstractRESTCo
         $this->sendRenewPasswordLink();
 
         $this->ajaxRender(json_encode([
-            'success' => "Successfully send rest-code",
+            'success' => $this->trans("Successfully send rest-code", [], 'Modules.Binshopsrest.Auth'),
             'code' => 200
         ]));
         die;

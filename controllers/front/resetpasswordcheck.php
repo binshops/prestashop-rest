@@ -32,14 +32,14 @@ class BinshopsrestResetpasswordcheckModuleFrontController extends AbstractRESTCo
             $this->ajaxRender(json_encode([
                 'success' => true,
                 'code' => 200,
-                'psdata' => "this state is not expected"
+                'psdata' => $this->trans("this state is not expected", [], 'Modules.Binshopsrest.Auth')
             ]));
             die;
         } elseif (strtotime(end($result)['reset_password_validity']) < time()) {
             $this->ajaxRender(json_encode([
                 'success' => true,
                 'code' => 200,
-                'psdata' => "expired"
+                'psdata' => $this->trans("expired", [], 'Modules.Binshopsrest.Auth')
             ]));
             die;
         }
@@ -50,14 +50,14 @@ class BinshopsrestResetpasswordcheckModuleFrontController extends AbstractRESTCo
             $this->ajaxRender(json_encode([
                 'success' => true,
                 'code' => 200,
-                'psdata' => "success"
+                'psdata' => $this->trans("success", [], 'Modules.Binshopsrest.Auth')
             ]));
             die;
         } else {
             $this->ajaxRender(json_encode([
                 'success' => false,
                 'code' => 301,
-                'psdata' => "code not matched"
+                'psdata' => $this->trans("code not matched", [], 'Modules.Binshopsrest.Auth')
             ]));
             die;
         }

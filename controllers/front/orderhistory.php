@@ -20,14 +20,13 @@ class BinshopsrestOrderHistoryModuleFrontController extends AbstractAuthRESTCont
     {
         //proccess single order
         if (Tools::getIsset('id_order')) {
-
             $id_order = Tools::getValue('id_order');
             if (Tools::isEmpty($id_order) or !Validate::isUnsignedId($id_order)) {
 
                 $this->ajaxRender(json_encode([
                     'success' => false,
                     'code' => 404,
-                    'message' => 'order not found'
+                    'message' => $this->trans('order not found', [], 'Modules.Binshopsrest.Order')
                 ]));
                 die;
             }
@@ -42,7 +41,7 @@ class BinshopsrestOrderHistoryModuleFrontController extends AbstractAuthRESTCont
                     $this->ajaxRender(json_encode([
                         'success' => true,
                         'code' => 404,
-                        'message' => 'order not found'
+                        'message' => $this->trans('order not found', [], 'Modules.Binshopsrest.Order')
                     ]));
                     die;
                 } else {
@@ -58,7 +57,7 @@ class BinshopsrestOrderHistoryModuleFrontController extends AbstractAuthRESTCont
                 $this->ajaxRender(json_encode([
                     'success' => false,
                     'code' => 404,
-                    'message' => 'order not found'
+                    'message' => $this->trans('order not found', [], 'Modules.Binshopsrest.Order')
                 ]));
                 die;
             }
