@@ -10,7 +10,7 @@
 use PrestaShop\PrestaShop\Adapter\Presenter\Order\OrderPresenter;
 
 /**
- * Payment Controllers which process payments must extend this class
+ * REST Payment Controllers should extend this class for payment processing
  */
 abstract class AbstractPaymentRESTController extends ModuleFrontController
 {

@@ -9,8 +9,12 @@
  *
  */
 
+require_once dirname(__FILE__) . '/../classes/RESTTrait.php';
+
 abstract class AbstractRESTController extends ModuleFrontController
 {
+    use RESTTrait;
+
     private $img1 = 'large';
     private $img2 = 'medium';
     private $img3 = '_default';
@@ -37,14 +41,6 @@ abstract class AbstractRESTController extends ModuleFrontController
                 // throw some error or whatever
         }
     }
-
-    abstract protected function processGetRequest();
-
-    abstract protected function processPostRequest();
-
-    abstract protected function processPutRequest();
-
-    abstract protected function processDeleteRequest();
 
     public function formatPrice($price)
     {
