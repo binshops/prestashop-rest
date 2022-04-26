@@ -44,6 +44,16 @@ class BinshopsrestCartModuleFrontController extends AbstractCartRESTController
             $products[$key]['image_url'] = $link->getImageLink($product['link_rewrite'], $product['id_image'], Tools::getValue('image_size', ImageType::getFormattedName('small')));
 
             $products[$key]['attributes_array'] = $presented_cart['products'][$key]['attributes'];
+
+            $products[$key]['formatted_price'] = $presented_cart['products'][$key]['price'];
+            $products[$key]['formatted_total'] = $presented_cart['products'][$key]['total'];
+            $products[$key]['formatted_price_amount'] = $presented_cart['products'][$key]['price_amount'];
+            $products[$key]['formatted_price_tax_exc'] = $presented_cart['products'][$key]['price_tax_exc'];
+            $products[$key]['formatted_regular_price'] = $presented_cart['products'][$key]['regular_price'];
+            $products[$key]['formatted_discount_to_display'] = $presented_cart['products'][$key]['discount_to_display'];
+            $products[$key]['formatted_discount_amount_to_display'] = $presented_cart['products'][$key]['discount_amount_to_display'];
+            $products[$key]['formatted_discount_type'] = $presented_cart['products'][$key]['discount_type'];
+            $products[$key]['formatted_discount_percentage'] = $presented_cart['products'][$key]['discount_percentage'];
         }
 
         $presented_cart['products'] = $products;
@@ -52,7 +62,8 @@ class BinshopsrestCartModuleFrontController extends AbstractCartRESTController
             'code' => 200,
             'success' => true,
             'message' => 'cart operation successfully done',
-            'psdata' => $presented_cart
+            'psdata' => $presented_cart,
+            'errors' => $this->errors
         ]));
         die;
     }
