@@ -5,7 +5,7 @@
 # PrestaShop REST API Module
 Easily expose REST API endpoints for your Prestashop website. No configuration needed, just install and use it. 
 
-## [Download the Latest version v2.4.2](https://www.binshops.com/prestashop-api)
+## [Download the Latest version v2.4.3](https://www.binshops.com/prestashop-api)
 
 ## The products that use this REST API
 <table>
@@ -55,6 +55,10 @@ You can request your custom API implementation on Binshops panel - [Your Assista
 
 ### Change Log
 - ### 2.4.x Latest Version
+- 2.4.3
+  - Code refactor
+  - Messages Translation [#21](https://github.com/binshops/prestashop-rest/issues/21)
+  - Currencies format in cart [#17](https://github.com/binshops/prestashop-rest/issues/17)
 - 2.4.2
   - Added attributes array in cart
 - 2.4.1
