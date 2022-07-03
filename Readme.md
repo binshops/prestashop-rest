@@ -5,7 +5,7 @@
 # PrestaShop REST API Module
 Easily expose REST API endpoints for your Prestashop website. No configuration needed, just install and use it. 
 
-## [Download the Latest version v2.3.2](https://www.binshops.com/prestashop-api)
+## [Download the Latest version v2.4.3](https://www.binshops.com/prestashop-api)
 
 ## The products that use this REST API
 <table>
@@ -49,10 +49,39 @@ These native modules, which are already included in PrestaShop out of the box, a
 - ps_imageslider (Native Ps Image slider module)
 - ps_wirepayment (Native Ps Bankwire module)
 - ps_checkpayment (Native Ps Pay by Check module)
+- blockwishlist (Native Ps Wishlist module)
 
 You can request your custom API implementation on Binshops panel - [Your Assistant - Create a Ticket](https://www.binshops.com/panel) 
 
 ### Change Log
+- ### 2.4.x Latest Version
+- 2.4.3
+  - Code refactor
+  - Messages Translation [#21](https://github.com/binshops/prestashop-rest/issues/21)
+  - Currencies format in cart [#17](https://github.com/binshops/prestashop-rest/issues/17)
+- 2.4.2
+  - Added attributes array in cart
+- 2.4.1
+  - Added email subscription 
+- 2.4.0
+  - Added Wishlist endpoints
+  - Added Zipcode validation
+  - Added currencies to bootstrap/lightbootstrap API
+  - Added languages to bootstrap/lightbootstrap API
+  - Added the logo url to bootstrap/lightbootstrap API
+  - Added float price to combinations
+  - Fix support for countries without state in address creation
+  - Improved error handling in profile edit
+- 2.3.0
+  - Adds two payment options 
+  - Cart Management refactoring
+  - Returns cart items on cart update  
+  - Returns newly created address
+  - Returns user info on user login
+  - Removes unnecessary fields from registration  
+  - Product images refactor
+  - Adds attribute groups to product details  
+  - Check permission on address delete and order details
 - 2.2.6 changed cart management API
 - 2.2.5 product comment api - APIRoutes class
 - 2.2.4 cleaning customer info - makes gender optional - adds user info to login api 

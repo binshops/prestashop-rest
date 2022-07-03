@@ -23,7 +23,7 @@ class Binshopsrest extends Module
     {
         $this->name = 'binshopsrest';
         $this->tab = 'others';
-        $this->version = '2.4.0';
+        $this->version = '2.4.3';
         $this->author = 'Binshops';
         $this->need_instance = 0;
 
@@ -37,9 +37,9 @@ class Binshopsrest extends Module
         $this->displayName = $this->l('PrestaShop REST API');
         $this->description = $this->l('This module exposes REST API endpoints for your Prestashop website.');
 
-        $this->confirmUninstall = $this->l('');
+        $this->confirmUninstall = $this->l('Are you sure you want to uninstall my module?');
 
-        $this->ps_versions_compliancy = array('min' => '1.7', 'max' => _PS_VERSION_);
+        $this->ps_versions_compliancy = array('min' => '1.7.7', 'max' => _PS_VERSION_);
         $this->module_key = 'b3c3c0c41d0223b9ff10c87b8acb65f5';
     }
 
