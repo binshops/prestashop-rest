@@ -266,6 +266,15 @@ class APIRoutes
                     'module' => 'binshopsrest'
                 ]
             ],
+            'module-binshopsrest-ps_cashondelivery' => [
+                'rule' => 'rest/ps_cashondelivery',
+                'keywords' => [],
+                'controller' => 'ps_cashondelivery',
+                'params' => [
+                    'fc' => 'module',
+                    'module' => 'binshopsrest'
+                ]
+            ],
             'module-binshopsrest-wishlist' => [
                 'rule' => 'rest/wishlist',
                 'keywords' => [],
