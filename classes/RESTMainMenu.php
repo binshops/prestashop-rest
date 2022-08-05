@@ -141,7 +141,7 @@ class RESTMainMenu
                     $root_node['children'][] = $this->makeNode([
                         'type' => 'manufacturers',
                         'page_identifier' => 'manufacturers',
-                        'label' => $this->mainmenu_module->trans('All brands', [], 'Modules.Mainmenu.Admin'),
+                        'label' => $this->mainmenu_module->getTranslator()->trans('All brands', [], 'Modules.Mainmenu.Admin'),
                         'url' => $this->context->link->getPageLink('manufacturer'),
                         'children' => $children,
                     ]);
@@ -181,7 +181,7 @@ class RESTMainMenu
                     $root_node['children'][] = $this->makeNode([
                         'type' => 'suppliers',
                         'page_identifier' => 'suppliers',
-                        'label' => $this->mainmenu_module->trans('All suppliers', [], 'Modules.Mainmenu.Admin'),
+                        'label' => $this->mainmenu_module->getTranslator()->trans('All suppliers', [], 'Modules.Mainmenu.Admin'),
                         'url' => $this->context->link->getPageLink('supplier'),
                         'children' => $children,
                     ]);
