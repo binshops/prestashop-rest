@@ -244,6 +244,9 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
 
         $product['reference'] = $this->product->reference;
         $product['category_name'] = $this->product->category;
+        $product['categories'] = array_map(function ($id) {
+            return (new CategoryCore($id, $this->context->language->id, $this->context->shop->id));
+        }, $this->product->getCategories());
         $product['manufacturer_name'] = $this->product->manufacturer_name;
 
         /*end:changes made by aayushi on 1 DEC 2018 to add Short Description on product page*/
