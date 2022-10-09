@@ -73,6 +73,7 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
 
             $product = $this->getProduct();
             $product['groups'] = $this->assignAttributesGroups($product);
+            $product['breadcrumb'] = $this->getBreadcrumbLinks();
 
             $this->ajaxRender(json_encode([
                 'success' => true,
@@ -244,9 +245,6 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
 
         $product['reference'] = $this->product->reference;
         $product['category_name'] = $this->product->category;
-        $product['categories'] = array_map(function ($id) {
-            return (new CategoryCore($id, $this->context->language->id, $this->context->shop->id));
-        }, $this->product->getCategories());
         $product['manufacturer_name'] = $this->product->manufacturer_name;
 
         /*end:changes made by aayushi on 1 DEC 2018 to add Short Description on product page*/
@@ -939,5 +937,32 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
         } else {
             return [];
         }
+    }
+
+    public function getBreadcrumbLinks()
+    {
+        $breadcrumb = parent::getBreadcrumbLinks();
+
+        $categoryDefault = new Category($this->product->id_category_default, $this->context->language->id);
+
+        foreach ($categoryDefault->getAllParents() as $category) {
+            if ($category->id_parent != 0 && !$category->is_root_category && $category->active) {
+                $breadcrumb['links'][] = [
+                    'title' => $category->name,
+                    'category_id' => $category->id,
+                    'url' => $this->context->link->getCategoryLink($category),
+                ];
+            }
+        }
+
+        if ($categoryDefault->id_parent != 0 && !$categoryDefault->is_root_category && $categoryDefault->active) {
+            $breadcrumb['links'][] = [
+                'title' => $categoryDefault->name,
+                'category_id' => $categoryDefault->id,
+                'url' => $this->context->link->getCategoryLink($categoryDefault),
+            ];
+        }
+
+        return $breadcrumb['links'];
     }
 }
