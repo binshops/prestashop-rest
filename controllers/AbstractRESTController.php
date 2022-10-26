@@ -22,7 +22,14 @@ abstract class AbstractRESTController extends ModuleFrontController
     public function init()
     {
         header('Content-Type: ' . "application/json");
+
+        if (Tools::getValue('iso_currency')){
+            $_GET['id_currency'] = (string)Currency::getIdByIsoCode(Tools::getValue('currency'));
+            $_GET['SubmitCurrency'] = "1";
+        }
+
         parent::init();
+
         switch ($_SERVER['REQUEST_METHOD']) {
             case 'GET':
                 $this->processGetRequest();

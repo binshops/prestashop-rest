@@ -20,6 +20,12 @@ abstract class AbstractPaymentRESTController extends ModuleFrontController
     public function init()
     {
         header('Content-Type: ' . "application/json");
+
+        if (Tools::getValue('iso_currency')){
+            $_GET['id_currency'] = (string)Currency::getIdByIsoCode(Tools::getValue('currency'));
+            $_GET['SubmitCurrency'] = "1";
+        }
+
         if (!$this->context->customer->isLogged() && $this->php_self != 'authentication' && $this->php_self != 'password') {
             $this->ajaxRender(json_encode([
                 'code' => 410,
