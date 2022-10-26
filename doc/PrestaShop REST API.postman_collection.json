@@ -1,0 +1,1407 @@
+{
+	"info": {
+		"_postman_id": "9dfbe0cf-7ffd-43a1-a0fa-41e3f70954a6",
+		"name": "PrestaShop REST API",
+		"description": "## **PrestaShop REST API Endpoints**\n\n### Download Link: [https://www.binshops.com/prestashop-api](https://www.binshops.com/prestashop-api)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1491681"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"sam@binshops.com\",\n    \"password\": \"123456789\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{website_url}}/rest/login",
+							"host": [
+								"{{website_url}}"
+							],
+							"path": [
+								"rest",
+								"login"
+							]
+						},
+						"description": "This API logins to prestashop"
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"sam@binshops.com\",\n    \"password\": \"123456789\",\n    \"firstName\": \"Sam\",\n    \"lastName\": \"Berry\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{website_url}}/rest/register",
+							"host": [
+								"{{website_url}}"
+							],
+							"path": [
+								"rest",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{website_url}}/rest/logout",
+							"host": [
+								"{{website_url}}"
+							],
+							"path": [
+								"rest",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "This Section contains authentication REST endpoints",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Cart",
+			"item": [
+				{
+					"name": "Cart Items",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{website_url}}/rest/cart?image_size=medium_default",
+							"host": [
+								"{{website_url}}"
+							],
+							"path": [
+								"rest",
+								"cart"
+							],
+							"query": [
+								{
+									"key": "image_size",
+									"value": "medium_default"
+								}
+							]
+						},
+						"description": "Lists orders for a customer"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Cart",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{website_url}}/rest/cart?update=1&id_product=2&id_product_attribute=11&op=up&action=update&image_size=medium_default&qty=3",
+							"host": [
+								"{{website_url}}"
+							],
+							"path": [
+								"rest",
+								"cart"
+							],
+							"query": [
+								{
+									"key": "update",
+									"value": "1"
+								},
+								{
+									"key": "id_product",
+									"value": "2"
+								},
+								{
+									"key": "id_product_attribute",
+									"value": "11"
+								},
+								{
+									"key": "op",
+									"value": "up",
+									"description": "adds product item to cart"
+								},
+								{
+									"key": "op",
+									"value": "down",
+									"description": "removes product from cart",
+									"disabled": true
+								},
+								{
+									"key": "action",
+									"value": "update"
+								},
+								{
+									"key": "image_size",
+									"value": "medium_default"
+								},
+								{
+									"key": "qty",
+									"value": "3"
+								}
+							]
+						},
+						"description": "Removes a product from shopping cart"
+					},
+					"response": []
+				},
+				{
+					"name": "Remove a specific product from cart",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{website_url}}/rest/cart?id_product_attribute=11&id_product=2&delete=1&action=update&image_size=medium_default",
+							"host": [
+								"{{website_url}}"
+							],
+							"path": [
+								"rest",
+								"cart"
+							],
+							"query": [
+								{
+									"key": "id_product_attribute",
+									"value": "11"
+								},
+								{
+									"key": "id_product",
+									"value": "2"
+								},
+								{
+									"key": "delete",
+									"value": "1"
+								},
+								{
+									"key": "action",
+									"value": "update"
+								},
+								{
+									"key": "image_size",
+									"value": "medium_default"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Profile/Account",
+			"item": [
+				{
+					"name": "Order",
+					"item": [
+						{
+							"name": "Order History",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{website_url}}/rest/orderhistory",
+									"host": [
+										"{{website_url}}"
+									],
+									"path": [
+										"rest",
+										"orderhistory"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Order Details",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{website_url}}/rest/orderhistory?id_order=7",
+									"host": [
+										"{{website_url}}"
+									],
+									"path": [
+										"rest",
+										"orderhistory"
+									],
+									"query": [
+										{
+											"key": "id_order",
+											"value": "7"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Account Info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{website_url}}/rest/accountInfo",
+							"host": [
+								"{{website_url}}"
+							],
+							"path": [
+								"rest",
+								"accountInfo"
+							]
+						},
+						"description": "Gets customer account information"
+					},
+					"response": []
+				},
+				{
+					"name": "Account Edit",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"sam@binshops.com\",\n    \"password\": \"123456789\",\n    \"firstName\": \"Sam\",\n    \"lastName\": \"Berry\",\n    \"gender\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{website_url}}/rest/accountedit",
+							"host": [
+								"{{website_url}}"
+							],
+							"path": [
+								"rest",
+								"accountedit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"sam@binshops.com\",\n    \"password\": \"123456789\",\n    \"firstName\": \"Sam\",\n    \"lastName\": \"Beri\",\n    \"gender\": 1,\n    \"new_password\": \"987654321\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{website_url}}/rest/accountedit",
+							"host": [
+								"{{website_url}}"
+							],
+							"path": [
+								"rest",
+								"accountedit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reset Pass By Email",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"sam@binshops.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{website_url}}/rest/resetpasswordbyemail",
+							"host": [
+								"{{website_url}}"
+							],
+							"path": [
+								"rest",
+								"resetpasswordbyemail"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1- Send Reset Password Code",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"sam@binshops.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{website_url}}/rest/resetpasswordemail",
+							"host": [
+								"{{website_url}}"
+							],
+							"path": [
+								"rest",
+								"resetpasswordemail"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2- Check Reset Pass Code",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"sam@binshops.com\",\n    \"pass-code\": \"70622\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{website_url}}/rest/resetpasswordcheck",
+							"host": [
+								"{{website_url}}"
+							],
+							"path": [
+								"rest",
+								"resetpasswordcheck"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3- Reset Password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"sam@binshops.com\",\n    \"pass-code\": \"70622\",\n    \"passwd\": \"123456789\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{website_url}}/rest/resetpasswordenter",
+							"host": [
+								"{{website_url}}"
+							],
+							"path": [
+								"rest",
+								"resetpasswordenter"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "REST endpoints related to user profile section"
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Product Detail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{website_url}}/rest/productdetail?product_id=3&image_type=large&with_all_images=0",
+							"host": [
+								"{{website_url}}"
+							],
+							"path": [
+								"rest",
+								"productdetail"
+							],
+							"query": [
+								{
+									"key": "product_id",
+									"value": "3"
+								},
+								{
+									"key": "image_type",
+									"value": "large",
+									"description": "image type can be \"large\" and medium"
+								},
+								{
+									"key": "refresh",
+									"value": "true",
+									"disabled": true
+								},
+								{
+									"key": "id_customization",
+									"value": "0",
+									"disabled": true
+								},
+								{
+									"key": "group[3]",
+									"value": "21",
+									"disabled": true
+								},
+								{
+									"key": "with_all_images",
+									"value": "0"
+								}
+							]
+						},
+						"description": "Gets detail of a product. Including price, name, features and so on."
+					},
+					"response": []
+				},
+				{
+					"name": "Category Products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{website_url}}/rest/categoryProducts?id_category=2&page=1&with_all_images=0&image_size=home_default",
+							"host": [
+								"{{website_url}}"
+							],
+							"path": [
+								"rest",
+								"categoryProducts"
+							],
+							"query": [
+								{
+									"key": "id_category",
+									"value": "2"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "with_all_images",
+									"value": "0",
+									"description": "If 0 it does not load different images for products. If 1 loads different images for products and leads to be lengthy json response. "
+								},
+								{
+									"key": "image_size",
+									"value": "home_default",
+									"description": "if \"with_all_images\" is set to 0, images will be returned with this image size"
+								},
+								{
+									"key": "slug",
+									"value": "clothes",
+									"disabled": true
+								},
+								{
+									"key": "resultsPerPage",
+									"value": "8",
+									"disabled": true
+								},
+								{
+									"key": "with_category_tree",
+									"value": "true",
+									"disabled": true
+								}
+							]
+						},
+						"description": "This API endpoint can be used to get category products, pagination and faceted search. The id_category is mandatory parameter. "
+					},
+					"response": []
+				},
+				{
+					"name": "Product Search",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{website_url}}/rest/productSearch?s=mug&resultsPerPage=10",
+							"host": [
+								"{{website_url}}"
+							],
+							"path": [
+								"rest",
+								"productSearch"
+							],
+							"query": [
+								{
+									"key": "s",
+									"value": "mug",
+									"description": "This parameter is the word which should be searched"
+								},
+								{
+									"key": "resultsPerPage",
+									"value": "10"
+								}
+							]
+						},
+						"description": "Is used for product search"
+					},
+					"response": []
+				},
+				{
+					"name": "Faceted Search",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{website_url}}/rest/categoryProducts?q=Paper Type-Ruled&id_category=6&page=1&with_all_images=0&image_size=home_default&with_category_tree=true",
+							"host": [
+								"{{website_url}}"
+							],
+							"path": [
+								"rest",
+								"categoryProducts"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "Paper Type-Ruled"
+								},
+								{
+									"key": "resultsPerPage",
+									"value": "10",
+									"disabled": true
+								},
+								{
+									"key": "id_category",
+									"value": "6"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "with_all_images",
+									"value": "0",
+									"description": "If 0 it does not load different images for products. If 1 loads different images for products and leads to be lengthy json response. "
+								},
+								{
+									"key": "image_size",
+									"value": "home_default",
+									"description": "if \"with_all_images\" is set to 0, images will be returned with this image size"
+								},
+								{
+									"key": "slug",
+									"value": "accessories",
+									"disabled": true
+								},
+								{
+									"key": "with_category_tree",
+									"value": "true"
+								}
+							]
+						},
+						"description": "Is used for product search"
+					},
+					"response": []
+				},
+				{
+					"name": "Featured Products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{website_url}}/rest/featuredproducts",
+							"host": [
+								"{{website_url}}"
+							],
+							"path": [
+								"rest",
+								"featuredproducts"
+							],
+							"query": [
+								{
+									"key": "with_all_images",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Gets featured products"
+					},
+					"response": []
+				},
+				{
+					"name": "List Comments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{website_url}}/rest/listcomments?id_product=2&page=1",
+							"host": [
+								"{{website_url}}"
+							],
+							"path": [
+								"rest",
+								"listcomments"
+							],
+							"query": [
+								{
+									"key": "id_product",
+									"value": "2"
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "pagination number"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post Comment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id_product\": 2,\n    \"comment_title\": \"Comment Title\",\n    \"comment_content\": \"Very nice shoe I'm happy\",\n    \"criterion\": {\n            \"1\": 3\n        }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{website_url}}/rest/postcomment",
+							"host": [
+								"{{website_url}}"
+							],
+							"path": [
+								"rest",
+								"postcomment"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "REST endpoints related to products"
+		},
+		{
+			"name": "Address",
+			"item": [
+				{
+					"name": "All Addresses",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{website_url}}/rest/alladdresses",
+							"host": [
+								"{{website_url}}"
+							],
+							"path": [
+								"rest",
+								"alladdresses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Address",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"alias\": \"Home\",\n    \"postcode\": \"12245\",\n    \"address1\": \"win Street\",\n    \"id_country\": 21,\n    \"country\": \"Canada\",\n    \"id_state\": 20,\n    \"city\": \"Winnipeg\",\n    \"company\": \"Binshops\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{website_url}}/rest/address",
+							"host": [
+								"{{website_url}}"
+							],
+							"path": [
+								"rest",
+								"address"
+							]
+						},
+						"description": "If the address ID is not passed, it creates new address"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Address",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id_address\": 184,\n    \"alias\": \"Home2\",\n    \"postcode\": \"12245\",\n    \"address1\": \"win Street\",\n    \"id_country\": 21,\n    \"country\": \"Canada\",\n    \"id_state\": 20,\n    \"city\": \"Winnipeg\",\n    \"company\": \"Binshops\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{website_url}}/rest/address",
+							"host": [
+								"{{website_url}}"
+							],
+							"path": [
+								"rest",
+								"address"
+							]
+						},
+						"description": "If the address ID is not passed, it creates new address"
+					},
+					"response": []
+				},
+				{
+					"name": "List avaibale countries and states",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{website_url}}/rest/addressform",
+							"host": [
+								"{{website_url}}"
+							],
+							"path": [
+								"rest",
+								"addressform"
+							]
+						},
+						"description": "Contains countries and states"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Address",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{website_url}}/rest/address?id_address=5",
+							"host": [
+								"{{website_url}}"
+							],
+							"path": [
+								"rest",
+								"address"
+							],
+							"query": [
+								{
+									"key": "id_address",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Address",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id_address\": 183\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{website_url}}/rest/address",
+							"host": [
+								"{{website_url}}"
+							],
+							"path": [
+								"rest",
+								"address"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Checkout",
+			"item": [
+				{
+					"name": "Payments",
+					"item": [
+						{
+							"name": "Check Payment",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{website_url}}/rest/ps_checkpayment",
+									"host": [
+										"{{website_url}}"
+									],
+									"path": [
+										"rest",
+										"ps_checkpayment"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Wire Payment",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{website_url}}/rest/ps_wirepayment",
+									"host": [
+										"{{website_url}}"
+									],
+									"path": [
+										"rest",
+										"ps_wirepayment"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Cash on Delivery",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{website_url}}/rest/ps_cashondelivery",
+									"host": [
+										"{{website_url}}"
+									],
+									"path": [
+										"rest",
+										"ps_cashondelivery"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "1- Set Address",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id_address\": 14\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{website_url}}/rest/setaddresscheckout",
+							"host": [
+								"{{website_url}}"
+							],
+							"path": [
+								"rest",
+								"setaddresscheckout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2- All Carriers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{website_url}}/rest/carriers",
+							"host": [
+								"{{website_url}}"
+							],
+							"path": [
+								"rest",
+								"carriers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3- Set Carrier",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id_address\": 14,\n    \"id_carrier\": \"4,\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{website_url}}/rest/setcarriercheckout",
+							"host": [
+								"{{website_url}}"
+							],
+							"path": [
+								"rest",
+								"setcarriercheckout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4- Payment Options",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{website_url}}/rest/paymentoptions",
+							"host": [
+								"{{website_url}}"
+							],
+							"path": [
+								"rest",
+								"paymentoptions"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Wishlist",
+			"item": [
+				{
+					"name": "List All WIshlists",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{website_url}}/rest/wishlist?action=list",
+							"host": [
+								"{{website_url}}"
+							],
+							"path": [
+								"rest",
+								"wishlist"
+							],
+							"query": [
+								{
+									"key": "action",
+									"value": "list"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Product to Wishlist",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{website_url}}/rest/wishlist?action=addProductToWishlist&id_product=2",
+							"host": [
+								"{{website_url}}"
+							],
+							"path": [
+								"rest",
+								"wishlist"
+							],
+							"query": [
+								{
+									"key": "action",
+									"value": "addProductToWishlist"
+								},
+								{
+									"key": "id_product",
+									"value": "2"
+								},
+								{
+									"key": "idWishList",
+									"value": "2",
+									"description": "if empty: default wishlist will be used",
+									"disabled": true
+								},
+								{
+									"key": "id_product_attribute",
+									"value": "9",
+									"description": "if empty: default product attribute will be used",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View Wishlist",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{website_url}}/rest/wishlist?action=viewWishlist",
+							"host": [
+								"{{website_url}}"
+							],
+							"path": [
+								"rest",
+								"wishlist"
+							],
+							"query": [
+								{
+									"key": "action",
+									"value": "viewWishlist"
+								},
+								{
+									"key": "id_wishlist",
+									"value": "2",
+									"description": "if empty: default wishlist wil be used",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove product from Wishlist",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{website_url}}/rest/wishlist?action=deleteProductFromWishList&id_product=2",
+							"host": [
+								"{{website_url}}"
+							],
+							"path": [
+								"rest",
+								"wishlist"
+							],
+							"query": [
+								{
+									"key": "action",
+									"value": "deleteProductFromWishList"
+								},
+								{
+									"key": "idWishList",
+									"value": "2",
+									"description": "if empty: default wishlist wil be used",
+									"disabled": true
+								},
+								{
+									"key": "id_product",
+									"value": "2",
+									"description": "required"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Wishlist",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{website_url}}/rest/wishlist?action=createWishlist&name=My Wishlist 2",
+							"host": [
+								"{{website_url}}"
+							],
+							"path": [
+								"rest",
+								"wishlist"
+							],
+							"query": [
+								{
+									"key": "action",
+									"value": "createWishlist"
+								},
+								{
+									"key": "name",
+									"value": "My Wishlist 2",
+									"description": "required"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Wishlist",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{website_url}}/rest/wishlist?action=deleteWishlist&idWishList=2",
+							"host": [
+								"{{website_url}}"
+							],
+							"path": [
+								"rest",
+								"wishlist"
+							],
+							"query": [
+								{
+									"key": "action",
+									"value": "deleteWishlist"
+								},
+								{
+									"key": "idWishList",
+									"value": "2",
+									"description": "required"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Rename Wishlist",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{website_url}}/rest/wishlist?action=renameWishlist&idWishList=2&name=My Wishlist renamed",
+							"host": [
+								"{{website_url}}"
+							],
+							"path": [
+								"rest",
+								"wishlist"
+							],
+							"query": [
+								{
+									"key": "action",
+									"value": "renameWishlist"
+								},
+								{
+									"key": "idWishList",
+									"value": "2",
+									"description": "required"
+								},
+								{
+									"key": "name",
+									"value": "My Wishlist renamed",
+									"description": "required"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Newsletter Subscription",
+			"item": [
+				{
+					"name": "Email Subscription",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{website_url}}/rest/emailsubscription?email=sample@sample.com",
+							"host": [
+								"{{website_url}}"
+							],
+							"path": [
+								"rest",
+								"emailsubscription"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "sample@sample.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Conditions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{website_url}}/rest/emailsubscription",
+							"host": [
+								"{{website_url}}"
+							],
+							"path": [
+								"rest",
+								"emailsubscription"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Bootstrap",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{website_url}}/rest/bootstrap?menu_with_images=single",
+					"host": [
+						"{{website_url}}"
+					],
+					"path": [
+						"rest",
+						"bootstrap"
+					],
+					"query": [
+						{
+							"key": "menu_with_images",
+							"value": "single",
+							"description": "can contain \"single\" and \"all\""
+						},
+						{
+							"key": "with_all_images",
+							"value": "1",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Bootstraps binshops applciation. This request is used to render the home page of the application."
+			},
+			"response": []
+		},
+		{
+			"name": "Light Bootstrap",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{website_url}}/rest/lightbootstrap?menu_with_images=single",
+					"host": [
+						"{{website_url}}"
+					],
+					"path": [
+						"rest",
+						"lightbootstrap"
+					],
+					"query": [
+						{
+							"key": "menu_with_images",
+							"value": "single",
+							"description": "can contain \"single\" and \"all\""
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "website_url",
+			"value": "https://rest.binshops.com",
+			"type": "string"
+		}
+	]
+}
