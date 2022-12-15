@@ -7,12 +7,16 @@
  *}
 
 <div class="panel">
-    <h3><i class="icon icon-credit-card"></i> {l s='PrestaShop REST API' mod='binshopsrest'}</h3>
+    <h3><i class="icon icon-credit-card"></i> {l s='PrestaShop REST API Free version' mod='binshopsrest'}</h3>
     <p>
         <strong>{l s='Your endpoints are ready!' mod='binshopsrest'}</strong><br/>
         {l s='There is no configuration required for this module out of the box. Your endpoint: https://example.com/rest/{endpoint}' mod='binshopsrest'}
     </p>
-    <br/>
+
+    <a href="https://addons.prestashop.com/en/website-performance/52062-rest-api-pro-version-with-fast-api-caching.html" target="_blank"><h2>{l s='Official Supported Version' mod='binshopsrest'}</h2></a>
+    <p class="font-size-100">
+        Get the latest supported version including the amazing features from <a href="https://addons.prestashop.com/en/website-performance/52062-rest-api-pro-version-with-fast-api-caching.html" target="_blank">Official PrestaShop Addons</a>. Let's take a look at the list of benefits.
+    </p>
 </div>
 
 <div class="panel">
@@ -80,5 +84,7 @@
             </ul>
         </li>
     </ul>
+
+    <a href="https://addons.prestashop.com/en/website-performance/52062-rest-api-pro-version-with-fast-api-caching.html" target="_blank">More endpoints on Pro version</a>
     </p>
 </div>
