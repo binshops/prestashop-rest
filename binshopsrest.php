@@ -60,7 +60,9 @@ class Binshopsrest extends Module
 
         return parent::install() &&
             $this->registerHook('header') &&
-            $this->registerHook('backOfficeHeader') && $this->registerHook('moduleRoutes');
+            $this->registerHook('backOfficeHeader') &&
+            $this->registerHook('moduleRoutes') &&
+            $this->registerHook('actionDispatcherBefore');
     }
 
     public function uninstall()
@@ -213,6 +215,52 @@ class Binshopsrest extends Module
     {
         $this->context->controller->addJS($this->_path . '/views/js/front.js');
         $this->context->controller->addCSS($this->_path . '/views/css/front.css');
+    }
+
+    public function hookactionDispatcherBefore($controller)
+    {
+        if ($controller['controller_type'] === 1 && preg_match("#/rest/#", $_SERVER['REQUEST_URI'], $k)){
+            preg_match('`rest/(.*)`', $_SERVER['REQUEST_URI'], $m);
+            $s = explode('/', $m[0]);
+            $_GET['fc'] = 'module';
+            $_GET['module'] = $s[1];
+            $_GET['controller'] = $s[2];
+            $controller_name = $s[2];
+
+            $module_name = Validate::isModuleName(Tools::getValue('module')) ? Tools::getValue('module') : '';
+
+            $module = Module::getInstanceByName($module_name);
+            $controller_class = 'PageNotFoundController';
+
+            if (Validate::isLoadedObject($module) && $module->active) {
+                $controllers = Dispatcher::getControllers(_PS_MODULE_DIR_ . "$module_name/controllers/front/");
+                if (isset($controllers[strtolower($controller_name)])) {
+                    include_once _PS_MODULE_DIR_ . "$module_name/controllers/front/{$controller_name}.php";
+                    if (file_exists(
+                        _PS_OVERRIDE_DIR_ . "modules/$module_name/controllers/front/{$controller_name}.php"
+                    )) {
+                        include_once _PS_OVERRIDE_DIR_ . "modules/$module_name/controllers/front/{$controller_name}.php";
+                        $controller_class = $module_name . $controller_name . 'ModuleFrontControllerOverride';
+                    } else {
+                        $controller_class = $module_name . $controller_name . 'ModuleFrontController';
+                    }
+                }
+            }
+
+            if (!isset($controller) || !$module){
+                header('Content-Type: ' . "application/json");
+
+                echo json_encode([
+                    'success' => true,
+                    'message' => 'This endpoint is not defined.',
+                    'code' => 410
+                ]);
+            }
+
+            $controller = Controller::getController($controller_class);
+
+            $controller->restRun();
+        }
     }
 
     public function hookModuleRoutes()
