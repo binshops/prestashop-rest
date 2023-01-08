@@ -2,35 +2,77 @@
 
 trait RESTTrait
 {
-    protected function processGetRequest(){
-        $this->ajaxRender(json_encode([
+    public function restRun(){
+        header('Content-Type: ' . "application/json");
+        if (Tools::getValue('iso_currency')){
+            $_GET['id_currency'] = (string)Currency::getIdByIsoCode(Tools::getValue('currency'));
+            $_GET['SubmitCurrency'] = "1";
+        }
+
+        parent::init();
+
+        $response = [
             'success' => true,
-            'message' => $this->trans('GET not supported on this path', [], 'Modules.Binshopsrest.Admin')
-        ]));
+            'code' => 210,
+            'psdata' => null,
+            'message' => 'empty'
+        ];
+
+        switch ($_SERVER['REQUEST_METHOD']) {
+            case 'GET':
+                $response = $this->processGetRequest();
+                break;
+            case 'POST':
+                $response = $this->processPostRequest();
+                break;
+            case 'PATCH':
+            case 'PUT':
+                $response = $this->processPutRequest();
+                break;
+            case 'DELETE':
+                $response = $this->processDeleteRequest();
+                break;
+            default:
+                // throw some error or whatever
+        }
+
+        $this->ajaxRender(json_encode($response));
         die;
+    }
+
+    protected function processGetRequest(){
+        return [
+            'success' => true,
+            'code' => 310,
+            'psdata' => null,
+            'message' => $this->trans('GET not supported on this path', [], 'Modules.Binshopsrest.Admin'),
+        ];
     }
 
     protected function processPostRequest(){
-        $this->ajaxRender(json_encode([
+        return [
             'success' => true,
-            'message' => $this->trans('POST not supported on this path', [], 'Modules.Binshopsrest.Admin')
-        ]));
-        die;
+            'code' => 310,
+            'psdata' => null,
+            'message' => $this->trans('POST not supported on this path', [], 'Modules.Binshopsrest.Admin'),
+        ];
     }
 
     protected function processPutRequest(){
-        $this->ajaxRender(json_encode([
+        return [
             'success' => true,
-            'message' => $this->trans('PUT not supported on this path', [], 'Modules.Binshopsrest.Admin')
-        ]));
-        die;
+            'code' => 310,
+            'psdata' => null,
+            'message' => $this->trans('PUT not supported on this path', [], 'Modules.Binshopsrest.Admin'),
+        ];
     }
 
     protected function processDeleteRequest(){
-        $this->ajaxRender(json_encode([
+        return [
             'success' => true,
-            'message' => $this->trans('DELETE not supported on this path', [], 'Modules.Binshopsrest.Admin')
-        ]));
-        die;
+            'code' => 310,
+            'psdata' => null,
+            'message' => $this->trans('DELETE not supported on this path', [], 'Modules.Binshopsrest.Admin'),
+        ];
     }
 }

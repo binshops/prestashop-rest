@@ -30,23 +30,33 @@ abstract class AbstractRESTController extends ModuleFrontController
 
         parent::init();
 
+        $response = [
+            'success' => true,
+            'code' => 210,
+            'psdata' => null,
+            'message' => 'empty'
+        ];
+
         switch ($_SERVER['REQUEST_METHOD']) {
             case 'GET':
-                $this->processGetRequest();
+                $response = $this->processGetRequest();
                 break;
             case 'POST':
-                $this->processPostRequest();
+                $response = $this->processPostRequest();
                 break;
             case 'PATCH':
             case 'PUT':
-                $this->processPutRequest();
+                $response = $this->processPutRequest();
                 break;
             case 'DELETE':
-                $this->processDeleteRequest();
+                $response = $this->processDeleteRequest();
                 break;
             default:
                 // throw some error or whatever
         }
+
+        $this->ajaxRender(json_encode($response));
+        die;
     }
 
     public function formatPrice($price)
