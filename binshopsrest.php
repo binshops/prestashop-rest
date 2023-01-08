@@ -245,6 +245,16 @@ class Binshopsrest extends Module
                 }
             }
 
+            if (!isset($controller) || !$module){
+                header('Content-Type: ' . "application/json");
+
+                echo json_encode([
+                    'success' => true,
+                    'message' => 'This endpoint is not defined.',
+                    'code' => 410
+                ]);
+            }
+
             $controller = Controller::getController($controller_class);
 
             $controller->restRun();
