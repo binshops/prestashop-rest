@@ -60,7 +60,9 @@ class Binshopsrest extends Module
 
         return parent::install() &&
             $this->registerHook('header') &&
-            $this->registerHook('backOfficeHeader') && $this->registerHook('moduleRoutes');
+            $this->registerHook('backOfficeHeader') &&
+            $this->registerHook('moduleRoutes') &&
+            $this->registerHook('actionDispatcherBefore');
     }
 
     public function uninstall()
