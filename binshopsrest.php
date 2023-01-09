@@ -255,6 +255,7 @@ class Binshopsrest extends Module
                     'message' => 'This endpoint is not defined.',
                     'code' => 410
                 ]);
+                die;
             }
 
             $controller = Controller::getController($controller_class);
