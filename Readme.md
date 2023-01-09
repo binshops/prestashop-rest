@@ -7,7 +7,7 @@ Easily expose REST API endpoints for your Prestashop website. No configuration n
 
 ## [Official Supported Version v4.0.0](https://addons.prestashop.com/en/website-performance/52062-rest-api-pro-version-with-fast-api-caching.html)
 
-## [Free Version v2.4](https://www.binshops.com/prestashop-api)
+## [Free Version v2.5](https://www.binshops.com/prestashop-api)
 
 ## The products that use this REST API
 <table>
