@@ -5,7 +5,7 @@
 # PrestaShop REST API Module
 Easily expose REST API endpoints for your Prestashop website. No configuration needed, just install and use it. 
 
-## [Official Supported Version v4.0.0](https://addons.prestashop.com/en/website-performance/52062-rest-api-pro-version-with-fast-api-caching.html)
+## [Official Supported Version v4.1.0](https://addons.prestashop.com/en/website-performance/52062-rest-api-pro-version-with-fast-api-caching.html)
 
 ## [Free Version v2.5](https://www.binshops.com/prestashop-api)
 
@@ -36,6 +36,12 @@ You can get more info about this module: https://www.binshops.com/prestashop-res
 ### Documentation
 You can access full documentation for REST endpoints on Postman publisher:
 https://documenter.getpostman.com/view/1491681/TzkyP1UC
+
+### How to write your API?
+You can easily write your API withing your existing a controller or a new one:
+**domain.tld/rest/yourmodule/yourcontroller**
+
+Read more: [Create REST API for PrestaShop modules](https://www.binshops.com/tutorial/create-rest-api-for-prestashop-modules)
 
 ### Backward Compatibility
 If your shop is running on 1.7.6.x version of PrestaShop, please check the 1.7.6.x branch. The stable version supports latest Ps version. 
