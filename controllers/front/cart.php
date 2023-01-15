@@ -64,12 +64,13 @@ class BinshopsrestCartModuleFrontController extends AbstractCartRESTController
             $this->errors[] = $isAvailable;
         }
 
+        $presented_cart['errors'] = $this->errors;
+
         $this->ajaxRender(json_encode([
             'code' => 200,
             'success' => true,
             'message' => $this->trans('cart operation successfully done', [], 'Modules.Binshopsrest.Cart'),
-            'psdata' => $presented_cart,
-            'errors' => $this->errors
+            'psdata' => $presented_cart
         ]));
         die;
     }
