@@ -58,6 +58,12 @@ class BinshopsrestCartModuleFrontController extends AbstractCartRESTController
 
         $presented_cart['products'] = $products;
 
+        /* Check if the products in the cart are available */
+        $isAvailable = $this->areProductsAvailable();
+        if (true !== $isAvailable) {
+            $this->errors[] = $isAvailable;
+        }
+
         $this->ajaxRender(json_encode([
             'code' => 200,
             'success' => true,
