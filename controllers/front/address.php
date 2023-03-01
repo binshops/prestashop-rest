@@ -111,6 +111,7 @@ class BinshopsrestAddressModuleFrontController extends AbstractAuthRESTControlle
         $address->phone = Tools::getValue('phone');
         $address->phone_mobile = Tools::getValue('phone_mobile');
         $address->vat_number = Tools::getValue('vat_number');
+        $address->dni = Tools::getValue('dni');
 
         Hook::exec('actionSubmitCustomerAddressForm', ['address' => &$address]);
 
@@ -231,6 +232,10 @@ class BinshopsrestAddressModuleFrontController extends AbstractAuthRESTControlle
         if (!Tools::getValue('city')) {
             $psdata['valid'] = false;
             $psdata['errors'][] = "city-required";
+        }
+        if (Address::dniRequired(Tools::getValue('id_country')) && !Tools::getValue('dni')) {
+            $psdata['valid'] = false;
+            $psdata['errors'][] = "dni-required";
         }
 
         return $psdata;
