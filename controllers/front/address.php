@@ -70,9 +70,9 @@ class BinshopsrestAddressModuleFrontController extends AbstractAuthRESTControlle
         }
 
         if (Tools::getValue('id_address')) {
-            $msg = "Successfully updated address";
+            $msg = $this->trans('Successfully updated address', [], 'Modules.Binshopsrest.Shop');
         } else {
-            $msg = "Successfully added address";
+            $msg = $this->trans('Successfully added address', [], 'Modules.Binshopsrest.Shop');
         }
 
         $address = new Address(
@@ -95,8 +95,17 @@ class BinshopsrestAddressModuleFrontController extends AbstractAuthRESTControlle
             $deliveryOptionsFinder
         );
 
-        $address->firstname = $session->getCustomer()->firstname;
-        $address->lastname = $session->getCustomer()->lastname;
+        if (!Tools::getValue('firstname')){
+            $address->firstname = $session->getCustomer()->firstname;
+        }else{
+            $address->firstname = Tools::getValue('firstname');
+        }
+
+        if (!Tools::getValue('lastname')){
+            $address->lastname = $session->getCustomer()->lastname;
+        }else{
+            $address->lastname = Tools::getValue('lastname');
+        }
 
         $address->alias = Tools::getValue('alias');
         $address->id_country = Tools::getValue('id_country');
