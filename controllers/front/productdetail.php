@@ -95,11 +95,18 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
         $product['id_product'] = $this->product->id;
         $product['name'] = $this->product->name;
         $product['available_for_order'] = $this->product->available_for_order;
+        $product['meta_title'] = $this->product->meta_title;
+        $product['meta_description'] = $this->product->meta_description;
+        $product['meta_keywords'] = $this->product->meta_keywords;
         $product['show_price'] = $this->product->show_price;
         $product['new_products'] = (isset($this->product->new) && $this->product->new == 1) ? "1" : "0";
         $product['on_sale_products'] = $this->product->on_sale;
         $product['quantity'] = $this->product->quantity;
         $product['minimal_quantity'] = $this->product->minimal_quantity;
+        $product['indexed'] = $this->product->indexed;
+        $product['out_of_stock'] = $this->product->out_of_stock;
+        $product['is_virtual'] = $this->product->is_virtual;
+        $product['customizable'] = $this->product->customizable;
         if ($this->product->out_of_stock == 1) {
             $product['allow_out_of_stock'] = "1";
         } elseif ($this->product->out_of_stock == 0) {
@@ -177,12 +184,10 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
 
         //product cover
         $product['cover_image'] = $this->context->link->getImageLink(
-
             urlencode($this->product->link_rewrite),
             ($this->product->id . '-' . $cover['id_image']),
             $this->getImageType(Tools::getValue('image_type', 'large'))
         );
-
 
         $options = array();
         $combinations = array();
