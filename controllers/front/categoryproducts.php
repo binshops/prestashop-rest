@@ -84,8 +84,10 @@ class BinshopsrestCategoryproductsModuleFrontController extends AbstractProductL
         }
 
         $facets = array();
-        foreach ($variables['facets']['filters']->getFacets() as $facet) {
-            array_push($facets, $facet->toArray());
+        if (array_key_exists('filters',$variables['facets'])){
+            foreach ($variables['facets']['filters']->getFacets() as $facet) {
+                array_push($facets, $facet->toArray());
+            }
         }
 
         $psdata = [
