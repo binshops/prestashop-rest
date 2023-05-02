@@ -5,7 +5,7 @@
 # PrestaShop REST API Module
 Easily expose REST API endpoints for your Prestashop website. No configuration needed, just install and use it. 
 
-## [Official Supported Version v4.1.0](https://addons.prestashop.com/en/website-performance/52062-rest-api-pro-version-with-fast-api-caching.html)
+## [Official Supported Version v4.3.0](https://addons.prestashop.com/en/website-performance/52062-rest-api-pro-version-with-fast-api-caching.html)
 
 ## [Free Version v2.5](https://www.binshops.com/prestashop-api)
 
