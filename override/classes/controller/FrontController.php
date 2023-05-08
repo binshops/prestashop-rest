@@ -1,6 +1,6 @@
 <?php
 
-abstract class Controller extends ControllerCore
+class FrontController extends FrontControllerCore
 {
     public function restRun(){
         header('Content-Type: ' . "application/json");
