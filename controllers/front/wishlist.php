@@ -27,6 +27,15 @@ class BinshopsrestWishlistModuleFrontController extends AbstractProductListingRE
 
     protected function processGetRequest()
     {
+        if (empty($this->context->customer->id)){
+            $this->ajaxRender(json_encode([
+                'success' => true,
+                'code' => 300,
+                'message' => $this->trans('You must be logged in to use wishlist', [], 'Modules.Binshopsrest.Wishlist')
+            ]));
+            die;
+        }
+
         switch (Tools::getValue('action')){
             case 'list':
                 $this->listWishlists();
@@ -125,15 +134,19 @@ class BinshopsrestWishlistModuleFrontController extends AbstractProductListingRE
                 $wishlist->id_customer = $this->context->customer->id;
                 $wishlist->name = Configuration::get('blockwishlist_WishlistDefaultTitle', $this->context->language->id);
                 $wishlist->default = 1;
+                $wishlist->token = $this->generateWishListToken();
+
                 $wishlist->add();
 
                 $infos = WishList::getAllWishListsByIdCustomer($this->context->customer->id);
             }
             $wishlist = $infos[0];
-            $idWishList = new WishList($wishlist['id_wishlist']);
+            $idWishList = $wishlist['id_wishlist'];
+            $wishlist = new WishList($wishlist['id_wishlist']);
+        }else{
+            $wishlist = new WishList($idWishList);
         }
 
-        $wishlist = new WishList($idWishList);
         // Exit if not owner of the wishlist
         $this->assertWriteAccess($wishlist);
 
@@ -191,10 +204,10 @@ class BinshopsrestWishlistModuleFrontController extends AbstractProductListingRE
                 $infos = WishList::getAllWishListsByIdCustomer($this->context->customer->id);
             }
             $wishlist = $infos[0];
-            $idWishList = new WishList($wishlist['id_wishlist']);
+            $this->wishlist = new WishList($wishlist['id_wishlist']);
+        }else{
+            $this->wishlist = new WishList($idWishList);
         }
-
-        $this->wishlist = new WishList($idWishList);
 
         $this->assertReadAccess($this->wishlist);
 
@@ -270,10 +283,11 @@ class BinshopsrestWishlistModuleFrontController extends AbstractProductListingRE
                 $infos = WishList::getAllWishListsByIdCustomer($this->context->customer->id);
             }
             $wishlist = $infos[0];
-            $idWishList = new WishList($wishlist['id_wishlist']);
+            $idWishList = $wishlist['id_wishlist'];
+            $wishlist = new WishList($wishlist['id_wishlist']);
+        }else{
+            $wishlist = new WishList($idWishList);
         }
-
-        $wishlist = new WishList($idWishList);
 
         $this->assertWriteAccess($wishlist);
 
