@@ -92,6 +92,9 @@ class BinshopsrestCategoryproductsModuleFrontController extends AbstractProductL
 
         $psdata = [
             'description' => $this->category->description,
+            'meta_title' => $this->category->meta_title,
+            'meta_description' => $this->category->meta_description,
+            'meta_keywords' => $this->category->meta_keywords,
             'active' => $this->category->active,
             'images' => $this->getImage(
                 $this->category,
