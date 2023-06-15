@@ -75,6 +75,8 @@ class BinshopsrestBootstrapModuleFrontController extends AbstractRESTController
         $psdata['languages'] = $this->getLanguages();
         $psdata['logo_url'] = Tools::getHttpHost(true) . _PS_IMG_ .Configuration::get('PS_LOGO', null, null, $id_shop);
 
+        $psdata['contact_info'] = $this->getContactInfo();
+
         $this->ajaxRender(json_encode([
             'success' => true,
             'code' => $messageCode,
@@ -265,5 +267,28 @@ class BinshopsrestBootstrapModuleFrontController extends AbstractRESTController
     protected function getProductPresentationSettings()
     {
         return $this->getFactory()->getPresentationSettings();
+    }
+
+    public function getContactInfo(){
+        $address = $this->context->shop->getAddress();
+
+        $contact_infos = [
+            'company' => Configuration::get('PS_SHOP_NAME'),
+            'address' => [
+                'formatted' => AddressFormat::generateAddress($address, [], '<br />'),
+                'address1' => $address->address1,
+                'address2' => $address->address2,
+                'postcode' => $address->postcode,
+                'city' => $address->city,
+                'state' => (!empty($address->id_state) ? (new State($address->id_state))->name[$this->context->language->id] : null),
+                'country' => (new Country($address->id_country))->name[$this->context->language->id],
+            ],
+            'phone' => Configuration::get('PS_SHOP_PHONE'),
+            'fax' => Configuration::get('PS_SHOP_FAX'),
+            'email' => Configuration::get('PS_SHOP_EMAIL'),
+            'details' => Configuration::get('PS_SHOP_DETAILS'),
+        ];
+
+        return $contact_infos;
     }
 }
