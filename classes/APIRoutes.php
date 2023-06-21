@@ -248,6 +248,15 @@ class APIRoutes
                     'module' => 'binshopsrest'
                 ]
             ],
+            'module-binshopsrest-hello-s' => [
+                'rule' => 'rest/',
+                'keywords' => [],
+                'controller' => 'hello',
+                'params' => [
+                    'fc' => 'module',
+                    'module' => 'binshopsrest'
+                ]
+            ],
             'module-binshopsrest-ps_checkpayment' => [
                 'rule' => 'rest/ps_checkpayment',
                 'keywords' => [],
