@@ -5,6 +5,24 @@ class APIRoutes
     public static final function getRoutes(): array
     {
         return [
+            'module-binshopsrest-bootstrap' => [
+                'rule' => 'rest/bootstrap',
+                'keywords' => [],
+                'controller' => 'bootstrap',
+                'params' => [
+                    'fc' => 'module',
+                    'module' => 'binshopsrest'
+                ]
+            ],
+            'module-binshopsrest-lightbootstrap' => [
+                'rule' => 'rest/lightbootstrap',
+                'keywords' => [],
+                'controller' => 'lightbootstrap',
+                'params' => [
+                    'fc' => 'module',
+                    'module' => 'binshopsrest'
+                ]
+            ],
             'module-binshopsrest-login' => [
                 'rule' => 'rest/login',
                 'keywords' => [],
@@ -45,24 +63,6 @@ class APIRoutes
                 'rule' => 'rest/accountedit',
                 'keywords' => [],
                 'controller' => 'accountedit',
-                'params' => [
-                    'fc' => 'module',
-                    'module' => 'binshopsrest'
-                ]
-            ],
-            'module-binshopsrest-bootstrap' => [
-                'rule' => 'rest/bootstrap',
-                'keywords' => [],
-                'controller' => 'bootstrap',
-                'params' => [
-                    'fc' => 'module',
-                    'module' => 'binshopsrest'
-                ]
-            ],
-            'module-binshopsrest-lightbootstrap' => [
-                'rule' => 'rest/lightbootstrap',
-                'keywords' => [],
-                'controller' => 'lightbootstrap',
                 'params' => [
                     'fc' => 'module',
                     'module' => 'binshopsrest'
