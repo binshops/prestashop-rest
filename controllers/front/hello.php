@@ -19,7 +19,9 @@ class BinshopsrestHelloModuleFrontController extends AbstractRESTController
         $endpoints = array();
         $routes = APIRoutes::getRoutes();
         foreach ($routes as $route){
-            $endpoints[] = $route['rule'];
+            if ($route['rule'] !== 'rest' && $route['rule'] !== 'rest/'){
+                $endpoints[] = $route['rule'];
+            }
         }
 
         $this->ajaxRender(json_encode([
