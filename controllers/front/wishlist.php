@@ -180,65 +180,29 @@ class BinshopsrestWishlistModuleFrontController extends AbstractProductListingRE
             'idProductAttribute' => $id_product_attribute,
         ]);
 
+        $wishlistData = $this->getWishlistData($idWishList);
+
         $this->ajaxRender(json_encode([
             'success' => true,
             'code' => 200,
-            'message' => $this->trans('Product added', [], 'Modules.Blockwishlist.Shop')
+            'message' => $this->trans('Product added', [], 'Modules.Blockwishlist.Shop'),
+            'psdata' =>[
+                'wishlistName' => $this->wishlist->name,
+                'label' => $wishlistData['label'],
+                'products' => $wishlistData['products']
+            ]
         ]));
         die;
     }
 
     private function viewWishlist(){
         $idWishList = Tools::getValue('id_wishlist');
-        if (!$idWishList){
-            $infos = WishList::getAllWishListsByIdCustomer($this->context->customer->id);
-            if (empty($infos)) {
-                $wishlist = new WishList();
-                $wishlist->id_shop = $this->context->shop->id;
-                $wishlist->id_shop_group = $this->context->shop->id_shop_group;
-                $wishlist->id_customer = $this->context->customer->id;
-                $wishlist->name = Configuration::get('blockwishlist_WishlistDefaultTitle', $this->context->language->id);
-                $wishlist->default = 1;
-                $wishlist->add();
-
-                $infos = WishList::getAllWishListsByIdCustomer($this->context->customer->id);
-            }
-            $wishlist = $infos[0];
-            $this->wishlist = new WishList($wishlist['id_wishlist']);
-        }else{
-            $this->wishlist = new WishList($idWishList);
-        }
-
-        $this->assertReadAccess($this->wishlist);
-
-        $variables = $this->getProductSearchVariables();
-        $productList = $variables['products'];
-        $retriever = new \PrestaShop\PrestaShop\Adapter\Image\ImageRetriever(
-            $this->context->link
-        );
-
-        $settings = $this->getProductPresentationSettings();
-
-        foreach ($productList as $key => $product) {
-            $populated_product = (new ProductAssembler($this->context))
-                ->assembleProduct($product);
-
-            $lazy_product = new RESTProductLazyArray(
-                $settings,
-                $populated_product,
-                $this->context->language,
-                new \PrestaShop\PrestaShop\Adapter\Product\PriceFormatter(),
-                $retriever,
-                $this->context->getTranslator()
-            );
-
-            $productList[$key] = $lazy_product->getProduct();
-        }
+        $wishlistData = $this->getWishlistData($idWishList);
 
         $psdata = [
             'wishlistName' => $this->wishlist->name,
-            'label' => $variables['label'],
-            'products' => $productList,
+            'label' => $wishlistData['label'],
+            'products' => $wishlistData['products']
         ];
 
         $this->ajaxRender(json_encode([
@@ -298,11 +262,18 @@ class BinshopsrestWishlistModuleFrontController extends AbstractProductListingRE
             $id_product_attribute
         );
 
+        $wishlistData = $this->getWishlistData($idWishList);
+
         if ($isDeleted) {
             $this->ajaxRender(json_encode([
                 'success' => true,
                 'code' => 200,
-                'message' => $this->trans('Product successfully removed', [], 'Modules.Blockwishlist.Shop')
+                'message' => $this->trans('Product successfully removed', [], 'Modules.Blockwishlist.Shop'),
+                'psdata' =>[
+                    'wishlistName' => $wishlist->name,
+                    'label' => $wishlistData['label'],
+                    'products' => $wishlistData['products']
+                ]
             ]));
             die;
         }
@@ -404,6 +375,58 @@ class BinshopsrestWishlistModuleFrontController extends AbstractProductListingRE
      * Helper methods
      * **********************************************************************
      */
+
+    private function getWishlistData($idWishlist){
+        if (!$idWishlist){
+            $infos = WishList::getAllWishListsByIdCustomer($this->context->customer->id);
+            if (empty($infos)) {
+                $wishlist = new WishList();
+                $wishlist->id_shop = $this->context->shop->id;
+                $wishlist->id_shop_group = $this->context->shop->id_shop_group;
+                $wishlist->id_customer = $this->context->customer->id;
+                $wishlist->name = Configuration::get('blockwishlist_WishlistDefaultTitle', $this->context->language->id);
+                $wishlist->default = 1;
+                $wishlist->add();
+
+                $infos = WishList::getAllWishListsByIdCustomer($this->context->customer->id);
+            }
+            $wishlist = $infos[0];
+            $this->wishlist = new WishList($wishlist['id_wishlist']);
+        }else{
+            $this->wishlist = new WishList($idWishlist);
+        }
+
+        $this->assertReadAccess($this->wishlist);
+
+        $variables = $this->getProductSearchVariables();
+        $productList = $variables['products'];
+        $retriever = new \PrestaShop\PrestaShop\Adapter\Image\ImageRetriever(
+            $this->context->link
+        );
+
+        $settings = $this->getProductPresentationSettings();
+
+        foreach ($productList as $key => $product) {
+            $populated_product = (new ProductAssembler($this->context))
+                ->assembleProduct($product);
+
+            $lazy_product = new RESTProductLazyArray(
+                $settings,
+                $populated_product,
+                $this->context->language,
+                new \PrestaShop\PrestaShop\Adapter\Product\PriceFormatter(),
+                $retriever,
+                $this->context->getTranslator()
+            );
+
+            $productList[$key] = $lazy_product->getProduct();
+        }
+
+        return [
+            'products' => $productList,
+            'label' => $variables['label']
+        ];
+    }
 
     private function generateWishListToken()
     {
