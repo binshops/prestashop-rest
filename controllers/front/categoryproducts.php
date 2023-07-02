@@ -113,7 +113,21 @@ class BinshopsrestCategoryproductsModuleFrontController extends AbstractProductL
             $this->context->cookie->last_visited_category = $id_category;
             $categoryTreeModule = Module::getInstanceByName('ps_categorytree');
             $categoryTreeVariables = $categoryTreeModule->getWidgetVariables();
-            $psdata['categories'] = $categoryTreeVariables['categories'];
+            $categories = $categoryTreeVariables['categories'];
+            $children = $categories['children'];
+            foreach ($children as $key => $cat){
+                $tmp = new Category($cat['id']);
+                $images = $this->getImage(
+                    $tmp,
+                    $tmp->id_image
+                );
+                $img = $images[Tools::getValue('sub_category_img_size', 'medium')];
+                $cat['image_link'] = $img;
+                $children[$key] = $cat;
+            }
+
+            $categories['children'] = $children;
+            $psdata['categories'] = $categories;
         }
 
         $this->ajaxRender(json_encode([
