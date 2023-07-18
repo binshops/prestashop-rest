@@ -11,13 +11,16 @@
 
 require_once dirname(__FILE__) . '/../AbstractRESTController.php';
 
+use PrestaShop\PrestaShop\Core\Security\PasswordPolicyConfiguration;
+use ZxcvbnPhp\Zxcvbn;
+
 class BinshopsrestAccounteditModuleFrontController extends AbstractRESTController
 {
     protected function processPostRequest()
     {
         $_POST = json_decode(Tools::file_get_contents('php://input'), true);
 
-        $psdata = null; $message = "success";
+        $psdata = null; $message = "success"; $hasError = false;
         $messageCode = 0;
         $success = true;
         $firstName = Tools::getValue('firstName');
@@ -26,6 +29,7 @@ class BinshopsrestAccounteditModuleFrontController extends AbstractRESTControlle
         $password = Tools::getValue('password');
         $gender = Tools::getValue('gender');
         $newsletter = Tools::getValue('newsletter');
+        $newPassword = Tools::getValue('new_password');
 
         $id_customer = Customer::customerExists($email, true, true);
         if ($id_customer && $id_customer != $this->context->customer->id) {
@@ -50,42 +54,95 @@ class BinshopsrestAccounteditModuleFrontController extends AbstractRESTControlle
         }
 
         if (empty($email)) {
-            $success = false;
+            $success = false; $hasError = true;
             $message = "An email address required";
             $messageCode = 301;
         } elseif (!Validate::isEmail($email)) {
-            $success = false;
+            $success = false; $hasError = true;
             $message = "Invalid email address";
             $messageCode = 302;
         } elseif (empty($password)) {
-            $success = false;
+            $success = false; $hasError = true;
             $message = 'Password is not provided';
             $messageCode = 303;
-        } elseif (!Validate::isPasswd($password)) {
-            $success = false;
-            $message = "Invalid Password";
-            $messageCode = 304;
         } elseif (empty($firstName)) {
-            $success = false;
+            $success = false; $hasError = true;
             $message = "First name required";
             $messageCode = 305;
         } elseif (empty($lastName)) {
-            $success = false;
+            $success = false; $hasError = true;
             $message = "Last name required";
             $messageCode = 306;
         } elseif (empty($gender)) {
-            $success = false;
+            $success = false; $hasError = true;
             $message = "gender required";
             $messageCode = 307;
         } elseif (!Validate::isCustomerName($firstName)){
-            $success = false;
+            $success = false; $hasError = true;
             $message = "firstname bad format";
             $messageCode = 311;
         } elseif (!Validate::isCustomerName($lastName)){
-            $success = false;
+            $success = false; $hasError = true;
             $message = "lastname bad format";
             $messageCode = 312;
-        } else {
+        }elseif ($newPassword){
+            if (version_compare(_PS_VERSION_, '8.0', '<=')) {
+                if (!Validate::isPasswd($newPassword)) {
+                    $success = false; $hasError = true;
+                    $message = "Invalid Password";
+                    $messageCode = 304;
+                }
+            }else{
+                if (Validate::isAcceptablePasswordLength($newPassword) === false) {
+                    $message = $this->trans('Password must be between %d and %d characters long',
+                        [
+                            Configuration::get(PasswordPolicyConfiguration::CONFIGURATION_MINIMUM_LENGTH),
+                            Configuration::get(PasswordPolicyConfiguration::CONFIGURATION_MAXIMUM_LENGTH),
+                        ],
+                        'Modules.Binshopsrest.Auth');
+                    $messageCode = 305;
+                    $hasError = true;
+                }
+
+                if (Validate::isAcceptablePasswordScore($newPassword) === false) {
+                    $wordingsForScore = [
+                        $this->translator->trans('Very weak', [], 'Shop.Theme.Global'),
+                        $this->translator->trans('Weak', [], 'Shop.Theme.Global'),
+                        $this->translator->trans('Average', [], 'Shop.Theme.Global'),
+                        $this->translator->trans('Strong', [], 'Shop.Theme.Global'),
+                        $this->translator->trans('Very strong', [], 'Shop.Theme.Global'),
+                    ];
+                    $globalErrorMessage = $this->translator->trans(
+                        'The minimum score must be: %s',
+                        [
+                            $wordingsForScore[(int) Configuration::get(PasswordPolicyConfiguration::CONFIGURATION_MINIMUM_SCORE)],
+                        ],
+                        'Shop.Notifications.Error'
+                    );
+                    if ($this->context->shop->theme->get('global_settings.new_password_policy_feature') !== true) {
+                        $zxcvbn = new Zxcvbn();
+                        $result = $zxcvbn->passwordStrength($newPassword);
+                        if (!empty($result['feedback']['warning'])) {
+                            $message = $this->translator->trans(
+                                $result['feedback']['warning'], [], 'Shop.Theme.Global'
+                            );
+                        } else {
+                            $message = $globalErrorMessage;
+                        }
+                        foreach ($result['feedback']['suggestions'] as $suggestion) {
+                            $message = $this->translator->trans($suggestion, [], 'Shop.Theme.Global');
+                        }
+                    } else {
+                        $message = $globalErrorMessage;
+                    }
+
+                    $hasError = true;
+                    $messageCode = 304;
+                }
+            }
+        }
+
+        if (!$hasError){
             $guestAllowedCheckout = Configuration::get('PS_GUEST_CHECKOUT_ENABLED');
             $cp = new CustomerPersister(
                 $this->context,

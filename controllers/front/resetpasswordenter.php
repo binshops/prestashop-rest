@@ -11,6 +11,9 @@
 
 require_once dirname(__FILE__) . '/../AbstractRESTController.php';
 
+use PrestaShop\PrestaShop\Core\Security\PasswordPolicyConfiguration;
+use ZxcvbnPhp\Zxcvbn;
+
 class BinshopsrestResetpasswordenterModuleFrontController extends AbstractRESTController
 {
     private $psdata;
@@ -74,8 +77,52 @@ class BinshopsrestResetpasswordenterModuleFrontController extends AbstractRESTCo
                     $this->psdata = $this->trans('The password and its confirmation do not match.', [], 'Shop.Notifications.Error');
                 }
 
-                if (!Validate::isPasswd($passwd)) {
-                    $this->psdata = $this->trans('The password is not in a valid format.', [], 'Shop.Notifications.Error');
+                if (version_compare(_PS_VERSION_, '8.0', '<=')) {
+                    if (!Validate::isPasswd($passwd)) {
+                        $this->psdata = $this->trans("Invalid Password", [], 'Modules.Binshopsrest.Auth');
+                    }
+                }else{
+                    if (Validate::isAcceptablePasswordLength($passwd) === false) {
+                        $this->psdata = $this->trans('Password must be between %d and %d characters long',
+                            [
+                                Configuration::get(PasswordPolicyConfiguration::CONFIGURATION_MINIMUM_LENGTH),
+                                Configuration::get(PasswordPolicyConfiguration::CONFIGURATION_MAXIMUM_LENGTH),
+                            ],
+                            'Modules.Binshopsrest.Auth');
+                    }
+
+                    if (Validate::isAcceptablePasswordScore($passwd) === false) {
+                        $wordingsForScore = [
+                            $this->translator->trans('Very weak', [], 'Shop.Theme.Global'),
+                            $this->translator->trans('Weak', [], 'Shop.Theme.Global'),
+                            $this->translator->trans('Average', [], 'Shop.Theme.Global'),
+                            $this->translator->trans('Strong', [], 'Shop.Theme.Global'),
+                            $this->translator->trans('Very strong', [], 'Shop.Theme.Global'),
+                        ];
+                        $globalErrorMessage = $this->translator->trans(
+                            'The minimum score must be: %s',
+                            [
+                                $wordingsForScore[(int) Configuration::get(PasswordPolicyConfiguration::CONFIGURATION_MINIMUM_SCORE)],
+                            ],
+                            'Shop.Notifications.Error'
+                        );
+                        if ($this->context->shop->theme->get('global_settings.new_password_policy_feature') !== true) {
+                            $zxcvbn = new Zxcvbn();
+                            $result = $zxcvbn->passwordStrength($passwd);
+                            if (!empty($result['feedback']['warning'])) {
+                                $this->psdata = $this->translator->trans(
+                                    $result['feedback']['warning'], [], 'Shop.Theme.Global'
+                                );
+                            } else {
+                                $this->psdata = $globalErrorMessage;
+                            }
+                            foreach ($result['feedback']['suggestions'] as $suggestion) {
+                                $this->psdata = $this->translator->trans($suggestion, [], 'Shop.Theme.Global');
+                            }
+                        } else {
+                            $this->psdata = $globalErrorMessage;
+                        }
+                    }
                 }
             }
             $customer->passwd = $this->get('hashing')->hash($password = Tools::getValue('passwd'), _COOKIE_KEY_);
