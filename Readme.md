@@ -54,8 +54,6 @@ public function getProducts()
 }
 ```
 
-Read more: [Create REST API for PrestaShop modules](https://www.binshops.com/tutorial/create-rest-api-for-prestashop-modules)
-
 ### Backward Compatibility
 If your shop is running on 1.7.6.x version of PrestaShop, please check the 1.7.6.x branch. The stable version supports latest Ps version. 
 
