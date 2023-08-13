@@ -106,7 +106,8 @@ class BinshopsrestCategoryproductsModuleFrontController extends AbstractProductL
             'sort_orders' => $variables['sort_orders'],
             'sort_selected' => $variables['sort_selected'],
             'pagination' => $variables['pagination'],
-            'facets' => $facets
+            'facets' => $facets,
+            'breadcrumbs' => $this->getBreadcrumbLinks()
         ];
 
         if (Tools::getValue('with_category_tree')){
@@ -183,5 +184,37 @@ class BinshopsrestCategoryproductsModuleFrontController extends AbstractProductL
             $this->getTranslator(),
             $this->category
         );
+    }
+
+    public function getBreadcrumbLinks()
+    {
+        $breadcrumb = [];
+
+        $breadcrumb['links'][] = [
+            'id' => 0,
+            'title' => $this->getTranslator()->trans('Home', [], 'Shop.Theme.Global'),
+            'url' => $this->context->link->getPageLink('index', true),
+        ];
+
+        foreach ($this->category->getAllParents() as $category) {
+            /** @var Category $category */
+            if ($category->id_parent != 0 && !$category->is_root_category && $category->active) {
+                $breadcrumb['links'][] = [
+                    'id' => $category->id,
+                    'title' => $category->name,
+                    'url' => $this->context->link->getCategoryLink($category),
+                ];
+            }
+        }
+
+        if ($this->category->id_parent != 0 && !$this->category->is_root_category && $this->category->active) {
+            $breadcrumb['links'][] = [
+                'id' => $this->category->id,
+                'title' => $this->category->name,
+                'url' => $this->context->link->getCategoryLink($this->category),
+            ];
+        }
+
+        return $breadcrumb;
     }
 }
