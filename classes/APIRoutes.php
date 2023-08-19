@@ -221,6 +221,15 @@ class APIRoutes
                     'module' => 'binshopsrest'
                 ]
             ],
+            'module-binshopsrest-resetpasswordsetnewpass' => [
+                'rule' => 'rest/resetpasswordsetnewpass',
+                'keywords' => [],
+                'controller' => 'resetpasswordsetnewpass',
+                'params' => [
+                    'fc' => 'module',
+                    'module' => 'binshopsrest'
+                ]
+            ],
             'module-binshopsrest-listcomments' => [
                 'rule' => 'rest/listcomments',
                 'keywords' => [],

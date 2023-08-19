@@ -56,7 +56,7 @@ class BinshopsrestResetpasswordbyemailModuleFrontController extends AbstractREST
                     '{email}' => $customer->email,
                     '{lastname}' => $customer->lastname,
                     '{firstname}' => $customer->firstname,
-                    '{url}' => $this->context->link->getPageLink('password', true, null, 'token=' . $customer->secure_key . '&id_customer=' . (int)$customer->id . '&reset_token=' . $customer->reset_password_token),
+                    '{url}' => Configuration::get('BINSHOPSREST_FRONT_END_SERVER_URL') . "/password-recovery?" . 'token=' . $customer->secure_key . '&id_customer=' . (int)$customer->id . '&reset_token=' . $customer->reset_password_token
                 ];
 
                 if (Mail::Send(

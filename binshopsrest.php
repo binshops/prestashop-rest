@@ -55,6 +55,7 @@ class Binshopsrest extends Module
     public function install()
     {
         Configuration::updateValue('BINSHOPSREST_LIVE_MODE', false);
+        Configuration::updateValue('BINSHOPSREST_FRONT_END_SERVER_URL', null);
 
         include(dirname(__FILE__) . '/sql/install.php');
 
