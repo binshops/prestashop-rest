@@ -18,21 +18,25 @@ class BinshopsrestSetaddresscheckoutModuleFrontController extends AbstractAuthRE
     protected function processPostRequest()
     {
         $_POST = json_decode(Tools::file_get_contents('php://input'), true);
-        if (Tools::getValue('id_address_delivery') && Tools::getValue('id_address_invoice')) {
-            $deliveryOptionsFinder = new DeliveryOptionsFinder(
-                $this->context,
-                $this->getTranslator(),
-                $this->objectPresenter,
-                new PriceFormatter()
-            );
-            $session = new CheckoutSession(
-                $this->context,
-                $deliveryOptionsFinder
-            );
+        $deliveryOptionsFinder = new DeliveryOptionsFinder(
+            $this->context,
+            $this->getTranslator(),
+            $this->objectPresenter,
+            new PriceFormatter()
+        );
+        $session = new CheckoutSession(
+            $this->context,
+            $deliveryOptionsFinder
+        );
 
+        if (Tools::getValue('id_address_delivery') && Tools::getValue('id_address_invoice')) {
             $session->setIdAddressDelivery(Tools::getValue('id_address_delivery'));
             $session->setIdAddressInvoice(Tools::getValue('id_address_invoice'));
-        } else {
+        } elseif(Tools::getValue('id_address')) {
+            $session->setIdAddressDelivery(Tools::getValue('id_address'));
+            $session->setIdAddressInvoice(Tools::getValue('id_address'));
+        }
+        else {
             $this->ajaxRender(json_encode([
                 'success' => true,
                 'code' => 301,
