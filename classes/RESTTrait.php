@@ -5,7 +5,7 @@ trait RESTTrait
     public function restRun(){
         header('Content-Type: ' . "application/json");
         if (Tools::getValue('iso_currency')){
-            $_GET['id_currency'] = (string)Currency::getIdByIsoCode(Tools::getValue('currency'));
+            $_GET['id_currency'] = (string)Currency::getIdByIsoCode(Tools::getValue('iso_currency'));
             $_GET['SubmitCurrency'] = "1";
         }
 
