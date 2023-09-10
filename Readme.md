@@ -36,7 +36,7 @@ https://rest.binshops.com/rest/bootstrap
 After installation access your API endpoints at: http://yourdomain.tld/rest.
 
 ### Why we need this API module? Is not Webservice API enough?
-You can get more info about this module: https://www.binshops.com/prestashop-rest-module
+You can get more info about this module: https://www.binshops.com/prestashop-api
 
 ### Documentation
 You can access full documentation for REST endpoints on Postman publisher:
