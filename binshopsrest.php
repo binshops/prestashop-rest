@@ -60,8 +60,8 @@ class Binshopsrest extends Module
         include(dirname(__FILE__) . '/sql/install.php');
 
         return parent::install() &&
-            $this->registerHook('header') &&
-            $this->registerHook('backOfficeHeader') &&
+            $this->registerHook('displayHeader') &&
+            $this->registerHook('displayBackOfficeHeader') &&
             $this->registerHook('moduleRoutes') &&
             $this->registerHook('actionDispatcherBefore');
     }
@@ -201,7 +201,7 @@ class Binshopsrest extends Module
     /**
      * Add the CSS & JavaScript files you want to be loaded in the BO.
      */
-    public function hookBackOfficeHeader()
+    public function hookDisplayBackOfficeHeader()
     {
         if (Tools::getValue('module_name') == $this->name) {
             $this->context->controller->addJS($this->_path . 'views/js/back.js');
@@ -212,7 +212,7 @@ class Binshopsrest extends Module
     /**
      * Add the CSS & JavaScript files you want to be added on the FO.
      */
-    public function hookHeader()
+    public function hookDisplayHeader()
     {
         $this->context->controller->addJS($this->_path . '/views/js/front.js');
         $this->context->controller->addCSS($this->_path . '/views/css/front.css');
