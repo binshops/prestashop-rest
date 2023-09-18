@@ -64,7 +64,7 @@ class BinshopsrestRegisterModuleFrontController extends AbstractRESTController
                             Configuration::get(PasswordPolicyConfiguration::CONFIGURATION_MAXIMUM_LENGTH),
                         ],
                         'Modules.Binshopsrest.Auth');
-                    $messageCode = 305;
+                    $messageCode = 303;
                     $hasError = true;
                 }
 
@@ -101,7 +101,7 @@ class BinshopsrestRegisterModuleFrontController extends AbstractRESTController
                     }
 
                     $hasError = true;
-                    $messageCode = 305;
+                    $messageCode = 304;
                 }
             }
         }
