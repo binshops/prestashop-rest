@@ -65,6 +65,10 @@ class BinshopsrestAccounteditModuleFrontController extends AbstractRESTControlle
             $success = false; $hasError = true;
             $message = 'Password is not provided';
             $messageCode = 303;
+        } elseif (!Validate::isAcceptablePasswordLength($password)) {
+            $success = false;
+            $message = "Invalid Password";
+            $messageCode = 304;
         } elseif (empty($firstName)) {
             $success = false; $hasError = true;
             $message = "First name required";

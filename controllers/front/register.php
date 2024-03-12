@@ -36,7 +36,9 @@ class BinshopsrestRegisterModuleFrontController extends AbstractRESTController
         } elseif (!Validate::isEmail($email)) {
             $psdata = $this->trans("Invalid email address", [], 'Modules.Binshopsrest.Auth');
             $messageCode = 302;
-            $hasError = true;
+        } elseif (!empty($password) && !Validate::isAcceptablePasswordLength($password)) {
+            $psdata = $this->trans("Invalid Password", [], 'Modules.Binshopsrest.Auth');
+            $messageCode = 304;
         } elseif (empty($firstName)) {
             $psdata = $this->trans("First name required", [], 'Modules.Binshopsrest.Auth');
             $messageCode = 305;

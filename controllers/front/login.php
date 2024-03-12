@@ -40,18 +40,10 @@ class BinshopsrestLoginModuleFrontController extends AbstractRESTController
         } elseif (empty($password)) {
             $psdata = $this->trans('Password is not provided', [], 'Modules.Binshopsrest.Auth');
             $messageCode = 303;
-            $hasError = true;
-        }
-
-        if (!version_compare(_PS_VERSION_, '8.0', '>=')) {
-            if (!Validate::isPasswd($password)) {
-                $psdata = $this->trans("Invalid Password", [], 'Modules.Binshopsrest.Auth');
-                $messageCode = 304;
-                $hasError = true;
-            }
-        }
-
-        if (!$hasError){
+        } elseif (!Validate::isAcceptablePasswordLength($password)) {
+            $psdata = $this->trans("Invalid Password", [], 'Modules.Binshopsrest.Auth');
+            $messageCode = 304;
+        } else {
             Hook::exec('actionAuthenticationBefore');
             $customer = new Customer();
             $authentication = $customer->getByEmail(
