@@ -5,9 +5,11 @@
 # PrestaShop REST API Module
 Easily expose REST API endpoints for your Prestashop website. No configuration needed, just install and use it. 
 
-## [Official Supported Version v4.5.1](https://addons.prestashop.com/en/website-performance/52062-rest-api-pro-version-with-fast-api-caching.html)
+## [Official Supported Version v5](https://addons.prestashop.com/en/website-performance/52062-rest-api-pro-version-with-fast-api-caching.html)
+New! Annotation-based API routing support added in version 5, July 2023.
 
 ## [Free Version v2.5](https://www.binshops.com/prestashop-api)
+For demo and testing, not recommended for production.
 
 ## The products that use this REST API
 <table>
@@ -34,20 +36,23 @@ https://rest.binshops.com/rest/bootstrap
 After installation access your API endpoints at: http://yourdomain.tld/rest.
 
 ### Why we need this API module? Is not Webservice API enough?
-You can get more info about this module: https://www.binshops.com/prestashop-rest-module
+You can get more info about this module: https://www.binshops.com/prestashop-api
 
 ### Documentation
 You can access full documentation for REST endpoints on Postman publisher:
 https://documenter.getpostman.com/view/1491681/TzkyP1UC
 
 ### How to write your API?
-You can easily write your API withing your existing a controller or a new one:
-**domain.tld/rest/yourmodule/yourcontroller**
-
-Read more: [Create REST API for PrestaShop modules](https://www.binshops.com/tutorial/create-rest-api-for-prestashop-modules)
-
-### Backward Compatibility
-If your shop is running on 1.7.6.x version of PrestaShop, please check the 1.7.6.x branch. The stable version supports latest Ps version. 
+Annotation-based API routing added in v5.
+```php
+/**
+* @Route("/rest/get-products", name=”products”)
+*/
+public function getProducts()
+{
+// ...
+}
+```
 
 ### Required Modules
 These native modules, which are already included in PrestaShop out of the box, are required to work with some endpoints.

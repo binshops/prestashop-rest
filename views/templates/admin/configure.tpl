@@ -15,7 +15,10 @@
 
     <a href="https://addons.prestashop.com/en/website-performance/52062-rest-api-pro-version-with-fast-api-caching.html" target="_blank"><h2>{l s='Official Supported Version' mod='binshopsrest'}</h2></a>
     <p class="font-size-100">
-        Get the latest supported version including the amazing features from <a href="https://addons.prestashop.com/en/website-performance/52062-rest-api-pro-version-with-fast-api-caching.html" target="_blank">Official PrestaShop Addons</a>. Let's take a look at the list of benefits.
+        Get the latest supported version and documentation including the amazing features from <a href="https://addons.prestashop.com/en/website-performance/52062-rest-api-pro-version-with-fast-api-caching.html" target="_blank">Official PrestaShop Addons</a>. Let's take a look at the list of benefits.
+    </p>
+    <p>
+        <b>New!</b> Annotation-based API routing added and structural changes made in version 5.
     </p>
 </div>
 

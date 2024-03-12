@@ -77,6 +77,8 @@ class BinshopsrestResetpasswordenterModuleFrontController extends AbstractRESTCo
                     $this->psdata = $this->trans('The password and its confirmation do not match.', [], 'Shop.Notifications.Error');
                 }
 
+                if (!Validate::isAcceptablePasswordLength($passwd)) {
+                    $this->psdata = $this->trans('The password is not in a valid format.', [], 'Shop.Notifications.Error');
                 if (version_compare(_PS_VERSION_, '8.0', '<=')) {
                     if (!Validate::isPasswd($passwd)) {
                         $this->psdata = $this->trans("Invalid Password", [], 'Modules.Binshopsrest.Auth');
