@@ -6,7 +6,7 @@
 Easily expose REST API endpoints for your Prestashop website. No configuration needed, just install and use it. 
 
 ## [Official Supported Version v5](https://addons.prestashop.com/en/website-performance/52062-rest-api-pro-version-with-fast-api-caching.html)
-New! Annotation-based API routing support added in version 5, July 2023.
+Compatible with PrestaShop 8.x, Annotation-based API routing support and many admin APIs and full front APIs.
 
 ## [Free Version v2.5](https://www.binshops.com/prestashop-api)
 For demo and testing, not recommended for production.
