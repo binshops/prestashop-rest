@@ -14,7 +14,7 @@ use PrestaShop\Decimal\Operation\Rounding;
 use PrestaShop\PrestaShop\Adapter\Image\ImageRetriever;
 use PrestaShop\PrestaShop\Adapter\Product\PriceFormatter;
 use PrestaShop\PrestaShop\Core\Product\ProductPresentationSettings;
-use Symfony\Component\Translation\TranslatorInterface;
+use PrestaShopBundle\Translation\TranslatorComponent;
 
 class RESTProductLazyArray
 {
@@ -44,7 +44,7 @@ class RESTProductLazyArray
     private $imageRetriever;
 
     /**
-     * @var TranslatorInterface
+     * @var TranslatorComponent
      */
     private $translator;
 
@@ -54,7 +54,7 @@ class RESTProductLazyArray
         Language $language,
         PriceFormatter $priceFormatter,
         ImageRetriever $imageRetriever,
-        TranslatorInterface $translator
+        TranslatorComponent $translator
     ) {
         $this->settings = $settings;
         $this->product = $product;
