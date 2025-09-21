@@ -11,6 +11,7 @@
 
 require_once dirname(__FILE__) . '/../AbstractRESTController.php';
 require_once dirname(__FILE__) . '/../../classes/RESTProductLazyArray.php';
+require_once dirname(__FILE__) . '/../../classes/RESTProductLazyArrayLegacy.php';
 
 use PrestaShop\PrestaShop\Adapter\Category\CategoryProductSearchProvider;
 use PrestaShop\PrestaShop\Core\Product\Search\ProductSearchContext;
@@ -76,14 +77,26 @@ class BinshopsrestFeaturedproductsModuleFrontController extends AbstractRESTCont
         foreach ($result->getProducts() as $rawProduct) {
             $populated_product = (new ProductAssembler($this->context))
                 ->assembleProduct($rawProduct);
-            $lazy_product = new RESTProductLazyArray(
-                $settings,
-                $populated_product,
-                $this->context->language,
-                new \PrestaShop\PrestaShop\Adapter\Product\PriceFormatter(),
-                $retriever,
-                $this->context->getTranslator()
-            );
+
+            if (version_compare(_PS_VERSION_, '9.0', '<=')) {
+                $lazy_product = new RESTProductLazyArrayLegacy(
+                    $settings,
+                    $populated_product,
+                    $this->context->language,
+                    new \PrestaShop\PrestaShop\Adapter\Product\PriceFormatter(),
+                    $retriever,
+                    $this->context->getTranslator()
+                );
+            }else{
+                $lazy_product = new RESTProductLazyArray(
+                    $settings,
+                    $populated_product,
+                    $this->context->language,
+                    new \PrestaShop\PrestaShop\Adapter\Product\PriceFormatter(),
+                    $retriever,
+                    $this->context->getTranslator()
+                );
+            }
 
             $products_for_template[] = $lazy_product->getProduct();
         }

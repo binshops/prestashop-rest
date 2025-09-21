@@ -27,6 +27,17 @@ class BinshopsrestWishlistModuleFrontController extends AbstractProductListingRE
 
     protected function processGetRequest()
     {
+        if (version_compare(_PS_VERSION_, '9.0', '<=')) {
+          //
+        }else{
+            $this->ajaxRender(json_encode([
+                'success' => true,
+                'code' => 301,
+                'message' => "No longer supported"
+            ]));
+            die;
+        }
+
         if (empty($this->context->customer->id)){
             $this->ajaxRender(json_encode([
                 'success' => true,

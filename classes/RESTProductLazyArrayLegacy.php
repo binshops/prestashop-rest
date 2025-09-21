@@ -9,21 +9,14 @@
  *
  */
 
-if (!defined('_PS_VERSION_')) { exit; }
-
-use Language;
-use PrestaShop\Decimal\DecimalNumber;
-use Tools;
-use Product;
-use Context;
-use Configuration;
+use PrestaShop\Decimal\Number;
 use PrestaShop\Decimal\Operation\Rounding;
 use PrestaShop\PrestaShop\Adapter\Image\ImageRetriever;
 use PrestaShop\PrestaShop\Adapter\Product\PriceFormatter;
 use PrestaShop\PrestaShop\Core\Product\ProductPresentationSettings;
-use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 
-class RESTProductLazyArray
+class RESTProductLazyArrayLegacy
 {
     /**
      * @var ProductPresentationSettings
@@ -87,10 +80,10 @@ class RESTProductLazyArray
         );
     }
 
-    private function addPriceInformation(
+    protected function addPriceInformation(
         ProductPresentationSettings $settings,
         array $product
-    ): void {
+    ) {
         $this->product['has_discount'] = false;
         $this->product['discount_type'] = null;
         $this->product['discount_percentage'] = null;
@@ -105,113 +98,49 @@ class RESTProductLazyArray
         }
 
         if ($product['specific_prices']) {
-            $this->product['has_discount'] = 0 != $product['reduction'];
-            $this->product['discount_type'] =
-                $product['specific_prices']['reduction_type'];
+            $this->product['has_discount'] = (0 != $product['reduction']);
+            $this->product['discount_type'] = $product['specific_prices']['reduction_type'];
 
-            $absoluteReduction = new DecimalNumber(
-                $product['specific_prices']['reduction']
-            );
-            $absoluteReduction = $absoluteReduction->times(
-                new DecimalNumber('100')
-            );
+            $absoluteReduction = new Number($product['specific_prices']['reduction']);
+            $absoluteReduction = $absoluteReduction->times(new Number('100'));
             $negativeReduction = $absoluteReduction->toNegative();
-            $presAbsoluteReduction = $absoluteReduction->round(
-                2,
-                Rounding::ROUND_HALF_UP
-            );
-            $presNegativeReduction = $negativeReduction->round(
-                2,
-                Rounding::ROUND_HALF_UP
-            );
+            $presAbsoluteReduction = $absoluteReduction->round(2, Rounding::ROUND_HALF_UP);
+            $presNegativeReduction = $negativeReduction->round(2, Rounding::ROUND_HALF_UP);
 
             // TODO: add percent sign according to locale preferences
-            $this->product['discount_percentage'] =
-                Context::getContext()
-                    ->getCurrentLocale()
-                    ->formatNumber($presNegativeReduction) . '%';
-            $this->product['discount_percentage_absolute'] =
-                Context::getContext()
-                    ->getCurrentLocale()
-                    ->formatNumber($presAbsoluteReduction) . '%';
+            $this->product['discount_percentage'] = Tools::displayNumber($presNegativeReduction) . '%';
+            $this->product['discount_percentage_absolute'] = Tools::displayNumber($presAbsoluteReduction) . '%';
             if ($settings->include_taxes) {
                 $regular_price = $product['price_without_reduction'];
+                $this->product['discount_amount'] = $this->priceFormatter->format(
+                    $product['reduction']
+                );
             } else {
-                $regular_price =
-                    $product['price_without_reduction_without_tax'];
+                $regular_price = $product['price_without_reduction_without_tax'];
+                $this->product['discount_amount'] = $this->priceFormatter->format(
+                    $product['reduction_without_tax']
+                );
             }
-            // We must calculate the real amount of discount.
-            // see @https://github.com/PrestaShop/PrestaShop/issues/32924
-            $product['reduction'] = $regular_price - $price;
-            $this->product['discount_amount'] = $this->priceFormatter->format(
-                $product['reduction']
-            );
-            $this->product['discount_amount_to_display'] =
-                '-' . $this->priceFormatter->format($product['reduction']);
+            $this->product['discount_amount_to_display'] = '-' . $this->product['discount_amount'];
         }
 
         $this->product['price_amount'] = $price;
         $this->product['price'] = $this->priceFormatter->format($price);
         $this->product['regular_price_amount'] = $regular_price;
-        $this->product['regular_price'] = $this->priceFormatter->format(
-            $regular_price
-        );
+        $this->product['regular_price'] = $this->priceFormatter->format($regular_price);
 
         if ($product['reduction'] < $product['price_without_reduction']) {
-            $this->product['discount_to_display'] =
-                $this->product['discount_amount'];
+            $this->product['discount_to_display'] = $this->product['discount_amount'];
         } else {
-            $this->product['discount_to_display'] =
-                $this->product['regular_price'];
+            $this->product['discount_to_display'] = $this->product['regular_price'];
         }
 
-        /*
-         * Now, let's format unit price display.
-         *
-         * If we have a unit ("per 100 g") to display after the unit price AND we have the value, we can proceed with formatting.
-         * We are intentionally not using empty here, because unit price can be also zero.
-         *
-         * If not, we will pass empty strings.
-         */
-        if (
-            !empty($this->product['unity'])
-            && isset(
-                $this->product['unit_price_tax_excluded'],
-                $this->product['unit_price_tax_included']
-            )
-        ) {
-            /*
-             * We use the tax included or tax excluded price, depending on presentation settings.
-             * We have the prices calculated from the Product::computeUnitPriceRatio, that is called before it gets passed here.
-             *
-             * The prices are already adapted to account for specific prices and combinations.
-             */
-            $this->product['unit_price'] = $this->priceFormatter->format(
-                $settings->include_taxes
-                    ? $this->product['unit_price_tax_included']
-                    : $this->product['unit_price_tax_excluded']
-            );
-
-            // And add the full version with the unit after the price
-            $this->product['unit_price_full'] =
-                $this->product['unit_price'] . ' ' . $product['unity'];
+        if (isset($product['unit_price']) && $product['unit_price']) {
+            $this->product['unit_price'] = $this->priceFormatter->format($product['unit_price']);
+            $this->product['unit_price_full'] = $this->priceFormatter->format($product['unit_price'])
+                . ' ' . $product['unity'];
         } else {
-            $this->product['unit_price'] = '';
-            $this->product['unit_price_full'] = '';
-        }
-
-        // Assign no-pack prices in case of products that are packs
-        if ($this->product['pack']) {
-            $rawNoPackPrice = Pack::noPackPrice(
-                (int) $this->product['id_product']
-            );
-            $this->product['nopackprice'] = $rawNoPackPrice;
-            $this->product[
-            'nopackprice_to_display'
-            ] = $this->priceFormatter->format($rawNoPackPrice);
-        } else {
-            $this->product['nopackprice'] = null;
-            $this->product['nopackprice_to_display'] = null;
+            $this->product['unit_price'] = $this->product['unit_price_full'] = '';
         }
     }
 

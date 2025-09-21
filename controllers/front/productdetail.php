@@ -11,6 +11,7 @@
 
 require_once dirname(__FILE__) . '/../AbstractRESTController.php';
 require_once dirname(__FILE__) . '/../../classes/RESTProductLazyArray.php';
+require_once dirname(__FILE__) . '/../../classes/RESTProductLazyArrayLegacy.php';
 
 define('PRICE_REDUCTION_TYPE_PERCENT', 'percentage');
 
@@ -97,7 +98,12 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
         $product['available_for_order'] = $this->product->available_for_order;
         $product['meta_title'] = $this->product->meta_title;
         $product['meta_description'] = $this->product->meta_description;
-        $product['meta_keywords'] = $this->product->meta_keywords;
+        if (version_compare(_PS_VERSION_, '9.0', '<=')) {
+            $product['meta_keywords'] = $this->product->meta_keywords;
+        }else{
+            //todo:
+            $product['meta_keywords'] = "";
+        }
         $product['show_price'] = $this->product->show_price;
         $product['new_products'] = (isset($this->product->new) && $this->product->new == 1) ? "1" : "0";
         $product['on_sale_products'] = $this->product->on_sale;
@@ -573,14 +579,25 @@ class BinshopsrestProductdetailModuleFrontController extends AbstractRESTControl
         $price = $this->product->getPrice(false, $product_full['id_product_attribute']);
         $product_full['float_price'] = $price;
 
-        return new RESTProductLazyArray(
-            $productSettings,
-            $product_full,
-            $this->context->language,
-            new \PrestaShop\PrestaShop\Adapter\Product\PriceFormatter(),
-            $retriever,
-            $this->context->getTranslator()
-        );
+        if (version_compare(_PS_VERSION_, '9.0', '<=')) {
+            return new RESTProductLazyArrayLegacy(
+                $productSettings,
+                $product_full,
+                $this->context->language,
+                new \PrestaShop\PrestaShop\Adapter\Product\PriceFormatter(),
+                $retriever,
+                $this->context->getTranslator()
+            );
+        }else{
+            return new RESTProductLazyArray(
+                $productSettings,
+                $product_full,
+                $this->context->language,
+                new \PrestaShop\PrestaShop\Adapter\Product\PriceFormatter(),
+                $retriever,
+                $this->context->getTranslator()
+            );
+        }
     }
 
     private function getIdProductAttributeByGroupOrRequestOrDefault()

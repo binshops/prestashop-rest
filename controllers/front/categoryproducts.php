@@ -11,6 +11,7 @@
 
 require_once dirname(__FILE__) . '/../AbstractProductListingRESTController.php';
 require_once dirname(__FILE__) . '/../../classes/RESTProductLazyArray.php';
+require_once dirname(__FILE__) . '/../../classes/RESTProductLazyArrayLegacy.php';
 define('PRICE_REDUCTION_TYPE_PERCENT', 'percentage');
 
 use PrestaShop\PrestaShop\Adapter\Category\CategoryProductSearchProvider;
@@ -71,14 +72,25 @@ class BinshopsrestCategoryproductsModuleFrontController extends AbstractProductL
             $populated_product = (new ProductAssembler($this->context))
                 ->assembleProduct($product);
 
-            $lazy_product = new RESTProductLazyArray(
-                $settings,
-                $populated_product,
-                $this->context->language,
-                new \PrestaShop\PrestaShop\Adapter\Product\PriceFormatter(),
-                $retriever,
-                $this->context->getTranslator()
-            );
+            if (version_compare(_PS_VERSION_, '9.0', '<=')) {
+                $lazy_product = new RESTProductLazyArrayLegacy(
+                    $settings,
+                    $populated_product,
+                    $this->context->language,
+                    new \PrestaShop\PrestaShop\Adapter\Product\PriceFormatter(),
+                    $retriever,
+                    $this->context->getTranslator()
+                );
+            }else{
+                $lazy_product = new RESTProductLazyArray(
+                    $settings,
+                    $populated_product,
+                    $this->context->language,
+                    new \PrestaShop\PrestaShop\Adapter\Product\PriceFormatter(),
+                    $retriever,
+                    $this->context->getTranslator()
+                );
+            }
 
             $productList[$key] = $lazy_product->getProduct();
         }
@@ -90,12 +102,20 @@ class BinshopsrestCategoryproductsModuleFrontController extends AbstractProductL
             }
         }
 
+        $meta_keywords = "";
+        if (version_compare(_PS_VERSION_, '9.0', '<=')) {
+            $meta_keywords = $this->product->meta_keywords;
+        }else{
+            //todo:
+            $meta_keywords = "";
+        }
+
         $psdata = [
             'name' => $this->category->name,
             'description' => $this->category->description,
             'meta_title' => $this->category->meta_title,
             'meta_description' => $this->category->meta_description,
-            'meta_keywords' => $this->category->meta_keywords,
+            'meta_keywords' => $meta_keywords,
             'active' => $this->category->active,
             'images' => $this->getImage(
                 $this->category,

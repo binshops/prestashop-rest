@@ -24,7 +24,7 @@ abstract class AbstractRESTController extends ModuleFrontController
         header('Content-Type: ' . "application/json");
 
         if (Tools::getValue('iso_currency')){
-            $_GET['id_currency'] = (string)Currency::getIdByIsoCode(Tools::getValue('currency'));
+            $_GET['id_currency'] = (string)Currency::getIdByIsoCode(Tools::getValue('iso_currency'));
             $_GET['SubmitCurrency'] = "1";
         }
 
@@ -61,12 +61,26 @@ abstract class AbstractRESTController extends ModuleFrontController
 
     public function formatPrice($price)
     {
-        return Tools::displayPrice(
-            $price,
-            $this->context->currency,
-            false,
-            $this->context
-        );
+        if (version_compare(_PS_VERSION_, '9.0', '<=')) {
+            return Tools::displayPrice(
+                $price,
+                $this->context->currency,
+                false,
+                $this->context
+            );
+        }else{
+            return $this->format($price);
+        }
+    }
+
+    public function format($price, $currency = null)
+    {
+        $context = Context::getContext();
+        $priceCurrency = is_array($currency) ? $currency['iso_code'] : null;
+        $priceCurrency = !$priceCurrency && $currency instanceof Currency ? $currency->iso_code : $priceCurrency;
+        $priceCurrency = !$priceCurrency ? $context->currency->iso_code : $priceCurrency;
+
+        return Tools::getContextLocale($context)->formatPrice($price, $priceCurrency);
     }
 
     public function getImageType($type = 'large')
