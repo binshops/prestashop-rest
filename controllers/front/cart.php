@@ -75,7 +75,7 @@ class BinshopsrestCartModuleFrontController extends AbstractCartRESTController
         die;
     }
 
-    protected function updateCart()
+    protected function updateCart(): void
     {
         // Update the cart ONLY if $this->cookies are available, in order to avoid ghost carts created by bots
         if ($this->context->cookie->exists()

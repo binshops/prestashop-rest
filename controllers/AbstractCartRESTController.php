@@ -5,7 +5,7 @@ require_once dirname(__FILE__) . '/../classes/RESTTrait.php';
 abstract class AbstractCartRESTController extends CartControllerCore {
     use RESTTrait;
 
-    public function init()
+    public function init(): void
     {
         header('Content-Type: ' . "application/json");
 
