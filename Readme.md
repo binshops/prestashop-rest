@@ -5,12 +5,16 @@
 # PrestaShop REST API Module
 Easily expose REST API endpoints for your Prestashop website. No configuration needed, just install and use it. 
 
-## [Official Supported Version v5](https://addons.prestashop.com/en/website-performance/52062-rest-api-pro-version-with-fast-api-caching.html)
-Compatible with PrestaShop 9.x, Annotation-based API routing support, and many admin APIs and full front APIs.
+## [Officially Supported Version v5](https://www.binshops.com/store/prestashop/headless-prestashop-api-pro)
 
-Last update v5.5.0 (Sep, 2025)
+Compatible with PrestaShop 9.x, Annotation-based API routing support, API caching and many admin APIs and full front APIs and our support. Official version is available on:
 
-## [Free Version v2.5](https://www.binshops.com/prestashop-api)
+[Binshops Store (most up-to-dated)](https://www.binshops.com/store/prestashop/headless-prestashop-api-pro) , [PrestaShop Addons](https://addons.prestashop.com/en/website-performance/52062-rest-api-pro-for-front-applications-integrations.html)
+
+
+Last update v5.6.0 (May, 2026)
+
+## [Free Version v2.6](https://www.binshops.com/prestashop-api)
 For demo and testing, not recommended for production.
 
 ## The products that use this REST API
