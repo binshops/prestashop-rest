@@ -30,8 +30,10 @@ class BinshopsrestCategoryproductsModuleFrontController extends AbstractProductL
         if ((int)Tools::getValue('id_category')){
             $id_category = (int)Tools::getValue('id_category');
         }elseif (Tools::getValue('slug')){
+            $slug = Tools::getValue('slug');
+
             $sql = 'SELECT * FROM `' . _DB_PREFIX_ . "category_lang`
-            WHERE link_rewrite = '" . Tools::getValue('slug') . "'";
+            WHERE link_rewrite = '" . pSQL($slug) . "'";
             $result = Db::getInstance()->executeS($sql);
 
             if (empty($result)){
