@@ -41,8 +41,8 @@ PrestaShop Mobile App
 # [Headless Commerce](https://www.binshops.com/blog/why-headless-commerce)
 This module helps you to build Headless applications based on PrestaShop platform. You can read [this article](https://www.binshops.com/blog/why-headless-commerce) to know about Headless PrestaShop and Headless Commerce, why we need it and why it matters.
 
-### Demo Link
-https://rest.binshops.com/rest/bootstrap
+### Download Demo
+[Demo version](https://www.binshops.com/prestashop-api)
 
 ### Your API Endpoint
 After installation access your API endpoints at: http://yourdomain.tld/rest.
