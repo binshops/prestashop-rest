@@ -11,12 +11,7 @@
 
 if (!defined('_PS_VERSION_')) { exit; }
 
-use Language;
 use PrestaShop\Decimal\DecimalNumber;
-use Tools;
-use Product;
-use Context;
-use Configuration;
 use PrestaShop\Decimal\Operation\Rounding;
 use PrestaShop\PrestaShop\Adapter\Image\ImageRetriever;
 use PrestaShop\PrestaShop\Adapter\Product\PriceFormatter;
@@ -244,11 +239,21 @@ class RESTProductLazyArray
 
             // Get default image for selected combination (used for product page, cart details, ...)
             $tmp = reset($images);
-            $this->product['default_image'] = $tmp['bySize'][Tools::getValue('image_size', "home_default")];
+            if (key_exists(Tools::getValue('image_size', "home_default"), $tmp['bySize'])){
+                $this->product['default_image'] = $tmp['bySize'][Tools::getValue('image_size', "home_default")];
+            }else{
+                $this->product['default_image'] = $tmp['bySize']['home_default'];
+            }
+
             foreach ($images as $image) {
                 // If one of the image is a cover it is used as such
                 if (isset($image['cover']) && null !== $image['cover']) {
-                    $this->product['default_image'] = $image['bySize'][Tools::getValue('image_size', "home_default")];
+                    if (key_exists(Tools::getValue('image_size', "home_default"), $image['bySize'])){
+                        $this->product['default_image'] = $image['bySize'][Tools::getValue('image_size', "home_default")];
+                    }else{
+                        $this->product['default_image'] = $image['bySize']['home_default'];
+                    }
+
 
                     break;
                 }
