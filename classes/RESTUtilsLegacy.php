@@ -2,7 +2,6 @@
 if (!defined('_PS_VERSION_')) { exit; }
 
 use PrestaShop\PrestaShop\Adapter\ObjectPresenter;
-use Currency;
 
 class RESTUtilsLegacy
 {
