@@ -8,6 +8,7 @@
  * Best In Shops eCommerce Solutions Inc.
  *
  */
+if (!defined('_PS_VERSION_')) { exit; }
 
 require_once dirname(__FILE__) . '/../AbstractRESTController.php';
 
@@ -16,7 +17,7 @@ class BinshopsrestLoginModuleFrontController extends AbstractRESTController
     protected function processPostRequest()
     {
         $_POST = json_decode(Tools::file_get_contents('php://input'), true);
-        $psdata = "";
+        $hasError = false;
         $messageCode = 0;
         $email = Tools::getValue('email', '');
         $password = Tools::getValue('password', '');
@@ -32,16 +33,26 @@ class BinshopsrestLoginModuleFrontController extends AbstractRESTController
         if (empty($email)) {
             $psdata = $this->trans("An email address required", [], 'Modules.Binshopsrest.Auth');
             $messageCode = 301;
+            $hasError = true;
         } elseif (!Validate::isEmail($email)) {
             $psdata = $this->trans("Invalid email address", [], 'Modules.Binshopsrest.Auth');
             $messageCode = 302;
+            $hasError = true;
         } elseif (empty($password)) {
             $psdata = $this->trans('Password is not provided', [], 'Modules.Binshopsrest.Auth');
             $messageCode = 303;
-        } elseif (!Validate::isPasswd($password)) {
-            $psdata = $this->trans("Invalid Password", [], 'Modules.Binshopsrest.Auth');
-            $messageCode = 304;
-        } else {
+            $hasError = true;
+        }
+
+        if (!version_compare(_PS_VERSION_, '8.0', '>=')) {
+            if (!Validate::isPasswd($password)) {
+                $psdata = $this->trans("Invalid Password", [], 'Modules.Binshopsrest.Auth');
+                $messageCode = 304;
+                $hasError = true;
+            }
+        }
+
+        if (!$hasError){
             Hook::exec('actionAuthenticationBefore');
             $customer = new Customer();
             $authentication = $customer->getByEmail(
