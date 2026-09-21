@@ -7,10 +7,13 @@ Easily expose REST API endpoints for your Prestashop website. No configuration n
 
 Powerful PrestaShop REST API for Headless Commerce. Build high-performance web and mobile applications using Next.js, Nuxt.js, React.js, Vue.js, Angular, Svelte, Flutter, React Native, Node.js, and other modern frontend technologies. Scale your PrestaShop store with an API-first approach.
 
+**Read more about the REST API:**
+- [PrestaShop REST API Documentation](https://www.binshops.com/docs/ecommerce-api/prestashop-rest-api.html)
+- [Demo Download](https://www.binshops.com/prestashop-api)
 
 ## [Officially Supported Version v6](https://addons.prestashop.com/en/website-performance/52062-rest-api-pro-for-front-applications-integrations.html)
 
-Compatible with PrestaShop 9.x, Attribute-based API routing support, API caching and many admin APIs and full front APIs and our support. 
+Compatible with PrestaShop 9.x, Attribute-based API routing support PHP8 and Symfony, API caching and many admin APIs and full front APIs and our support. 
 
 New! Home page builder API added to the version 6.
 
@@ -18,9 +21,7 @@ Official version is available on:
 
 [PrestaShop Addons](https://addons.prestashop.com/en/website-performance/52062-rest-api-pro-for-front-applications-integrations.html)
 
-Last update v6.0.0 (August, 2026)
-
-## [Free Version v2.6](https://www.binshops.com/prestashop-api)
+## [Free Version v2.7](https://www.binshops.com/prestashop-api)
 For demo and testing, not recommended for production.
 
 ## The products that use this REST API
@@ -51,8 +52,9 @@ After installation access your API endpoints at: http://yourdomain.tld/rest.
 You can get more info about this module: https://www.binshops.com/prestashop-api
 
 ### Documentation
-You can access full documentation for REST endpoints on Postman publisher:
+- You can access full documentation for REST endpoints on Postman publisher:
 https://documenter.getpostman.com/view/1491681/TzkyP1UC
+- Read more about the API: [REST API Doc](https://www.binshops.com/docs/ecommerce-api/prestashop-rest-api.html)
 
 ### How to write your API?
 Attributr-based API routing available in v6.
